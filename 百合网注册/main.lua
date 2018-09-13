@@ -106,7 +106,7 @@ function up(name,other)
 	idfalist.idfa = idfa or phone
 	idfalist.ip = '192.168.1.1'
 	idfalist.ip = ip or '192.168.1.1'
-	idfalist.account = account or get_local() or '未知'
+	idfalist.account = account or locals or get_local() or '未知'
 	idfalist.password = password
 	idfalist.phone = phone
 	idfalist.other = other
@@ -173,7 +173,9 @@ page.昵称={{{46,77,0xfd6e27},{306,77,0x525252},{308,72,0xffffff},},85}
 page.我知道了={{{383,840,0xff5962},{369,317,0xffa251},{356,775,0x008eff},},85}
 page.本地相册={{{367,860,0xfd6e27},{396,767,0xfd6e27},{569,154,0xffffff},},85}			--3x
 page.照片={{{328,78,0x000000},{331,81,0xf9f9f9},{552,80,0x007aff},},85}
+page.照片ios10={{{214,210,0x000000},{105,543,0x8e8e93},{309,70,0x000000},{563,77,0x208bff},}, 85,  11, 12, 630, 571}
 page.照片_详情={{{21,83,0x007aff},{309,79,0xf9f9f9},{313,79,0x3a3a3a},{552,86,0x007aff},},85}
+page.照片_详情ios10={{{23,83,0x007aff},{60,184,0x000000},{313,86,0x3a3a3a},{567,82,0x1e8aff},}, 85, 5, 7, 630, 460}
 page.照片_注册成功={{{569,1097,0x43fe85},{62,1086,0xe83c2d},},85}
 page.照片_地址未显示={{{596,404,0xc7c7cc},{568,407,0xd9d9d9},{523,404,0xffffff},{530,404,0xd9d9d9},}, 85, 450, 341, 625, 465}
 page.照片_地址_确定={{{602,661,0xfd6e27},{581,667,0xfd6e27},}, 85, 535, 626, 628, 697}
@@ -199,6 +201,7 @@ function fix()
 				else
 					if d(page.基本资料界面_完成,"page.基本资料界面_完成",true)then
 						up("百合网",sexk)
+						delay(10)
 --					elseif d(page.照片_地址未显示,"page.照片_地址未显示",true)then
 --						delay(2)
 --						d(page.照片_地址_确定,"page.照片_地址_确定",true)
@@ -225,9 +228,9 @@ function fix()
 				up("百合网",sexk)
 				delay(10)
 				return true
-			elseif d(page.照片_详情,"page.照片_详情")then
-				click(87,225)
-			elseif d(page.照片,"page.照片")then
+			elseif d(page.照片_详情,"page.照片_详情") or d(page.照片_详情ios10,"page.照片_详情ios10")then
+				click(87,280)
+			elseif d(page.照片,"page.照片") or d(page.照片ios10,"page.照片ios10")then
 				click(87,225)
 			elseif d(page.昵称,"page.昵称")then
 				input(random_name()..myRand(4,rd(4,6)))
@@ -281,7 +284,7 @@ function reg()
 	password = myRand(4,rd(8,12))
 
 	while os.time()-TimeLine < OutTime do
-		if active(bid.app,5)then
+		if active(bid.app,10)then
 			if d(page.success,"page.success") then
 				return true
 				
@@ -364,7 +367,7 @@ function get_local()
         if (c==200) then
             sys.toast("", -1)
             done = true
-            return b:match('所在地理位置：<code>.*</code>')
+            return b:match('%d+%.%d+%.%d+%.%d+'),b:match('所在地理位置：<code>.*</code>')
         end
     end
 end
@@ -373,8 +376,9 @@ end
 
 while true do
 	if vpn() then
-		ip = get_ip() or "192.168.1.1"
-		if ip ~= "192.168.1.1" then
+		ip,locals = get_local()
+		
+		if ip ~= "192.168.1.1" and ip~= nil then
 			if checkip()then
 
 				if false or XXTfakerNewPhone(bid.app)then
@@ -388,6 +392,7 @@ while true do
 			end
 		end
 	end
+	app.quit(appbids)
 	vpnx()
 	delay(2)
 end
