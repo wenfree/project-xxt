@@ -57,7 +57,7 @@ local appbids = app.front_bid()
 if appbids ~= "com.apple.springboard" then
 --			app.quit(appbids)
 	vpnx()
-	closeX(appbids)
+--	closeX(appbids)
 end
 
 --[[
@@ -164,9 +164,130 @@ imgUrl = "http://image.baidu.com/channel/listjson?pn=15000&rn=1&tag1=%E7%BE%8E%E
 
 page={}
 
+page.主菜单={{{578,1096,0x929292},{300,1079,0x9d9d9d},{179,1078,0x929292},{49,1086,0xff425a},}, 85, 22, 1050, 623, 1132}
+page.主菜单_我的_资料={{{567,192,0xaaaaaa},{590,83,0x979797},{578,1096,0xff2983},{300,1080,0x9d9d9d},{43,1074,0x929292},}, 85, 0, 0, 0, 0}
+page.编辑_编辑_我喜欢谁={{{544,825,0xff5e00},{544,605,0xff5e00},{530,330,0xff5e00},{597,70,0xffffff},{527,356,0xff5e00},}, 85, 445, 45, 629, 875}
+page.编辑_编辑_我喜欢谁ios10={{{549,792,0xff5e00},{549,808,0xff5e00},{549,765,0xff5e00},{549,784,0xfff5ef},{530,284,0xff5e00},
+					{531,319,0xff5e00},}, 85, 468, 222, 620, 840}
+page.编辑资料界面={{{388,80,0x525252},{367,87,0x525252},{300,73,0x525252},{52,83,0xfc6e27},}, 85, 9, 53, 521, 115}
+page.infolist={
+	{607, 354, 0xd1d1d5},
+	{608, 446, 0xcbcbd0},
+	{608, 538, 0xcbcbd0},
+	{608, 722, 0xcbcbd0},
+	{607, 814, 0xd1d1d5},
+	{607, 906, 0xd1d1d5},
+}
+page.滑动确定={{{601,662,0xfd6e27},{603,648,0xfd6e27},}, 85, 588, 493, 622, 877}
+page.编辑资料_保存={{{599,89,0xfd6e27},{550,80,0xfd6e27},{367,79,0x525252},{52,83,0xfc6e27},}, 85, 23, 47, 626, 120}
+page.编辑_更多资料界面={{{596,72,0xfc6127},{568,85,0xfc6127},{594,98,0xfc6127},{52,84,0xfc6e27},
+					{38,82,0xffffff},}, 85, 18, 45, 636, 122}
+page.编辑_基本资料={{{547,1074,0xff5e00},{547,1062,0xff5e00},{58,1078,0x333333},{58,1081,0xffffff},
+					{58,1083,0x333333},{32,1082,0x333333},{59,1069,0x333333},{59,1096,0x333333},}, 85, 0, 0, 0, 0}
+
+
+
+function clickM(x,y,m)
+	local m = m or 1
+	for i=1,m do
+		click(x,y,0.5)
+	end
+end
+
+
+function makeinfo()
+	local TimeLine = os.time()
+	local OutTime = 60*3
+	local sexhight = false
+	local makeinfo_ = false
+	
+	
+	while os.time()-TimeLine < OutTime do
+		if active(bid.app,5)then
+			if d(page.主菜单,"page.主菜单",true)then
+			elseif d(page.主菜单_我的_资料,"page.主菜单_我的_资料",true)then
+			elseif makeinfo_ and (d(page.编辑_编辑_我喜欢谁,"page.编辑_编辑_我喜欢谁",false)or d(page.编辑_编辑_我喜欢谁ios10,"page.编辑_编辑_我喜欢谁ios10",false))then
+				up("百合网",sexk.."修改资料")
+				sys.alert("注册完成,即将退出",3)
+				closeX(appbids)
+				return true
+			elseif d(page.编辑_编辑_我喜欢谁,"page.编辑_编辑_我喜欢谁",false) or d(page.编辑_编辑_我喜欢谁ios10,"page.编辑_编辑_我喜欢谁ios10",false) then
+					if sexhight then
+						moveTo(300,700,300,400,5,20)
+						moveTo(300,700,300,400,5,20)
+					else
+						if d(page.编辑_编辑_我喜欢谁,"page.编辑_编辑_我喜欢谁",true)then
+						elseif d(page.编辑_编辑_我喜欢谁ios10,"page.编辑_编辑_我喜欢谁ios10",true)then
+						end
+					end
+			elseif d(page.编辑资料界面,"page.编辑资料界面",false)then
+					for i,v in ipairs(page.infolist)do
+						click(v[1],v[2])
+						if i == 1 then
+							clickM(168, 809,rd(6,9))
+						elseif i == 2 then
+							clickM(171, 1035,rd(1,2))					
+						elseif i == 3 then
+							clickM(171, 1035,rd(1,2))
+							clickM(468, 1037,rd(1,3))
+						elseif i == 4 then
+							local choice = {
+								{585,  831, 0xffeade},
+								{585,  916, 0xffffff},
+								{585, 1003, 0xffffff},
+							}
+							click(choice[1][1],choice[rd(1,#choice)][2])
+						elseif i == 5 then
+							local choice = {
+								{583,  628, 0xff5e00},
+								{584,  717, 0xffffff},
+								{590,  811, 0xffffff},
+								{589,  892, 0xffffff},
+								{585,  979, 0xffffff},
+								{590, 1068, 0xffffff},
+							}						
+							click(choice[1][1],choice[rd(1,#choice)][2])
+						elseif i == 6 then
+							local choice = {
+								{583,  742, 0xff5e00},
+								{588,  828, 0xffffff},
+								{588,  919, 0xffffff},
+								{586, 1001, 0xffffff},
+								{587, 1093, 0xffffff},
+							}
+							click(choice[1][1],choice[rd(1,#choice)][2])
+						end
+						d(page.滑动确定,"page.滑动确定",true)
+					end
+					if d(page.编辑资料_保存,"page.编辑资料_保存",true)then
+						delay(5)
+						makeinfo_ = true
+					end
+
+			elseif d(page.编辑_更多资料界面,"page.编辑_更多资料界面") then
+				if d(page.编辑_基本资料,"page.编辑_基本资料",true)then
+				else
+					moveTo(300,700,300,400,5,20)
+				end
+			else
+				if d(page.本地相册,"page.本地相册",true,3)then
+					
+				end
+			end
+		end
+		delay(0.5)
+	end
+end
+
+
+
+
+
+
 page.基本资料界面={{{380,76,0x000000},{370,72,0xffffff},{368,72,0x000000},{42,83,0x888888},},85}
 	page.基本资料界面_请输入={{{444,285,0xc7c7cd},{457,285,0xc7c7cd},{495,285,0xff8432},{501,285,0xffffff},}, 85, 367, 255, 519, 319}
 	page.基本资料界面_性别女={{{538,372,0xe2e2e2},{406,376,0x9bc1fd},{386,379,0x9bc1fd},}, 85, 365, 349, 590, 417}
+		page.基本资料界面_性别女_选框={{{586,664,0xffffff},{585,644,0xebebeb},{564,665,0xe6e6e6},{607,665,0xe6e6e6},}, 85, 554, 634, 622, 969}
 	page.基本资料界面_完成={{{306,1042,0xffffff},{309,1022,0xff645a},{86,1041,0xff7948},{530,1043,0xff4e6b},}, 85, 17, 968, 621, 1125}
 page.昵称={{{46,77,0xfd6e27},{306,77,0x525252},{308,72,0xffffff},},85}
 	page.昵称完成={{{569,85,0xfd884d},{551,73,0xfd6e27},{545,67,0xffffff},}, 85, 526, 61, 614, 109}
@@ -184,32 +305,45 @@ function fix()
 	local TimeLine = os.time()
 	local OutTime = 60*3
 	sex = rd(1,100)
-	sex_key = 50
+	sex_key = 60
 	--设置这个sex_key的值越大 女的就越少
 	if sex > sex_key then
 		sexk = "女"
 	else
 		sexk = "男"
 	end
+	
+	log("sex-> ".. sex)
 
 	while os.time()-TimeLine < OutTime do
 		if active(bid.app,5)then
 			if d(page.基本资料界面,"page.基本资料界面") then
 				if d(page.基本资料界面_请输入,"page.基本资料界面_请输入",true)then
 				elseif sex > sex_key and d(page.基本资料界面_性别女,"page.基本资料界面_性别女",true)then
+					click(597, 663)
+					moveTo(312,  634,312, rd(980,1072),10,20)
+					moveTo(312,  634,312, rd(980,1072),10,20)
+					moveTo(312,  634,312, rd(980,1072),10,20)
+					moveTo(312,  634,312, rd(980,1072),10,20)
+					d(page.基本资料界面_性别女_选框,"page.基本资料界面_性别女_选框",true)
+					click(567, 538)
+					
 				elseif d(page.我知道了,"page.我知道了",true,1)then
 				else
 					if d(page.基本资料界面_完成,"page.基本资料界面_完成",true)then
 						up("百合网",sexk)
 						delay(10)
---					elseif d(page.照片_地址未显示,"page.照片_地址未显示",true)then
---						delay(2)
---						d(page.照片_地址_确定,"page.照片_地址_确定",true)
+					elseif d(page.照片_地址未显示,"page.照片_地址未显示",true)then
+						delay(2)
+						d(page.照片_地址_确定,"page.照片_地址_确定",true)
 					else
 						moveTo(316, 733,316, 433)
 						delay(2)
 					end
 				end
+			elseif sexk == '男' and d(page.本地相册,"page.本地相册",true,3)then
+				dialog("男不上传头像",1)
+				return true
 			elseif d(page.本地相册,"page.本地相册",false,1)then
 				delay(1)
 				clear.all_photos()
@@ -287,7 +421,6 @@ function reg()
 		if active(bid.app,10)then
 			if d(page.success,"page.success") then
 				return true
-				
 			elseif d(page.regUI,"page.regUI") then
 				if 取号 then
 					delay(3)
@@ -367,6 +500,7 @@ function get_local()
         if (c==200) then
             sys.toast("", -1)
             done = true
+--            return b:match('%d+%.%d+%.%d+%.%d+'),b:match('所在地理位置：<code>.*</code>')
             return b:match('%d+%.%d+%.%d+%.%d+'),b:match('所在地理位置：<code>.*</code>')
         end
     end
@@ -375,24 +509,25 @@ end
 --[[]]
 
 while true do
-	if vpn() then
+	if false or vpn() then
 		ip,locals = get_local()
 		
 		if ip ~= "192.168.1.1" and ip~= nil then
-			if checkip()then
-
+			if false or checkip()then
 				if false or XXTfakerNewPhone(bid.app)then
 					idfa = XXTfakerGetinfo(bid.app)['IDFA']
 					delay(1)
 					if reg()then
-						fix()
+						if fix()then
+							makeinfo()
+						end
 					end
 				end
 	
 			end
 		end
 	end
-	app.quit(appbids)
+	app.quit(bid.app)
 	vpnx()
 	delay(2)
 end
