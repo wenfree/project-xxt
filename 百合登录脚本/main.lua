@@ -1,7 +1,7 @@
 nLog = require('nLog')()
 require('faker')
 require('xxtsp')
-require("yumi")
+--require("yumi")
 require("name")
 --require("LuaDemo")
 
@@ -86,7 +86,7 @@ screen.init(0)
 var = {}
 var.lun = 0
 
-
+--[[
 --kfy.id = '10482'
 if not(YUMI())then
 	log("--")
@@ -95,9 +95,43 @@ else
 	log(yumi.token)
 end
 --全局变量
+--]]
+
+function getId()
+	local url = 'http://idfa888.com/Public/dyid/?service=dyid.getfix'
+	local idfalist ={}
+	return post(url,idfalist)
+end
+function backfix(id)
+	local url = 'http://idfa888.com/Public/dyid/?service=dyid.backfix&id='..id
+	local idfalist ={}
+	return post(url,idfalist)
+end
+--[[
+testdata ={
+	["ret"] = 200,
+	["data"]= {
+		["id"]= "2",
+		["phonename"]= "xxt-5s",
+		["phoneimei"]= "F18MK243FF9V",
+		["phoneos"]= "11.0.3",
+		["name"]= "百合网",
+		["idfa"]= "5E5AD232-C80F-4AEE-FE0C-246C675450C0",
+		["ip"]= "114.217.4.242",
+		["account"]= "所在地理位置：<code>江苏省苏州市 电信</code>",
+		["password"]= "Km26229753",
+		["phone"]= "15143244630",
+		["other"]= "女",
+		["todo"]= "no",
+		["time"]= "1536296222",
+		["addtime"]= "1536296164"
+	},
+
+}
+--]]
 
 function up(name,other)
-	local url = 'http://hlj.51-gx.com/Public/idfa/?service=idfa.idfa'
+	local url = 'http://idfa888.com/Public/idfa/?service=idfa.idfa'
 	local idfalist ={}
 	idfalist.phonename = phonename or device.name()
 	idfalist.phoneimei = phoneimei or sys.mgcopyanswer("SerialNumber")
@@ -114,7 +148,7 @@ function up(name,other)
 end
 
 function checkip()
-	local url = 'http://hlj.51-gx.com/Public/idfa/?service=idfa.checkip&ip='..ip
+	local url = 'http://idfa888.com/Public/idfa/?service=idfa.checkip&ip='..ip
 	local getdata = get(url)
 	if getdata ~= nil then
 		local data = json.decode(getdata)
@@ -163,6 +197,69 @@ imgUrl = "http://image.baidu.com/channel/listjson?pn=15000&rn=1&tag1=%E7%BE%8E%E
 
 
 page={}
+page.切换登录按钮 ={{{450,275,0xe6dfd9},{473,480,0xf5aaa2},{216,277,0xffffff},}, 85, 80, 224, 599, 551} 
+page.登录界面 ={{{319,1024,0xdf0f4b},{288,1054,0xdf0f4b},{307,1054,0xffffff},{350,1071,0xdf0f4b},}, 85, 23, 993, 622, 1117}
+	page.登录按钮 ={{{336,679,0xffffff},{330,641,0xff615c},{329,698,0xff625c},}, 85, 205, 639, 408, 702}
+	page.手机号 ={{{128,397,0xc7c7cd},{161,391,0xc7c7cd},{190,383,0xc7c7cd},}, 85, 27, 353, 589, 427}
+page.封号={{{163,646,0x1282fd},{397,647,0x007aff},{321,534,0x000000},{446,453,0xf9f9f9},},85}
+page.封号不存在={{{166,609,0x4c4c4c},{167,517,0x4c4c4c},{465,522,0x4c4c4c},}, 85, 139, 507, 491, 635}
+
+function loginbh()
+	local TimeLine = os.time()
+	local OutTime = 60*3
+	local logintimes = 0
+	
+	while os.time()-TimeLine < OutTime do
+		if active(bid.app,5)then	
+			if d(page.切换登录按钮,"page.切换登录按钮",true)then
+				
+			elseif d(page.登录界面 ,"page.登录界面")then
+				if d(page.手机号,'page.手机号',true)then
+					click(534, 273)
+					input(bhdata.data.phone)
+					click(130, 380)
+					input(bhdata.data.password)
+					d(page.登录按钮,"page.登录按钮",true)
+				end
+				if d(page.封号不存在,"page.封号不存在")then
+					return false
+				elseif d(page.登录按钮,"page.登录按钮",true)then
+					logintimes = logintimes + 1
+					if logintimes > 20 then
+						return false
+					end
+				end
+				
+			elseif d(page.本地相册,"page.本地相册",true,3)then
+				delay(rd(2,4))
+				return true
+			else
+				if d(page.封号,'page.封号',true,1) then
+					return false
+				else
+					click(40, 84)
+				end
+			end
+		end
+	end
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 page.主菜单={{{578,1096,0x929292},{300,1079,0x9d9d9d},{179,1078,0x929292},{49,1086,0xff425a},}, 85, 22, 1050, 623, 1132}
 page.主菜单_我的_资料={{{567,192,0xaaaaaa},{590,83,0x979797},{578,1096,0xff2983},{300,1080,0x9d9d9d},{43,1074,0x929292},}, 85, 0, 0, 0, 0}
@@ -515,7 +612,7 @@ function get_local()
     end
 end
 
---[[]]
+--[[
 
 while true do
 	if false or vpn() then
@@ -544,8 +641,27 @@ end
 
 
 --]]
-
-
+while true do
+	bhdata = (getId())
+	if bhdata ~= nil then
+		bhdata = json.decode(bhdata)
+		if bhdata.data == "获取失败" then
+			dialog("全部完成")
+			os.exit()
+		else
+			if vpn() then
+				if XXTfakerNewPhone(bid.app)then
+					if loginbh()then
+						backfix(bhdata.data.id)
+					end
+				end
+			end
+			app.quit(bid.app)
+			vpnx()
+			delay(2)
+		end
+	end
+end
 
 --clear.all_photos()
 

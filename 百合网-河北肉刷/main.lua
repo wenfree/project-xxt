@@ -1,7 +1,7 @@
 nLog = require('nLog')()
 require('faker')
 require('xxtsp')
-require("yumi")
+require("alz")
 require("name")
 --require("LuaDemo")
 
@@ -87,17 +87,11 @@ var = {}
 var.lun = 0
 
 
---kfy.id = '10482'
-if not(YUMI())then
-	log("--")
-	os.exit()
-else
-	log(yumi.token)
-end
+kfy.id = '10482'
 --全局变量
 
 function up(name,other)
-	local url = 'http://hlj.51-gx.com/Public/idfa/?service=idfa.idfa'
+	local url = 'http://idfa888.com/Public/idfa/?service=idfa.idfa'
 	local idfalist ={}
 	idfalist.phonename = phonename or device.name()
 	idfalist.phoneimei = phoneimei or sys.mgcopyanswer("SerialNumber")
@@ -114,7 +108,7 @@ function up(name,other)
 end
 
 function checkip()
-	local url = 'http://hlj.51-gx.com/Public/idfa/?service=idfa.checkip&ip='..ip
+	local url = 'http://idfa888.com/Public/idfa/?service=idfa.checkip&ip='..ip
 	local getdata = get(url)
 	if getdata ~= nil then
 		local data = json.decode(getdata)
@@ -207,7 +201,7 @@ function makeinfo()
 			if d(page.主菜单,"page.主菜单",true)then
 			elseif d(page.主菜单_我的_资料,"page.主菜单_我的_资料",true)then
 			elseif makeinfo_ and (d(page.编辑_编辑_我喜欢谁,"page.编辑_编辑_我喜欢谁",false)or d(page.编辑_编辑_我喜欢谁ios10,"page.编辑_编辑_我喜欢谁ios10",false))then
-				up("百合网",sexk.."修改资料")
+				up("婚恋网",sexk.."修改资料")
 				sys.alert("注册完成,即将退出",3)
 				closeX(appbids)
 				return true
@@ -349,7 +343,8 @@ function fix()
 						delay(2)
 					end
 				end
-			elseif sexk == '男' and d(page.本地相册,"page.本地相册",true,3)then
+--			elseif sexk == '男' and d(page.本地相册,"page.本地相册",true,3)then
+			elseif sexk and d(page.本地相册,"page.本地相册",true,3)then
 				dialog("男不上传头像",1)
 				return true
 			elseif d(page.本地相册,"page.本地相册",false,1)then
@@ -392,7 +387,6 @@ function fix()
 		delay(0.5)
 	end
 end
-
 
 
 
@@ -446,6 +440,8 @@ function reg()
 							else
 								click(604, 610)
 							end
+						else
+							click(604, 610)
 						end
 					end
 				elseif 验证码 then
@@ -468,7 +464,7 @@ function reg()
 					end
 				elseif 提交 then
 					if d(page.regUI_reg,"page.regUI_reg",true)then
-						up("百合网","提交注册")
+						up("婚恋网","提交注册")
 						delay(3)
 					end
 				end
@@ -505,11 +501,11 @@ function get_local()
     while (os.time() - outtime < 30) do
 --		local c, h, b = http.get("http://ip.chinaz.com/getip.aspx?ts="..tostring(sys.rnd()), 30)
 		local c, h, b = http.get("http://ip.cn", 30)
---      local c, h, b = http.get("https://www.ipip.net/",30)
+--        local c, h, b = http.get("https://www.ipip.net/",30)
         if (c==200) then
             sys.toast("", -1)
             done = true
---          return b:match('%d+%.%d+%.%d+%.%d+'),b:match('所在地理位置：<code>.*</code>')
+--            return b:match('%d+%.%d+%.%d+%.%d+'),b:match('所在地理位置：<code>.*</code>')
             return b:match('%d+%.%d+%.%d+%.%d+'),b:match('所在地理位置：<code>.*</code>')
         end
     end
@@ -528,7 +524,7 @@ while true do
 					delay(1)
 					if reg()then
 						if fix()then
-							makeinfo()
+						--	makeinfo()
 						end
 					end
 				end

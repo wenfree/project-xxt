@@ -10,7 +10,18 @@ else
 end
 
 bid={}
-bid.果聊 = 'com.hachin.im'
+bid.果聊 = {
+				['appbid']='com.hachin.im',
+				['url']='https://lnk0.com/Y9EFls',
+			}
+bid.闪电降价 = {
+				['appbid']='com.hs.shanjiang',
+				['url']='https://lnk0.com/dEdI5k',
+			}
+bid.集享联盟 = {
+				['appbid']='com.maxxipoint.ios',
+				['url']='https://event.maxxipoint.com/event/h5DownloadApp.do?activityId=32'
+			}
 
 screen.init(0)
 var = {}
@@ -50,8 +61,8 @@ end
 web={}
 web.open={{{526,632,0x007aff},{396,622,0x3897ff},{393,623,0xffffff},},85}
 
-function open()
-	openUrl("https://lnk0.com/Y9EFls")
+function open(urls)
+	openUrl(urls)
 	delay(3)
 	local timeline = os.time()
 	local outtimes = 60
@@ -69,17 +80,19 @@ end
 
 apparr={}
 apparr.right={{{462,666,0x007aff},{225,666,0x007aff},}, 85, 54, 394, 590, 809}
+apparr.闪电降价tip={{{374,886,0xffdb4c},{256,881,0xffdb4c},{471,227,0x4c4c4c},},85}
 
 function newidfa(bids,times)
 	for i= 1,times do
 		if XXTfakerNewPhone(bids)then
 			idfa = XXTfakerGetinfo(bids)['IDFA']
 			local TIMEline = os.time()
-			local OUTtime = rd(16,19)
+			local OUTtime = rd(100,110)
 			while os.time()- TIMEline < OUTtime do
 				if active(bids,4)then
 					if d(apparr.right,"apparr.right",true)then
-
+					elseif d(apparr.闪电降价tip,"apparr.闪电降价tip",true,1)then
+					
 					else
 						moveTo(600,300,100,100,30,50)
 						delay(1)
@@ -96,16 +109,25 @@ function newidfa(bids,times)
 end
 
 
-
+--[[]]
+require("jhlm")
 
 while true do
-	if vpn()then
-		if open()then
-			newidfa(bid.果聊,1)
+	if true or vpn()then
+		--[[
+		if open(bid.集享联盟.url)then
+			newidfa(bid.集享联盟.appbid,1)
+		end
+		--]]
+		if open(bid.闪电降价.url)then
+			newidfa(bid.闪电降价.appbid,1)
 		end
 	end
 	vpnx()	
 end
+--]]
+
+
 
 
 

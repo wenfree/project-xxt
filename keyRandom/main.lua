@@ -1,8 +1,15 @@
 -- 此处为nLog功能实现操作
 
 keyword = {
-	{"hello语音",200},
-	{"yy语音",200},
+	{"时时", 4000},
+
+	{"时时彩", 4000},
+
+	{"重庆时时彩", 2500},
+
+	{"快三", 2000},
+
+	{"快3", 500},
 }
 
 --[[
@@ -18,45 +25,38 @@ keyword = {
 }
 --]]
 	
+for k,v in ipairs(keyword)do
+	for i=1,v[2] do
+		print(v[1])
+	end
+end
+
 	
---9FB93887-6163-C347-51E4-65D7F67CF9D9
-math.randomseed(os.time())
-
-function idfa16(n)
-	local a ={}
-		for i=0,9 do
-			a[i]=i
-		end
-		a[10]="A"
-		a[11]="B"
-		a[12]="C"
-		a[13]="D"
-		a[14]="E"
-		a[15]="F"
-		
-	if n == 1 then
-		return a[math.random(0,15)]
-	else
-		return a[math.random(0,15)]..idfa16(n-1)
-	end
-end
-
---lineTime = os.time() - (13+(24-18))*60*60
+	
+	
+	
 
 
-for i=1,200 do
---[[
-	local idfa = idfa16(8) .."-".. idfa16(4).."-".. (idfa16(4)).."-".. (idfa16(4)).."-".. (idfa16(12))
-	print(idfa)
---]]	
-	for ii,v in ipairs(keyword) do
-		if i <= v[2] then
-			local idfa = idfa16(8) .."-".. idfa16(4).."-".. (idfa16(4)).."-".. (idfa16(4)).."-".. (idfa16(12))
-			print(v[1] .."	".. idfa)
-		end
-	end
---	print(idfa16(8)) .."-".. print(idfa16(4)).."-".. print(idfa16(4)).."-".. print(idfa16(4)).."-".. print(idfa16(12))
---]]
-end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

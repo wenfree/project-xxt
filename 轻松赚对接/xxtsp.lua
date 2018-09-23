@@ -281,7 +281,8 @@ function get_ip()
                 sys.toast("", -1)
                 return
             else
-                sys.toast("正在获取 IP 地址...", device.front_orien())
+                sys.toast("正在获取 IP 地址..." , device.front_orien())
+--                sys.toast("正在获取 IP 地址..."..os.time()-outtime , device.front_orien())
             end
             sys.msleep(2000)
         end
