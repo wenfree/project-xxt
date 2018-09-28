@@ -18,6 +18,9 @@ nLog = require('nLog')()
 require('faker')
 require('xxtsp')
 
+local curl = require('lcurl')
+local e = curl.easy()
+
 if not(xxtinstall())then
 	log("伪装失效")
 	os.exit()
@@ -56,37 +59,22 @@ atexit(function()
 
 bid={}
 bid.期货掌中宝 = { 1324945454,"com.qihuozhangzhongbao"}
-bid.乐米乐得彩票 = { 1374153336,"com.micai.lede01"}
-bid.二九真人游戏 = { 1367850213 ,"com.KaiyuYang.rjyx"}
-bid.仙缘萌侠 = { 1389238856 , "com.cygame.xymx" }
-bid.天天游棋牌 = { 1241224023 , "com.bdcom.ttygame.appstore" }
-bid.酷抓娃娃机 = { 1327161955 , "com.lotogram.zhuagewawa2" }
-bid.北京购车 = { 1363907349 , "com.personalcar.www" }
-bid.抓娃娃 = { 1278585161 , "com.lotogram.wawaji" }
-bid['78u真人电玩'] = { 1373634440 , "com.XiaomaoTu.app" }
-bid.人人玩捕鱼 = { 1303413064 , "com.htg.rrfish" }
-bid.北京购车 = { 1363907349 , "com.personalcar.www" }
-bid.单机斗地主 = { 1234463484 , "com.mofeng.qjmddz" }
-bid.抓娃娃 = { 1278585161 , "com.lotogram.wawaji" }
-bid.钓鱼 = { 1404681962 , "com.jiong.FaShaoDiaoYu" }
-bid.网赚兼职 = { 1394452589 , "com.wngzhuan.bbb" }
-bid.熊猫网赚 = { 1417235201 , "com.onePiece.plusa.intentMoney" }
-bid.小蜜蜂电玩城 = { 1409651763 , "com.xiaomifeng.qwer" }
-bid.萌声 = { 1363033084 , "com.yizhuan.cutesound" }
-bid.京东金融 = { 895682747 , "com.jd.jinrong" }
-bid.提钱花 = { 1405486905 , "com.btfx.qianbaojingling" }
-bid.安信花 = { 1410121980 , "com.jiaoqiannewapp" }
-bid.闪光 = { 1386576032 , "com.cnj.shanguang" }
-bid.天天游真人电玩 = { 1367955407 , "com.YongbinZhong.tyzr" }
-bid.链小白 = { 1407151100 , "net.lxb.ios" }
-bid.币事 = { 1403648860 , "com.bshier.bishi" }
+bid.NOW直播 = {	["appid"] =  "1097492828", ["appbid"] = "com.tencent.now", ["adid"]= 253, ["keyword"]="口碑" }
+bid.小黑鱼 = {	["appid"] =  "1326101904", ["appbid"] = "com.xhy.blackfish.app", ["adid"]= 226, ["keyword"]="小黑鱼" }
 
 
 screen.init(0)
 var = {}
 var.lun = 0
-var.source = "beeplay_waifang1_07"
+var.source = "jiaxing"
 var.key = "hkbnrpa2p6u6do11i8cftx4c0z8n78u8"
+
+function sign(adid,timestamp)
+	local str = var.source.."|"..adid.."|"..idfa.."|"..var.key.."|"..timestamp
+	log(str)
+	return string.md5(str)
+end
+
 --全局变量
 
 function up(name,other)
@@ -106,8 +94,30 @@ function up(name,other)
 	return post(url,idfalist)
 end
 
-function checkidfa(appid,idfa)
-	local url = "http://111.230.78.86:8080/interface/distinct?appid="..appid.."&idfa="..idfa
+function checkidfa(name)
+	local url = "http://api.beeplay.com.cn:8080/outdata/distinct"
+	local postArr = {}
+	postArr.adid=bid[name]['adid']
+	postArr.idfa=idfa
+	postArr.ip=ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
+	postArr.source=var.source 
+	postArr.timestamp=os.time()
+	postArr.sign = sign(postArr.adid,postArr.timestamp)
+	
+	index = 0
+	post_data = ''
+	
+	for k,v in pairs(postArr)do
+		index = index + 1
+		if index == #postArr then
+			post_data = post_data..k..'='..v
+		else
+			post_data = post_data..k..'='..v..'&'
+		end
+	end
+	url = url..'?'..post_data
+	
+	log(postArr)
 	local getdata = get(url)
 	if getdata ~= nil then
 		local data = json.decode(getdata)
@@ -116,7 +126,85 @@ function checkidfa(appid,idfa)
 			log("idfa: OK.",true)
 			return true
 		else
-			log("idfa, 排重失败",true)
+			log("idfa------排重失败",true)
+		end
+	end
+end
+
+function activeidfa(name)
+	local url = "http://api.beeplay.com.cn:8080/outdata/active"
+	local postArr = {}
+	postArr.adid=bid[name]['adid']
+	postArr.idfa=idfa
+	postArr.ip=ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
+	postArr.source=var.source 
+	postArr.timestamp=os.time()
+	postArr.sign = sign(postArr.adid,postArr.timestamp)
+	
+	index = 0
+	post_data = ''
+	
+	for k,v in pairs(postArr)do
+		index = index + 1
+		if index == #postArr then
+			post_data = post_data..k..'='..v
+		else
+			post_data = post_data..k..'='..v..'&'
+		end
+	end
+	url = url..'?'..post_data
+	
+	log(postArr)
+	local getdata = get(url)
+	if getdata ~= nil then
+		local data = json.decode(getdata)
+		log(data or "nil")
+		if data.err_code == 0 then
+			log("idfa: OK.",true)
+			return true
+		else
+			log("idfa--激活失败",true)
+		end
+	end
+end
+
+function clickidfa(name)
+	local url = "http://api.beeplay.com.cn:8080/outdata/click"
+	local postArr = {}
+	postArr.adid=bid[name]['adid']
+	postArr.idfa=idfa
+	postArr.ip=ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
+	postArr.source=var.source 
+	postArr.timestamp=os.time()
+	postArr.sign = sign(postArr.adid,postArr.timestamp)
+	----------------------
+	postArr.keyword = e:escape(bid[name]['keyword'])
+	postArr.device_type = device_type
+	postArr.os_version = sys.version()
+	
+	index = 0
+	post_data = ''
+	
+	for k,v in pairs(postArr)do
+		index = index + 1
+		if index == #postArr then
+			post_data = post_data..k..'='..v
+		else
+			post_data = post_data..k..'='..v..'&'
+		end
+	end
+	url = url..'?'..post_data
+	
+	log(postArr)
+	local getdata = get(url)
+	if getdata ~= nil then
+		local data = json.decode(getdata)
+		log(data or "nil")
+		if data.err_code == 0 then
+			log("点击成功: OK.",true)
+			return true
+		else
+			log("idfa-点击失败",true)
 		end
 	end
 end
@@ -139,9 +227,20 @@ end
 
 
 function idfaisok(name)
-	if XXTfakerNewPhone(bid[name][2])then
-		idfa = XXTfakerGetinfo(bid[name][2])['IDFA']
-		return checkidfa(bid[name][1],idfa)
+	if XXTfakerNewPhone(bid[name]['appbid'])then
+		idfa = XXTfakerGetinfo(bid[name]['appbid'])['IDFA']
+		device_type = XXTfakerGetinfo(bid[name]["appbid"])['ProductType']
+		return checkidfa(name)
+	end
+end
+
+function clickisok(name)
+	if XXTfakerNewPhone(bid[name]['appbid'])then
+		idfa = XXTfakerGetinfo(bid[name]['appbid'])['IDFA']
+		device_type = XXTfakerGetinfo(bid[name]["appbid"])['ProductType']
+		if checkidfa(name)then
+			return clickidfa(name)
+		end
 	end
 end
 
@@ -150,27 +249,6 @@ function beesign(appid,idfa)
 	log("md5---"..txt)
 	return string.md5(txt)
 end
-
-function activeLink(name,idfa)
-	log("开始激活")
-	local linkarr={}
-	linkarr.appid = bid[name][1]
-	linkarr.idfa = idfa
-	linkarr.source = "beeplay_waifang1_07"
-	linkarr.sign = beesign(bid[name][1],idfa)
-	linkarr.ip = ip or get_ip() or "192.168.1.1"
-	log(linkarr)
-	local url = "http://111.230.78.86:8080/interface/active?appid=".. bid[name][1] .."&idfa=".. idfa .."&source="..var.source.."&sign="..beesign(bid[name][1],idfa).."&ip="..linkarr.ip
-	data = get(url)
-	if data ~= nil then
-		data = json.decode(get(url))
-		log(data or "nil")
-		if data.err_code == 0 or data.err_msg == "OK." then
-			return true
-		end
-	end
-end
-
 
 
 function rd(n,k)
@@ -191,7 +269,7 @@ function newidfa(name,times)
 		local TIMEline = os.time()
 		local OUTtime = rd(30,40)
 		while os.time()- TIMEline < OUTtime do
-			if active(bid[name][2],4)then
+			if active(bid[name]['appbid'],4)then
 				if d(apparr.right,"apparr.right",true)then
 
 				else
@@ -215,41 +293,19 @@ end
 function beewallidfa(name)
 	if idfaisok(name)then
 		newidfa(name,1)
-		if activeLink(name,idfa) then
+		if activeidfa(name) then
 			up(name,'激活成功')
 		end
 	end
 	delay(1)
 end
 
+--[[]]
 while true do
 	log("vpn-key")
 	if vpn() then
 		if checkip()then
-		--	beewallidfa("天天游真人电玩")
-		--	beewallidfa("期货掌中宝")
-		--	beewallidfa("天天游棋牌")
-		--	beewallidfa("酷抓娃娃机")
-		--	beewallidfa("78u真人电玩")
-		--	beewallidfa("二九真人游戏")
-		--	beewallidfa("期货掌中宝")
-		--	beewallidfa("仙缘萌侠")
-		--	beewallidfa("北京购车")
-		--	beewallidfa("单机斗地主")
-		--	beewallidfa("抓娃娃")	
-		--	beewallidfa("钓鱼")
-		--	beewallidfa("网赚兼职")
-		--	beewallidfa("小蜜蜂电玩城")
-		--	beewallidfa("电玩翻牌")	
-		--	beewallidfa("熊猫网赚")	
-		--  beewallidfa("萌声")
-		--  beewallidfa("京东金融")
-		--  beewallidfa("提钱花")
-		--	beewallidfa("安信花")
-			beewallidfa("闪光")
-		--	beewallidfa("链小白")
-		--	beewallidfa("币事")
-		
+			beewallidfa("小黑鱼")
 		end
 	end
 	for _,bid in ipairs(app.bundles()) do
@@ -259,6 +315,7 @@ while true do
 	vpnx()
 end
 
+--]]
 
 
 

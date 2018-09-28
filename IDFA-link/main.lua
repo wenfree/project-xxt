@@ -27,7 +27,20 @@ screen.init(0)
 var = {}
 var.lun = 0
 --全局变量
-
+function checkip()
+	local url = 'http://idfa888.com/Public/idfa/?service=idfa.checkip&ip='..ip
+	local getdata = get(url)
+	if getdata ~= nil then
+		local data = json.decode(getdata)
+		log(data or "nil")
+		if data.data.state == "ok" then
+			log("ip可以用:OK.",true)
+			return true
+		else
+			log("ip, 排重失败",true)
+		end
+	end
+end
 
 function up(name,other)
 	local url = 'http://idfa888.com/Public/idfa/?service=idfa.idfa'
@@ -87,7 +100,7 @@ function newidfa(bids,times)
 		if XXTfakerNewPhone(bids)then
 			idfa = XXTfakerGetinfo(bids)['IDFA']
 			local TIMEline = os.time()
-			local OUTtime = rd(100,110)
+			local OUTtime = rd(30,35)
 			while os.time()- TIMEline < OUTtime do
 				if active(bids,4)then
 					if d(apparr.right,"apparr.right",true)then
@@ -113,17 +126,24 @@ end
 require("jhlm")
 
 while true do
-	if true or vpn()then
+	if false or vpn()then
 		--[[
 		if open(bid.集享联盟.url)then
 			newidfa(bid.集享联盟.appbid,1)
 		end
 		--]]
-		if open(bid.闪电降价.url)then
-			newidfa(bid.闪电降价.appbid,1)
+		
+		ip = get_ip()
+		if ip ~= nil then
+			if checkip()then
+				if open(bid.闪电降价.url)then
+					newidfa(bid.闪电降价.appbid,1)
+				end
+			end
 		end
 	end
 	vpnx()	
+	delay(rd(10,15))
 end
 --]]
 
