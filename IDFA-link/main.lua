@@ -8,6 +8,7 @@ if not(xxtinstall())then
 else
 	XXTFaker = require("XXTFaker")()
 end
+phonename = device.name()
 
 bid={}
 bid.果聊 = {
@@ -16,7 +17,21 @@ bid.果聊 = {
 			}
 bid.闪电降价 = {
 				['appbid']='com.hs.shanjiang',
-				['url']='https://lnk0.com/dEdI5k',
+				['url']={
+					['iPhone04']='https://lnk0.com/Vd0gk4',
+					['iPhone05']='https://lnk0.com/Vd0gk4',
+					['iPhone06']='https://lnk0.com/Vd0gk4',
+					['iPhone07']='https://lnk0.com/Vd0gk4',
+					['iPhone08']='https://lnk0.com/Vd0gk4',
+					['iPhone09']='https://lnk0.com/Vd0gk4',					
+--					['iPhone04']='https://lnk0.com/dEdI5k',
+--					['iPhone05']='https://lnk0.com/QZhE94',
+--					['iPhone06']='https://lnk0.com/Vd0gk4',
+--					['iPhone07']='https://lnk0.com/dEdI5k',
+--					['iPhone08']='https://lnk0.com/QZhE94',
+--					['iPhone09']='https://lnk0.com/Vd0gk4',
+					}
+
 			}
 bid.集享联盟 = {
 				['appbid']='com.maxxipoint.ios',
@@ -45,7 +60,7 @@ end
 function up(name,other)
 	local url = 'http://idfa888.com/Public/idfa/?service=idfa.idfa'
 	local idfalist ={}
-	idfalist.phonename = phonename or device.name()
+	idfalist.phonename = phonename
 	idfalist.phoneimei = phoneimei or sys.mgcopyanswer("SerialNumber")
 	idfalist.phoneos = phoneos or sys.version()
 	idfalist.name = name
@@ -100,7 +115,7 @@ function newidfa(bids,times)
 		if XXTfakerNewPhone(bids)then
 			idfa = XXTfakerGetinfo(bids)['IDFA']
 			local TIMEline = os.time()
-			local OUTtime = rd(30,35)
+			local OUTtime = rd(20,35)
 			while os.time()- TIMEline < OUTtime do
 				if active(bids,4)then
 					if d(apparr.right,"apparr.right",true)then
@@ -116,7 +131,7 @@ function newidfa(bids,times)
 					end
 				end
 			end
-			up(appname(bids),'初次上传')
+			up(appname(bids),bid['闪电降价']['url'][phonename])
 		end
 	end
 end
@@ -136,14 +151,14 @@ while true do
 		ip = get_ip()
 		if ip ~= nil then
 			if checkip()then
-				if open(bid.闪电降价.url)then
+				if open(bid['闪电降价']['url'][phonename])then
 					newidfa(bid.闪电降价.appbid,1)
 				end
 			end
 		end
 	end
 	vpnx()	
-	delay(rd(10,15))
+	delay(rd(5,8))
 end
 --]]
 

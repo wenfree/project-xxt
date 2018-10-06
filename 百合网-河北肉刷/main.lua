@@ -194,6 +194,7 @@ function makeinfo()
 	local OutTime = 60*3
 	local sexhight = false
 	local makeinfo_ = false
+
 	
 	
 	while os.time()-TimeLine < OutTime do
@@ -418,6 +419,7 @@ function reg()
 	local 提交过了 = false
 
 	local 取短信次数 = 0
+	
 	password = myRand(4,rd(8,12))
 
 	while os.time()-TimeLine < OutTime do
@@ -460,6 +462,10 @@ function reg()
 						短信 = false
 						提交 = true
 					else
+						取短信次数 = 取短信次数 + 1
+						if 取短信次数 > 25 then
+							return false
+						end
 						delay(2.5)
 					end
 				elseif 提交 then

@@ -64,6 +64,10 @@ function GET_Phone()
 		phone_list = string.split(res,'|')
 		if phone_list[1] == '1' then
 			phone = phone_list[2]
+			phoneheader = string.sub(phone,1,3)
+			if phoneheader == '171' or phoneheader == '170' then
+				return false
+			end
 			return phone
 		else
 			log(phone_list[2],true)
