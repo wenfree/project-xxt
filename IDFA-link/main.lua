@@ -18,9 +18,9 @@ bid.果聊 = {
 bid.闪电降价 = {
 				['appbid']='com.hs.shanjiang',
 				['url']={
-					['iPhone04']='https://lnk0.com/Vd0gk4',
-					['iPhone05']='https://lnk0.com/Vd0gk4',
-					['iPhone06']='https://lnk0.com/Vd0gk4',
+					['iPhone04']='https://lnk0.com/QZhE94',
+					['iPhone05']='https://lnk0.com/QZhE94',
+					['iPhone06']='https://lnk0.com/QZhE94',
 					['iPhone07']='https://lnk0.com/Vd0gk4',
 					['iPhone08']='https://lnk0.com/Vd0gk4',
 					['iPhone09']='https://lnk0.com/Vd0gk4',					
@@ -158,7 +158,7 @@ while true do
 		end
 	end
 	vpnx()	
-	delay(rd(5,8))
+	delay(rd(15,25))
 end
 --]]
 
