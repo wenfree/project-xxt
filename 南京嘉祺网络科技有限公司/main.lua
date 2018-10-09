@@ -60,7 +60,8 @@ atexit(function()
 bid={}
 bid.期货掌中宝 = { 1324945454,"com.qihuozhangzhongbao"}
 bid.NOW直播 = {	["appid"] =  "1097492828", ["appbid"] = "com.tencent.now", ["adid"]= 253, ["keyword"]="口碑" }
-bid.小黑鱼 = {	["appid"] =  "1326101904", ["appbid"] = "com.xhy.blackfish.app", ["id"]= 977, ["keyword"]="借钱" }
+bid.小黑鱼 = {	["appid"] =  "1326101904", ["appbid"] = "com.xhy.blackfish.app", ["id"]= 977, ["keyword"]="小米贷款" }
+bid.知乎 = {	["appid"] =  "432274380", ["appbid"] = "com.zhihu.ios", ["id"]= 978, ["keyword"]="果壳" }
 
 
 screen.init(0)
@@ -178,6 +179,7 @@ function clickidfa(name)
 	postArr.model=model
 	postArr.version = sys.version()
 	postArr.keyword = e:escape(bid[name]['keyword'])
+	postArr.callbackurl  = "http://idfa888.com/Public/idfa/?service=idfa.callback&id="..callbackid
 	
 	index = 0
 	post_data = ''
@@ -218,6 +220,20 @@ function checkip()
 			return true
 		else
 			log("ip, 排重失败",true)
+		end
+	end
+end
+
+function callbackapi(name)
+	if XXTfakerNewPhone(bid[name]['appbid'])then
+		idfa = XXTfakerGetinfo(bid[name]['appbid'])['IDFA']
+		model = XXTfakerGetinfo(bid[name]["appbid"])['ProductType']
+		callbackid = json.decode(up(name,bid[name]['keyword']))['data']['id']
+		if callbackid ~= nil then
+			if clickidfa(name)then
+				delay(rd(10,20))
+				newidfa(name,1)
+			end
 		end
 	end
 end
@@ -264,7 +280,7 @@ function newidfa(name,times)
 	for i= 1,times do
 
 		local TIMEline = os.time()
-		local OUTtime = rd(30,40)
+		local OUTtime = rd(60,65)
 		while os.time()- TIMEline < OUTtime do
 			if active(bid[name]['appbid'],4)then
 				if d(apparr.right,"apparr.right",true)then
@@ -300,7 +316,8 @@ while true do
 	log("vpn-key")
 	if vpn() then
 		if checkip()then
-			beewallidfa("小黑鱼")
+--			beewallidfa("小黑鱼")
+			callbackapi("知乎")
 		end
 	end
 	for _,bid in ipairs(app.bundles()) do
