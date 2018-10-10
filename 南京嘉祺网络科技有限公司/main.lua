@@ -62,6 +62,7 @@ bid.期货掌中宝 = { 1324945454,"com.qihuozhangzhongbao"}
 bid.NOW直播 = {	["appid"] =  "1097492828", ["appbid"] = "com.tencent.now", ["adid"]= 253, ["keyword"]="口碑" }
 bid.小黑鱼 = {	["appid"] =  "1326101904", ["appbid"] = "com.xhy.blackfish.app", ["id"]= 977, ["keyword"]="小米贷款" }
 bid.知乎 = {	["appid"] =  "432274380", ["appbid"] = "com.zhihu.ios", ["id"]= 978, ["keyword"]="果壳" }
+bid.网易考拉 = {	["appid"] =  "965789238", ["appbid"] = "com.netease.kaola", ["id"]= 999, ["keyword"]="母婴" }
 
 
 screen.init(0)
@@ -319,8 +320,9 @@ while true do
 	log("vpn-key")
 	if  vpn() then
 		if checkip()then
-			beewallidfa("小黑鱼")
+--			beewallidfa("小黑鱼")
 --			callbackapi("知乎")
+			callbackapi("网易考拉")
 		end
 	end
 	for _,bid in ipairs(app.bundles()) do
