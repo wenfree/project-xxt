@@ -114,7 +114,7 @@ function checkidfa(name)
 		end
 	end
 	url = url..'?'..post_data
-	
+	log(url)
 	log(postArr)
 	local getdata = get(url)
 	if getdata ~= nil then
@@ -179,7 +179,10 @@ function clickidfa(name)
 	postArr.model=model
 	postArr.version = sys.version()
 	postArr.keyword = e:escape(bid[name]['keyword'])
-	postArr.callbackurl  = "http://idfa888.com/Public/idfa/?service=idfa.callback&id="..callbackid
+	postArr.keyword = bid[name]['keyword']
+	if callbackid then
+		postArr.callbackurl  = "http://idfa888.com/Public/idfa/?service=idfa.callback&id="..callbackid
+	end
 	
 	index = 0
 	post_data = ''
@@ -193,7 +196,7 @@ function clickidfa(name)
 		end
 	end
 	url = url..'?'..post_data
-	
+	log(url)
 	log(postArr)
 	local getdata = get(url)
 	if getdata ~= nil then
@@ -314,10 +317,10 @@ end
 --[[]]
 while true do
 	log("vpn-key")
-	if vpn() then
+	if  vpn() then
 		if checkip()then
---			beewallidfa("小黑鱼")
-			callbackapi("知乎")
+			beewallidfa("小黑鱼")
+--			callbackapi("知乎")
 		end
 	end
 	for _,bid in ipairs(app.bundles()) do
