@@ -351,7 +351,7 @@ function newidfa(name,times)
 	for i= 1,times do
 
 		local TIMEline = os.time()
-		local OUTtime = rd(30,35)
+		local OUTtime = rd(60,65)
 		while os.time()- TIMEline < OUTtime do
 			if active(bid[name]['appbid'],4)then
 				if d(apparr.right,"apparr.right",true)then
@@ -375,7 +375,7 @@ end
 --期货掌中宝
 function beewallidfa(name)
 	if clickisok(name)then
-		delay(rd(10,20))
+		delay(rd(2,3))
 		newidfa(name,1)
 	end
 	delay(1)
@@ -386,13 +386,13 @@ while true do
 	log("vpn-key")
 	if  vpn() then
 		if checkip()then
-			activeapi("众安保险")
-			activeapi("烈火如歌")
+--			activeapi("众安保险")
+--			activeapi("烈火如歌")
 --			activeapi("斗罗战神")
 --			callbackapi("蜜芽宝贝")
 --			callbackapi("新浪财经")
 --			callbackapi("猎聘")
---			onlyactive("够花")
+			onlyactive("够花")
 --			onlyactive("梦幻金游")
 --			beewallidfa("小黑鱼")
 --			callbackapi("知乎")
