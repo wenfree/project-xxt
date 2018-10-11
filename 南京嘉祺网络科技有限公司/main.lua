@@ -63,6 +63,13 @@ bid.NOW直播 = {	["appid"] =  "1097492828", ["appbid"] = "com.tencent.now", ["a
 bid.小黑鱼 = {	["appid"] =  "1326101904", ["appbid"] = "com.xhy.blackfish.app", ["id"]= 977, ["keyword"]="借钱" }
 bid.知乎 = {	["appid"] =  "432274380", ["appbid"] = "com.zhihu.ios", ["id"]= 978, ["keyword"]="果壳" }
 bid.网易考拉 = {	["appid"] =  "965789238", ["appbid"] = "com.netease.kaola", ["id"]= 999, ["keyword"]="母婴" }
+bid.众安保险 = {	["appid"] =  "1019481423", ["appbid"] = "com.zhongan.insurance", ["id"]= 1008 , ["keyword"]="月经" }
+bid.蜜芽宝贝 = {	["appid"] =  "973366293", ["appbid"] = "com.OfficialMiYaBaoBei.MiYaBaoBei", ["id"]= 1009 , ["keyword"]="贝店" }
+bid.新浪财经 = {	["appid"] =  "430165157", ["appbid"] = "com.sina.stock", ["id"]= 1010 , ["keyword"]="财经" }
+bid.猎聘 = {	["appid"] =  "540996859", ["appbid"] = "com.lietou.insw-c-ios-iphone", ["id"]= 1015 , ["keyword"]="找工作" }
+bid.斗罗战神 = {	["appid"] =  "1417067097", ["appbid"] = "com.dlzs.ds2", ["id"]= 1022 , ["keyword"]="西游变态版" }
+bid.梦幻金游 = {	["appid"] =  "1437878371", ["appbid"] = "com.mhjy.jinyou", ["id"]= 1027 , ["keyword"]="天天富翁" }
+bid.够花 = {	["appid"] =  "1257627631", ["appbid"] = "gouhuaHaiercash", ["id"]= 1040 , ["keyword"]="网贷" }
 
 
 screen.init(0)
@@ -131,14 +138,22 @@ function checkidfa(name)
 end
 
 function activeidfa(name)
-	local url = "http://api.beeplay.com.cn:8080/outdata/active"
+	local url = "http://api.channel.tanrice.com/index/channel/activation"
 	local postArr = {}
-	postArr.adid=bid[name]['adid']
+	local postArr = {}
+	postArr.id=bid[name]['id']
 	postArr.idfa=idfa
 	postArr.ip=ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
-	postArr.source=var.source 
-	postArr.timestamp=os.time()
-	postArr.sign = sign(postArr.adid,postArr.timestamp)
+	postArr.cid=var.cid
+	
+	----------------------
+	postArr.model=model
+	postArr.version = sys.version()
+--	postArr.keyword = e:escape(bid[name]['keyword'])
+	postArr.keyword = bid[name]['keyword']
+	if callbackid then
+		postArr.callbackurl  = "http://idfa888.com/Public/idfa/?service=idfa.callback&id="..callbackid
+	end
 	
 	index = 0
 	post_data = ''
@@ -152,17 +167,17 @@ function activeidfa(name)
 		end
 	end
 	url = url..'?'..post_data
-	
+	log(url)
 	log(postArr)
 	local getdata = get(url)
 	if getdata ~= nil then
 		local data = json.decode(getdata)
 		log(data or "nil")
-		if data.err_code == 0 then
-			log("idfa: OK.",true)
+		if data.Remark == "Success" then
+			log("激活成功: OK.",true)
 			return true
 		else
-			log("idfa--激活失败",true)
+			log("idfa-激活失败",true)
 		end
 	end
 end
@@ -179,7 +194,7 @@ function clickidfa(name)
 	----------------------
 	postArr.model=model
 	postArr.version = sys.version()
-	postArr.keyword = e:escape(bid[name]['keyword'])
+--	postArr.keyword = e:escape(bid[name]['keyword'])
 	postArr.keyword = bid[name]['keyword']
 	if callbackid then
 		postArr.callbackurl  = "http://idfa888.com/Public/idfa/?service=idfa.callback&id="..callbackid
@@ -232,11 +247,62 @@ function callbackapi(name)
 	if XXTfakerNewPhone(bid[name]['appbid'])then
 		idfa = XXTfakerGetinfo(bid[name]['appbid'])['IDFA']
 		model = XXTfakerGetinfo(bid[name]["appbid"])['ProductType']
-		callbackid = json.decode(up(name,bid[name]['keyword']))['data']['id']
-		if callbackid ~= nil then
-			if clickidfa(name)then
-				delay(rd(10,20))
-				newidfa(name,1)
+		local dtassss = up(name,bid[name]['keyword'])
+		if dtassss ~= nil then
+			callbackid = json.decode(dtassss)['data']['id']
+			if callbackid ~= nil then
+				if checkidfa(name)then
+					if clickidfa(name)then
+						delay(rd(10,20))
+						newidfa(name,1)
+					end
+				end
+			end
+		end
+	end
+end
+
+function activeapi(name)
+	if XXTfakerNewPhone(bid[name]['appbid'])then
+		idfa = XXTfakerGetinfo(bid[name]['appbid'])['IDFA']
+		model = XXTfakerGetinfo(bid[name]["appbid"])['ProductType']
+		local dtassss = up(name,bid[name]['keyword'])
+		if dtassss ~= nil then
+			callbackid = json.decode(dtassss)['data']['id']
+	
+			if callbackid ~= nil then
+				if checkidfa(name)then
+					if clickidfa(name)then
+						delay(rd(10,20))
+						newidfa(name,1)
+						if activeidfa(name)then
+							up(name,"激活成功")
+						end
+					end
+				end
+			end
+			
+		end
+	end
+end
+
+function onlyactive(name)
+	if XXTfakerNewPhone(bid[name]['appbid'])then
+		idfa = XXTfakerGetinfo(bid[name]['appbid'])['IDFA']
+		model = XXTfakerGetinfo(bid[name]["appbid"])['ProductType']
+		
+		local dtassss = up(name,bid[name]['keyword'])
+		if dtassss ~= nil then
+			callbackid = json.decode(dtassss)['data']['id']
+			if callbackid ~= nil then
+				if checkidfa(name)then
+					delay(rd(10,20))
+					newidfa(name,1)
+					if activeidfa(name)then
+						up(name,"激活成功")
+					end
+
+				end
 			end
 		end
 	end
@@ -284,7 +350,7 @@ function newidfa(name,times)
 	for i= 1,times do
 
 		local TIMEline = os.time()
-		local OUTtime = rd(60,65)
+		local OUTtime = rd(30,35)
 		while os.time()- TIMEline < OUTtime do
 			if active(bid[name]['appbid'],4)then
 				if d(apparr.right,"apparr.right",true)then
@@ -302,7 +368,6 @@ function newidfa(name,times)
 			end
 		end
 		up(name,bid[name]['keyword'])
-
 	end
 end
 
@@ -320,9 +385,16 @@ while true do
 	log("vpn-key")
 	if  vpn() then
 		if checkip()then
-			beewallidfa("小黑鱼")
+			activeapi("众安保险")
+--			activeapi("斗罗战神")
+--			callbackapi("蜜芽宝贝")
+--			callbackapi("新浪财经")
+--			callbackapi("猎聘")
+--			onlyactive("够花")
+--			onlyactive("梦幻金游")
+--			beewallidfa("小黑鱼")
 --			callbackapi("知乎")
---			callbackapi("网易考拉")
+--			callbackapi("蜜芽宝贝")
 		end
 	end
 	for _,bid in ipairs(app.bundles()) do
