@@ -70,6 +70,7 @@ bid.猎聘 = {	["appid"] =  "540996859", ["appbid"] = "com.lietou.insw-c-ios-iph
 bid.斗罗战神 = {	["appid"] =  "1417067097", ["appbid"] = "com.dlzs.ds2", ["id"]= 1022 , ["keyword"]="西游变态版" }
 bid.梦幻金游 = {	["appid"] =  "1437878371", ["appbid"] = "com.mhjy.jinyou", ["id"]= 1027 , ["keyword"]="天天富翁" }
 bid.够花 = {	["appid"] =  "1257627631", ["appbid"] = "gouhuaHaiercash", ["id"]= 1040 , ["keyword"]="网贷" }
+bid.烈火如歌 = {	["appid"] =  "1346520528", ["appbid"] = "com.Aligames.lhrg", ["id"]= 1046 , ["keyword"]="逆水寒" }
 
 
 screen.init(0)
@@ -386,6 +387,7 @@ while true do
 	if  vpn() then
 		if checkip()then
 			activeapi("众安保险")
+			activeapi("烈火如歌")
 --			activeapi("斗罗战神")
 --			callbackapi("蜜芽宝贝")
 --			callbackapi("新浪财经")
