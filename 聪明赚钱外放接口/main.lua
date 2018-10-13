@@ -59,6 +59,19 @@ atexit(function()
 
 bid={}
 bid.期货掌中宝 = { 1324945454,"com.qihuozhangzhongbao"}
+bid.NOW直播 = {	["appid"] =  "1097492828", ["appbid"] = "com.tencent.now", ["adid"]= 253, ["keyword"]="口碑" }
+bid.小黑鱼 = {	["appid"] =  "1326101904", ["appbid"] = "com.xhy.blackfish.app", ["id"]= 977, ["keyword"]="借钱" }
+bid.知乎 = {	["appid"] =  "432274380", ["appbid"] = "com.zhihu.ios", ["id"]= 978, ["keyword"]="果壳" }
+bid.网易考拉 = {	["appid"] =  "965789238", ["appbid"] = "com.netease.kaola", ["id"]= 999, ["keyword"]="母婴" }
+bid.众安保险 = {	["appid"] =  "1019481423", ["appbid"] = "com.zhongan.insurance", ["id"]= 1008 , ["keyword"]="月经" }
+bid.蜜芽宝贝 = {	["appid"] =  "973366293", ["appbid"] = "com.OfficialMiYaBaoBei.MiYaBaoBei", ["id"]= 1009 , ["keyword"]="贝店" }
+bid.新浪财经 = {	["appid"] =  "430165157", ["appbid"] = "com.sina.stock", ["id"]= 1010 , ["keyword"]="财经" }
+bid.猎聘 = {	["appid"] =  "540996859", ["appbid"] = "com.lietou.insw-c-ios-iphone", ["id"]= 1015 , ["keyword"]="找工作" }
+bid.斗罗战神 = {	["appid"] =  "1417067097", ["appbid"] = "com.dlzs.ds2", ["id"]= 1022 , ["keyword"]="西游变态版" }
+bid.梦幻金游 = {	["appid"] =  "1437878371", ["appbid"] = "com.mhjy.jinyou", ["id"]= 1027 , ["keyword"]="天天富翁" }
+bid.够花 = {	["appid"] =  "1257627631", ["appbid"] = "gouhuaHaiercash", ["id"]= 1040 , ["keyword"]="网贷" }
+bid.烈火如歌 = {	["appid"] =  "1346520528", ["appbid"] = "com.Aligames.lhrg", ["id"]= 1046 , ["keyword"]="逆水寒" }
+bid.携程旅行 = {	["appid"] =  "379395415", ["appbid"] = "ctrip.com", ["id"]= 1049 , ["keyword"]="火车票" }
 
 
 screen.init(0)
@@ -98,7 +111,6 @@ function checkidfa(name)
 	postArr.idfa=idfa
 	postArr.ip=ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
 	postArr.cid=var.cid
-	postArr.keyword = bid[name]['keyword']
 
 	index = 0
 	post_data = ''
@@ -369,32 +381,6 @@ function beewallidfa(name)
 	end
 	delay(1)
 end
---onlycheckidfa
-function onlycheckidfa(name)
-	if idfaisok(name)then
-		delay(rd(2,3))
-		newidfa(name,1)
-	end
-	delay(1)
-end
-
-bid.NOW直播 = {	["appid"] =  "1097492828", ["appbid"] = "com.tencent.now", ["adid"]= 253, ["keyword"]="口碑" }
-bid.小黑鱼 = {	["appid"] =  "1326101904", ["appbid"] = "com.xhy.blackfish.app", ["id"]= 977, ["keyword"]="借钱" }
-bid.知乎 = {	["appid"] =  "432274380", ["appbid"] = "com.zhihu.ios", ["id"]= 978, ["keyword"]="果壳" }
-bid.网易考拉 = {	["appid"] =  "965789238", ["appbid"] = "com.netease.kaola", ["id"]= 999, ["keyword"]="母婴" }
-bid.众安保险 = {	["appid"] =  "1019481423", ["appbid"] = "com.zhongan.insurance", ["id"]= 1008 , ["keyword"]="月经" }
-bid.蜜芽宝贝 = {	["appid"] =  "973366293", ["appbid"] = "com.OfficialMiYaBaoBei.MiYaBaoBei", ["id"]= 1009 , ["keyword"]="贝店" }
-bid.新浪财经 = {	["appid"] =  "430165157", ["appbid"] = "com.sina.stock", ["id"]= 1010 , ["keyword"]="财经" }
-bid.猎聘 = {	["appid"] =  "540996859", ["appbid"] = "com.lietou.insw-c-ios-iphone", ["id"]= 1015 , ["keyword"]="找工作" }
-bid.斗罗战神 = {	["appid"] =  "1417067097", ["appbid"] = "com.dlzs.ds2", ["id"]= 1022 , ["keyword"]="西游变态版" }
-bid.梦幻金游 = {	["appid"] =  "1437878371", ["appbid"] = "com.mhjy.jinyou", ["id"]= 1027 , ["keyword"]="天天富翁" }
-bid.够花 = {	["appid"] =  "1257627631", ["appbid"] = "gouhuaHaiercash", ["id"]= 1040 , ["keyword"]="网贷" }
-bid.烈火如歌 = {	["appid"] =  "1346520528", ["appbid"] = "com.Aligames.lhrg", ["id"]= 1046 , ["keyword"]="逆水寒" }
-bid.小米贷款 = {	["appid"] =  "1236629993", ["appbid"] = "com.xiaomi.loan", ["id"]= 1050 , ["keyword"]="借款" }
-bid.酷狗音乐 = {	["appid"] =  "472208016", ["appbid"] = "com.kugou.kugou1002", ["id"]= 1064 , ["keyword"]="抖音" }
-bid.链家 = {	["appid"] =  "472208016", ["appbid"] = "com.exmart.HomeLink", ["id"]= 1070 , ["keyword"]="自如租房" }
-bid.银河战舰 = {	["appid"] =  "472208016", ["appbid"] = "galaxy.empire", ["id"]= 1075 , ["keyword"]="红警" }
-
 
 --[[]]
 while true do
@@ -402,17 +388,14 @@ while true do
 	if  vpn() then
 		if checkip()then
 --			activeapi("众安保险")
---			activeapi("银河战舰")
+--			activeapi("烈火如歌")
 --			activeapi("斗罗战神")
---			activeapi("酷狗音乐")
---			activeapi("酷狗音乐")
+			activeapi("携程旅行")
 --			callbackapi("蜜芽宝贝")
 --			callbackapi("新浪财经")
 --			callbackapi("猎聘")
---			callbackapi("小米贷款")
 --			onlyactive("够花")
 --			onlyactive("梦幻金游")
-			onlycheckidfa("链家")
 --			beewallidfa("小黑鱼")
 --			callbackapi("知乎")
 --			callbackapi("蜜芽宝贝")
