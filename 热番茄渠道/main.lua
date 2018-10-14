@@ -84,7 +84,7 @@ function up(name,other)
 	idfalist.idfa = idfa
 	idfalist.ip = '192.168.1.1'
 	idfalist.ip = ip or get_ip() or '192.168.1.1'
-	idfalist.account = account
+	idfalist.account = keyword or account
 	idfalist.password = password
 	idfalist.phone = phone
 	idfalist.other = other
@@ -258,6 +258,8 @@ function activeapi(name)
 	if XXTfakerNewPhone(bid[name]['appbid'])then
 		idfa = XXTfakerGetinfo(bid[name]['appbid'])['IDFA']
 		model = XXTfakerGetinfo(bid[name]["appbid"])['ProductType']
+		
+		keyword = bid[name]['keyword']
 		local dtassss = up(name,bid[name]['keyword'])
 		if dtassss ~= nil then
 			callbackid = json.decode(dtassss)['data']['id']
@@ -265,7 +267,7 @@ function activeapi(name)
 			if callbackid ~= nil then
 				if checkidfa(name)then
 					if clickidfa(name)then
-						delay(rd(2,5))
+						delay(rd(15,20))
 						newidfa(name,1)
 						if activeidfa(name)then
 							up(name,"激活成功")
@@ -291,7 +293,7 @@ function onlyactive(name)
 					delay(rd(10,20))
 					newidfa(name,1)
 					if activeidfa(name)then
-						up(name,"激活成功")
+						up(name,keyword .. "-激活成功")
 					end
 
 				end
