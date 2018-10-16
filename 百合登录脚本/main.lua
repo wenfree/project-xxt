@@ -646,8 +646,8 @@ while true do
 	if bhdata ~= nil then
 		bhdata = json.decode(bhdata)
 		if bhdata.data == "获取失败" then
-			dialog("全部完成")
-			os.exit()
+			dialog("全部完成",60)
+			delay(2)
 		else
 			if vpn() then
 				if XXTfakerNewPhone(bid.app)then
