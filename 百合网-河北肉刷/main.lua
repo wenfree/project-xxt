@@ -371,6 +371,7 @@ function fix()
 			elseif d(page.照片,"page.照片") or d(page.照片ios10,"page.照片ios10")then
 				click(87,225)
 			elseif d(page.昵称,"page.昵称")then
+				input("\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b")
 				input(random_name()..myRand(4,rd(4,6)))
 				if d(page.昵称完成,"page.昵称完成",true)then
 					delay(1)
@@ -462,6 +463,8 @@ function reg()
 						短信 = false
 						提交 = true
 					else
+						d(page.regUI_send,"page.regUI_send",true)
+						
 						取短信次数 = 取短信次数 + 1
 						if 取短信次数 > 25 then
 							return false
@@ -506,13 +509,13 @@ function get_local()
     end)
     while (os.time() - outtime < 30) do
 --		local c, h, b = http.get("http://ip.chinaz.com/getip.aspx?ts="..tostring(sys.rnd()), 30)
-		local c, h, b = http.get("http://ip.cn", 30)
+		local c, h, b = http.get("http://pv.sohu.com/cityjson?ie=utf-8", 30)
 --        local c, h, b = http.get("https://www.ipip.net/",30)
         if (c==200) then
             sys.toast("", -1)
             done = true
 --            return b:match('%d+%.%d+%.%d+%.%d+'),b:match('所在地理位置：<code>.*</code>')
-            return b:match('%d+%.%d+%.%d+%.%d+'),b:match('所在地理位置：<code>.*</code>')
+            return b:match('%d+%.%d+%.%d+%.%d+'),b:match('cname.*}')
         end
     end
 end

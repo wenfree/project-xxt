@@ -127,51 +127,6 @@ function checkidfa(name)
 	end
 end
 
-function activeidfa(name)
-	local url = "http://api.channel.tanrice.com/index/channel/activation"
-	local postArr = {}
-	local postArr = {}
-	postArr.id=bid[name]['id']
-	postArr.idfa=idfa
-	postArr.ip=ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
-	postArr.cid=var.cid
-	
-	----------------------
-	postArr.model=model
-	postArr.version = sys.version()
---	postArr.keyword = e:escape(bid[name]['keyword'])
-	postArr.keyword = bid[name]['keyword']
-	if callbackid then
-		postArr.callbackurl  = "http://idfa888.com/Public/idfa/?service=idfa.callback&id="..callbackid
-	end
-	
-	index = 0
-	post_data = ''
-	
-	for k,v in pairs(postArr)do
-		index = index + 1
-		if index == #postArr then
-			post_data = post_data..k..'='..v
-		else
-			post_data = post_data..k..'='..v..'&'
-		end
-	end
-	url = url..'?'..post_data
-	log(url)
-	log(postArr)
-	local getdata = get(url)
-	if getdata ~= nil then
-		local data = json.decode(getdata)
-		log(data or "nil")
-		if data.Remark == "Success" then
-			log("激活成功: OK.",true)
-			return true
-		else
-			log("idfa-激活失败",true)
-		end
-	end
-end
-
 function clickidfa(name)
 	local url = "http://api.channel.tanrice.com/index/channel/click"
 	local postArr = {}
@@ -187,7 +142,7 @@ function clickidfa(name)
 --	postArr.keyword = e:escape(bid[name]['keyword'])
 	postArr.keyword = bid[name]['keyword']
 	if callbackid then
-		postArr.callbackurl  = "http://idfa888.com/Public/idfa/?service=idfa.callback&id="..callbackid
+		--postArr.callbackurl  = "http://idfa888.com/Public/idfa/?service=idfa.callback&id="..callbackid
 	end
 	
 	index = 0
@@ -213,6 +168,52 @@ function clickidfa(name)
 			return true
 		else
 			log("idfa-点击失败",true)
+		end
+	end
+end
+
+
+function activeidfa(name)
+	local url = "http://api.channel.tanrice.com/index/channel/activation"
+	local postArr = {}
+	local postArr = {}
+	postArr.id=bid[name]['id']
+	postArr.idfa=idfa
+	postArr.ip=ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
+	postArr.cid=var.cid
+	
+	----------------------
+	postArr.model=model
+	postArr.version = sys.version()
+--	postArr.keyword = e:escape(bid[name]['keyword'])
+	postArr.keyword = bid[name]['keyword']
+	if callbackid then
+		--postArr.callbackurl  = "http://idfa888.com/Public/idfa/?service=idfa.callback&id="..callbackid
+	end
+	
+	index = 0
+	post_data = ''
+	
+	for k,v in pairs(postArr)do
+		index = index + 1
+		if index == #postArr then
+			post_data = post_data..k..'='..v
+		else
+			post_data = post_data..k..'='..v..'&'
+		end
+	end
+	url = url..'?'..post_data
+	log(url)
+	log(postArr)
+	local getdata = get(url)
+	if getdata ~= nil then
+		local data = json.decode(getdata)
+		log(data or "nil")
+		if data.Remark == "Success" then
+			log("激活成功: OK.",true)
+			return true
+		else
+			log("idfa-激活失败",true)
 		end
 	end
 end
@@ -387,13 +388,16 @@ bid.蜜芽宝贝 = {	["appid"] =  "973366293", ["appbid"] = "com.OfficialMiYaBao
 bid.新浪财经 = {	["appid"] =  "430165157", ["appbid"] = "com.sina.stock", ["id"]= 1010 , ["keyword"]="财经" }
 bid.猎聘 = {	["appid"] =  "540996859", ["appbid"] = "com.lietou.insw-c-ios-iphone", ["id"]= 1015 , ["keyword"]="找工作" }
 bid.斗罗战神 = {	["appid"] =  "1417067097", ["appbid"] = "com.dlzs.ds2", ["id"]= 1022 , ["keyword"]="西游变态版" }
-bid.梦幻金游 = {	["appid"] =  "1437878371", ["appbid"] = "com.mhjy.jinyou", ["id"]= 1027 , ["keyword"]="抖音游戏" }
+bid.梦幻金游 = {	["appid"] =  "1437878371", ["appbid"] = "com.mhjy.jinyou", ["id"]= 1027 , ["keyword"]="网易游戏" }
 bid.够花 = {	["appid"] =  "1257627631", ["appbid"] = "gouhuaHaiercash", ["id"]= 1040 , ["keyword"]="网贷" }
-bid.烈火如歌 = {	["appid"] =  "1346520528", ["appbid"] = "com.Aligames.lhrg", ["id"]= 1046 , ["keyword"]="逆水寒" }
+bid.烈火如歌 = {	["appid"] =  "1346520528", ["appbid"] = "com.Aligames.lhrg", ["id"]= 1046 , ["keyword"]="樊登读书会" }
 bid.小米贷款 = {	["appid"] =  "1236629993", ["appbid"] = "com.xiaomi.loan", ["id"]= 1050 , ["keyword"]="借款" }
 bid.酷狗音乐 = {	["appid"] =  "472208016", ["appbid"] = "com.kugou.kugou1002", ["id"]= 1064 , ["keyword"]="抖音" }
 bid.链家 = {	["appid"] =  "472208016", ["appbid"] = "com.exmart.HomeLink", ["id"]= 1070 , ["keyword"]="自如租房" }
 bid.银河战舰 = {	["appid"] =  "472208016", ["appbid"] = "galaxy.empire", ["id"]= 1075 , ["keyword"]="红警" }
+bid.贷款吗 = {	["appid"] =  "1433857833", ["appbid"] = "com.hjly.daikuanma", ["id"]= 1141 , ["keyword"]="手机贷款" }
+bid.外汇平台 = {	["appid"] =  "1390954561", ["appbid"] = "COM.WHPT.LUFFYFAITH", ["id"]= 1148 , ["keyword"]="外汇行情" }
+bid.掌门陪练 = {	["appid"] =  "1371278574", ["appbid"] = "com.zmlearn.ZMMusicStudent", ["id"]= 1146 , ["keyword"]="钢琴陪练" }
 
 
  
@@ -406,13 +410,16 @@ while true do
 --			activeapi("银河战舰")
 --			activeapi("斗罗战神")
 --			activeapi("酷狗音乐")
---			activeapi("酷狗音乐")
+			activeapi("烈火如歌")
+--			activeapi("贷款吗")
+--			activeapi("外汇平台")
+--			activeapi("掌门陪练")
 --			callbackapi("蜜芽宝贝")
 --			callbackapi("新浪财经")
 --			callbackapi("猎聘")
 --			callbackapi("小米贷款")
 --			onlyactive("够花")
-			onlyactive("梦幻金游")
+--			onlyactive("梦幻金游")
 --			onlycheckidfa("链家")
 --			beewallidfa("小黑鱼")
 --			callbackapi("知乎")
@@ -428,10 +435,6 @@ while true do
 end
 
 --]]
-
-
-
-
 
 
 

@@ -58,25 +58,13 @@ atexit(function()
 	end)
 
 bid={}
-bid.期货掌中宝 = { 1324945454,"com.qihuozhangzhongbao"}
-bid.NOW直播 = {	["appid"] =  "1097492828", ["appbid"] = "com.tencent.now", ["adid"]= 253, ["keyword"]="口碑" }
-bid.小黑鱼 = {	["appid"] =  "1326101904", ["appbid"] = "com.xhy.blackfish.app", ["id"]= 977, ["keyword"]="借钱" }
-bid.知乎 = {	["appid"] =  "432274380", ["appbid"] = "com.zhihu.ios", ["id"]= 978, ["keyword"]="果壳" }
-bid.网易考拉 = {	["appid"] =  "965789238", ["appbid"] = "com.netease.kaola", ["id"]= 999, ["keyword"]="母婴" }
-bid.众安保险 = {	["appid"] =  "1019481423", ["appbid"] = "com.zhongan.insurance", ["id"]= 1008 , ["keyword"]="月经" }
-bid.蜜芽宝贝 = {	["appid"] =  "973366293", ["appbid"] = "com.OfficialMiYaBaoBei.MiYaBaoBei", ["id"]= 1009 , ["keyword"]="贝店" }
-bid.新浪财经 = {	["appid"] =  "430165157", ["appbid"] = "com.sina.stock", ["id"]= 1010 , ["keyword"]="财经" }
-bid.猎聘 = {	["appid"] =  "540996859", ["appbid"] = "com.lietou.insw-c-ios-iphone", ["id"]= 1015 , ["keyword"]="找工作" }
-bid.斗罗战神 = {	["appid"] =  "1417067097", ["appbid"] = "com.dlzs.ds2", ["id"]= 1022 , ["keyword"]="西游变态版" }
-bid.梦幻金游 = {	["appid"] =  "1437878371", ["appbid"] = "com.mhjy.jinyou", ["id"]= 1027 , ["keyword"]="天天富翁" }
-bid.够花 = {	["appid"] =  "1257627631", ["appbid"] = "gouhuaHaiercash", ["id"]= 1040 , ["keyword"]="网贷" }
-bid.烈火如歌 = {	["appid"] =  "1346520528", ["appbid"] = "com.Aligames.lhrg", ["id"]= 1046 , ["keyword"]="逆水寒" }
-bid.携程旅行 = {	["appid"] =  "379395415", ["appbid"] = "ctrip.com", ["id"]= 1049 , ["keyword"]="火车票" }
+bid.花上钱贷款 = {	["appid"] =  "1278376336", ["appbid"] = "com.jiucang.huashangqian", ["adid"]= '1032', ["keyword"]="花上钱贷款" }
+
 
 
 screen.init(0)
 var = {}
-var.cid = "29"
+var.source = "lixuanjishua"
 
 
 function sign(adid,timestamp)
@@ -105,22 +93,27 @@ function up(name,other)
 end
 
 function checkidfa(name)
-	local url = "http://api.channel.tanrice.com/index/channel/checkIdfa"
+	local url = "http://m.cmzqian.com/API/common/repeat"
 	local postArr = {}
-	postArr.id=bid[name]['id']
+	postArr.adid=bid[name]['adid']
 	postArr.idfa=idfa
 	postArr.ip=ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
-	postArr.cid=var.cid
+	postArr.source=var.source
+	postArr.os_version = sys.version()
+	postArr.device = model
+	postArr.keyword = keyword or bid[name]['keyword']
 
 	index = 0
 	post_data = ''
 	
 	for k,v in pairs(postArr)do
 		index = index + 1
-		if index == #postArr then
-			post_data = post_data..k..'='..v
-		else
-			post_data = post_data..k..'='..v..'&'
+		if v ~= nil then
+			if index == 8 then
+				post_data = post_data..k..'='..v
+			else
+				post_data = post_data..k..'='..v..'&'
+			end
 		end
 	end
 	url = url..'?'..post_data
@@ -130,7 +123,7 @@ function checkidfa(name)
 	if getdata ~= nil then
 		local data = json.decode(getdata)
 		log(data or "nil")
-		if data[idfa] == 0 then
+		if tonumber(data[idfa]) == 0 then
 			log("idfa: OK.",true)
 			return true
 		else
@@ -139,67 +132,22 @@ function checkidfa(name)
 	end
 end
 
-function activeidfa(name)
-	local url = "http://api.channel.tanrice.com/index/channel/activation"
-	local postArr = {}
-	local postArr = {}
-	postArr.id=bid[name]['id']
-	postArr.idfa=idfa
-	postArr.ip=ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
-	postArr.cid=var.cid
-	
-	----------------------
-	postArr.model=model
-	postArr.version = sys.version()
---	postArr.keyword = e:escape(bid[name]['keyword'])
-	postArr.keyword = bid[name]['keyword']
-	if callbackid then
-		postArr.callbackurl  = "http://idfa888.com/Public/idfa/?service=idfa.callback&id="..callbackid
-	end
-	
-	index = 0
-	post_data = ''
-	
-	for k,v in pairs(postArr)do
-		index = index + 1
-		if index == #postArr then
-			post_data = post_data..k..'='..v
-		else
-			post_data = post_data..k..'='..v..'&'
-		end
-	end
-	url = url..'?'..post_data
-	log(url)
-	log(postArr)
-	local getdata = get(url)
-	if getdata ~= nil then
-		local data = json.decode(getdata)
-		log(data or "nil")
-		if data.Remark == "Success" then
-			log("激活成功: OK.",true)
-			return true
-		else
-			log("idfa-激活失败",true)
-		end
-	end
-end
 
 function clickidfa(name)
-	local url = "http://api.channel.tanrice.com/index/channel/click"
+	local url = "http://m.cmzqian.com/API/common/checkClick"
 	local postArr = {}
-	local postArr = {}
-	postArr.id=bid[name]['id']
+	postArr.adid=bid[name]['adid']
 	postArr.idfa=idfa
 	postArr.ip=ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
-	postArr.cid=var.cid
+	postArr.source=var.source
+	postArr.os_version = sys.version()
+	postArr.device = model
+	postArr.keyword = keyword or bid[name]['keyword']
 	
 	----------------------
-	postArr.model=model
-	postArr.version = sys.version()
 --	postArr.keyword = e:escape(bid[name]['keyword'])
-	postArr.keyword = bid[name]['keyword']
 	if callbackid then
-		postArr.callbackurl  = "http://idfa888.com/Public/idfa/?service=idfa.callback&id="..callbackid
+		postArr.callback  = "http://idfa888.com/Public/idfa/?service=idfa.callback&id="..callbackid
 	end
 	
 	index = 0
@@ -207,7 +155,7 @@ function clickidfa(name)
 	
 	for k,v in pairs(postArr)do
 		index = index + 1
-		if index == #postArr then
+		if index == 8 then
 			post_data = post_data..k..'='..v
 		else
 			post_data = post_data..k..'='..v..'&'
@@ -220,11 +168,57 @@ function clickidfa(name)
 	if getdata ~= nil then
 		local data = json.decode(getdata)
 		log(data or "nil")
-		if data.Remark == "Success" then
+		if tonumber(data.status) == 1 then
 			log("点击成功: OK.",true)
 			return true
 		else
 			log("idfa-点击失败",true)
+		end
+	end
+end
+
+
+function activeidfa(name)
+	local url = "http://m.cmzqian.com/API/common/activate"
+	local postArr = {}
+	postArr.adid=bid[name]['adid']
+	postArr.idfa=idfa
+	postArr.ip=ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
+	postArr.source=var.source
+	postArr.os_version = sys.version()
+	postArr.device = model
+	postArr.keyword = keyword or bid[name]['keyword']
+	
+	----------------------
+--	postArr.keyword = e:escape(bid[name]['keyword'])
+--	postArr.keyword = bid[name]['keyword']
+	if callbackid then
+		postArr.callbackurl  = "http://idfa888.com/Public/idfa/?service=idfa.callback&id="..callbackid
+	end
+	
+	index = 0
+	post_data = ''
+	
+	for k,v in pairs(postArr)do
+		index = index + 1
+		if index == #postArr then
+			post_data = post_data..k..'='..v
+		else
+			post_data = post_data..k..'='..v..'&'
+		end
+	end
+	url = url..'?'..post_data
+	log(url)
+	log(postArr)
+	local getdata = get(url)
+	if getdata ~= nil then
+		local data = json.decode(getdata)
+		log(data or "nil")
+		if tonumber(data.status) == 1 then
+			log("激活成功: OK.",true)
+			return true
+		else
+			log("idfa-激活失败",true)
 		end
 	end
 end
@@ -265,6 +259,7 @@ function callbackapi(name)
 end
 
 function activeapi(name)
+
 	if XXTfakerNewPhone(bid[name]['appbid'])then
 		idfa = XXTfakerGetinfo(bid[name]['appbid'])['IDFA']
 		model = XXTfakerGetinfo(bid[name]["appbid"])['ProductType']
@@ -385,20 +380,11 @@ end
 --[[]]
 while true do
 	log("vpn-key")
-	if  vpn() then
+	if false or  vpn() then
 		if checkip()then
---			activeapi("众安保险")
---			activeapi("烈火如歌")
---			activeapi("斗罗战神")
-			activeapi("携程旅行")
---			callbackapi("蜜芽宝贝")
---			callbackapi("新浪财经")
---			callbackapi("猎聘")
---			onlyactive("够花")
---			onlyactive("梦幻金游")
---			beewallidfa("小黑鱼")
---			callbackapi("知乎")
---			callbackapi("蜜芽宝贝")
+
+			activeapi("花上钱贷款")
+
 		end
 	end
 	for _,bid in ipairs(app.bundles()) do
@@ -410,8 +396,6 @@ while true do
 end
 
 --]]
-
-
 
 
 

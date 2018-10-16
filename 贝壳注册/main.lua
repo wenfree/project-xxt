@@ -33,11 +33,11 @@ end
 
 atexit(function() 
 		sys.toast('脚本结束了！')
-		vpnx()
+--		vpnx()
 		local appbids = app.front_bid()
 		if appbids ~= "com.apple.springboard" then
 --			app.quit(appbids)
-			closeX(appbids)
+--			closeX(appbids)
 		end
 		sys.msleep(500)
 	end)
@@ -260,35 +260,8 @@ page.url_注册成功={{{319,523,0x3072f6},{324,557,0xffffff},{342,637,0x030303}
 page.url_已经注册过={{{319,536,0xffda6a},{321,570,0xf55065},{324,592,0xffda6a},{331,824,0x4c81ee},}, 85, 125, 442, 464, 974}
 
 function url()
-	local urls = "https://m.ke.com/zhuanti/invite?ucid=1000000023115221&invite_code=59054155&from=fenxiangye"   --罗晨
---	local urls = "https://m.ke.com/zhuanti/invite?ucid=1000000020166810&invite_code=34971810&from=fenxiangye"	--李卓君
---	local urls = "https://m.ke.com/zhuanti/invite?ucid=1000000023030042&invite_code=29299087&from=fenxiangye"	--郑琳
---	local urls = "https://m.ke.com/zhuanti/invite?ucid=1000000020180817&invite_code=19994902&from=fenxiangye"	--王星明
---	local urls = "https://m.ke.com/zhuanti/invite?ucid=1000000020196440&invite_code=97690763&from=fenxiangye"	--曾敬
---	local urls = "https://m.ke.com/zhuanti/invite?ucid=1000000020199173&invite_code=61959418&from=fenxiangye"	--陈欣
---	local urls = "https://m.ke.com/zhuanti/invite?ucid=1000000020359283&invite_code=63698167&from=fenxiangye"	--李雪
---	local urls = "https://m.ke.com/zhuanti/invite?ucid=1000000020130367&invite_code=86302551&from=fenxiangye"	--王雄
---	local urls = "https://m.ke.com/zhuanti/invite?ucid=1000000020230165&invite_code=49620689&from=fenxiangye"	--谢荣华
---	local urls = "https://m.ke.com/zhuanti/invite?ucid=1000000020180812&invite_code=77569557&from=fenxiangye"	--雷涛
---	local urls = "https://m.ke.com/zhuanti/invite?ucid=1000000023029276&invite_code=22172994&from=fenxiangye"	--张涛
---	local urls = "https://m.ke.com/zhuanti/invite?ucid=1000000020274669&invite_code=70813997&from=fenxiangye"	--何阳
---	local urls = "https://m.ke.com/zhuanti/invite?ucid=1000000020386460&invite_code=41188003&from=fenxiangye"	--卿勇杰
---	local urls = "https://m.ke.com/zhuanti/invite?ucid=1000000023116268&invite_code=35619146&from=fenxiangye"	--苏雨柔
---	local urls = "https://m.ke.com/zhuanti/invite?ucid=1000000020299080&invite_code=60896473&from=fenxiangye"	--张艳
---	local urls = "https://m.ke.com/zhuanti/invite?ucid=1000000020292600&invite_code=63967429&from=fenxiangye"	--王超
---	local urls = "https://m.ke.com/zhuanti/invite?ucid=1000000023032749&invite_code=74973909&from=fenxiangye"	--龙辛
---	local urls = "https://m.ke.com/zhuanti/invite?ucid=1000000020314940&invite_code=40673502&from=fenxiangye"	--秦志成
---	local urls = "https://m.ke.com/zhuanti/invite?ucid=1000000020314940&invite_code=40673502&from=fenxiangye"	--吕歌文
---	local urls = "https://m.ke.com/zhuanti/invite?ucid=1000000023027340&invite_code=35700380&from=fenxiangye"	--徐略
---	local urls = "https://m.ke.com/zhuanti/invite?ucid=1000000020208601&invite_code=76309987&from=fenxiangye"	--魏俊
---	local urls = "https://m.ke.com/zhuanti/invite?ucid=1000000020108919&invite_code=36118235&from=fenxiangye"	--康露名
---	local urls = "https://m.ke.com/zhuanti/invite?ucid=1000000023091947&invite_code=42335884&from=fenxiangye"	--邹涛
---	local urls = "https://m.ke.com/zhuanti/invite?ucid=1000000020359280&invite_code=95807542&from=fenxiangye"	--唐爽
---	local urls = "https://m.ke.com/zhuanti/invite?ucid=1000000021336244&invite_code=62324060&from=fenxiangye"	--张天运
---	local urls = "https://m.ke.com/zhuanti/invite?ucid=1000000020196440&invite_code=97690763&from=fenxiangye"	--曾敬
---	local urls = "https://m.ke.com/zhuanti/invite?ucid=1000000020170570&invite_code=29780262&from=fenxiangye"	--陈鹏
---	local urls = "https://m.ke.com/zhuanti/invite?ucid=1000000020065578&invite_code=84888502&from=fenxiangye"	--任文龙
-	
+	local urls = "https://m.ke.com/zhuanti/invite?ucid=1000001000042741&invite_code=68627104&from=linkqr"   --吴家金
+
 	
 	
 	openUrl(urls)
@@ -387,6 +360,8 @@ end
 
 
 
+--XXTfakerNewPhone(bid.贝壳找房)
+--os.exit()
 
 safari = "com.apple.mobilesafari"
 
@@ -394,10 +369,10 @@ safari = "com.apple.mobilesafari"
 --[[]]
 
 while true do
-	if vpn() then
+	if false or vpn() then
 		ip = get_ip() or "192.168.1.1"
-		if ip ~= "192.168.1.1" then
-			if checkip()then
+		if true or ip ~= "192.168.1.1" then
+			if true or checkip()then
 				if XXTfakerNewPhone(safari) then
 					delay(1)
 					if url()then
