@@ -408,7 +408,7 @@ while true do
 	if  vpn() then
 		if checkip()then
 			activeapi("众安保险")
---			activeapi("携程旅行")
+			activeapi("携程旅行")
 --			activeapi("银河战舰")
 --			activeapi("斗罗战神")
 --			activeapi("酷狗音乐")
