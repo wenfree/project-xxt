@@ -371,8 +371,8 @@ safari = "com.apple.mobilesafari"
 while true do
 	if false or vpn() then
 		ip = get_ip() or "192.168.1.1"
-		if true or ip ~= "192.168.1.1" then
-			if true or checkip()then
+		if false or ip ~= "192.168.1.1" then
+			if false or checkip()then
 				if XXTfakerNewPhone(safari) then
 					delay(1)
 					if url()then

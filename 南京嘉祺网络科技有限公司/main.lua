@@ -84,7 +84,7 @@ function up(name,other)
 	idfalist.idfa = idfa
 	idfalist.ip = '192.168.1.1'
 	idfalist.ip = ip or get_ip() or '192.168.1.1'
-	idfalist.account = account
+	idfalist.account = bid[name]['keyword']
 	idfalist.password = password
 	idfalist.phone = phone
 	idfalist.other = other
@@ -99,7 +99,7 @@ function checkidfa(name)
 	postArr.ip=ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
 	postArr.cid=var.cid
 	postArr.keyword = bid[name]['keyword']
-
+	keyword = bid[name]['keyword']
 	index = 0
 	post_data = ''
 	
@@ -267,7 +267,7 @@ function activeapi(name)
 						delay(rd(10,20))
 						newidfa(name,1)
 						if activeidfa(name)then
-							up(name,"激活成功")
+							up(name,bid[name]['keyword'].."-激活成功")
 						end
 					end
 				end
@@ -290,7 +290,7 @@ function onlyactive(name)
 					delay(rd(10,20))
 					newidfa(name,1)
 					if activeidfa(name)then
-						up(name,"激活成功")
+						up(name,bid[name]['keyword'].."-激活成功")
 					end
 
 				end
@@ -388,7 +388,7 @@ bid.蜜芽宝贝 = {	["appid"] =  "973366293", ["appbid"] = "com.OfficialMiYaBao
 bid.新浪财经 = {	["appid"] =  "430165157", ["appbid"] = "com.sina.stock", ["id"]= 1010 , ["keyword"]="财经" }
 bid.猎聘 = {	["appid"] =  "540996859", ["appbid"] = "com.lietou.insw-c-ios-iphone", ["id"]= 1015 , ["keyword"]="找工作" }
 bid.斗罗战神 = {	["appid"] =  "1417067097", ["appbid"] = "com.dlzs.ds2", ["id"]= 1022 , ["keyword"]="西游变态版" }
-bid.梦幻金游 = {	["appid"] =  "1437878371", ["appbid"] = "com.mhjy.jinyou", ["id"]= 1027 , ["keyword"]="网易游戏" }
+bid.梦幻金游 = {	["appid"] =  "1437878371", ["appbid"] = "com.mhjy.jinyou", ["id"]= 1027 , ["keyword"]="足彩预测" }
 bid.够花 = {	["appid"] =  "1257627631", ["appbid"] = "gouhuaHaiercash", ["id"]= 1040 , ["keyword"]="网贷" }
 bid.烈火如歌 = {	["appid"] =  "1346520528", ["appbid"] = "com.Aligames.lhrg", ["id"]= 1046 , ["keyword"]="樊登读书会" }
 bid.小米贷款 = {	["appid"] =  "1236629993", ["appbid"] = "com.xiaomi.loan", ["id"]= 1050 , ["keyword"]="借款" }
@@ -398,6 +398,7 @@ bid.银河战舰 = {	["appid"] =  "472208016", ["appbid"] = "galaxy.empire", ["i
 bid.贷款吗 = {	["appid"] =  "1433857833", ["appbid"] = "com.hjly.daikuanma", ["id"]= 1141 , ["keyword"]="手机贷款" }
 bid.外汇平台 = {	["appid"] =  "1390954561", ["appbid"] = "COM.WHPT.LUFFYFAITH", ["id"]= 1148 , ["keyword"]="外汇行情" }
 bid.掌门陪练 = {	["appid"] =  "1371278574", ["appbid"] = "com.zmlearn.ZMMusicStudent", ["id"]= 1146 , ["keyword"]="钢琴陪练" }
+bid.携程旅行 = {	["appid"] =  "379395415", ["appbid"] = "ctrip.com", ["id"]= 1049 , ["keyword"]="火车票" }
 
 
  
@@ -406,11 +407,12 @@ while true do
 	log("vpn-key")
 	if  vpn() then
 		if checkip()then
---			activeapi("众安保险")
+			activeapi("众安保险")
+--			activeapi("携程旅行")
 --			activeapi("银河战舰")
 --			activeapi("斗罗战神")
 --			activeapi("酷狗音乐")
-			activeapi("烈火如歌")
+--			activeapi("烈火如歌")
 --			activeapi("贷款吗")
 --			activeapi("外汇平台")
 --			activeapi("掌门陪练")
