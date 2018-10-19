@@ -1,4 +1,5 @@
-_DEBUG = true;return {
+_DEBUG = true;
+return {
 ["BundleIconFile"] = "appicon.png";
 ["MainInterfaceFile"] = "interface.xui";
 ["BundleInfoDictionaryVersion"] = "6.0";
@@ -15,5 +16,5 @@ _DEBUG = true;return {
 ["BundleDisplayName"] = "一键新机-debug";
 ["Executable"] = "main.lua";
 ["BundleName"] = "一键新机-debug";
-["BundleIdentifier"] = "一键新机";
+["BundleIdentifier"] = "一键新机o";
 };

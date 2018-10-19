@@ -382,9 +382,7 @@ while true do
 	log("vpn-key")
 	if false or  vpn() then
 		if checkip()then
-
 			onlyactive("花上钱贷款")
-
 		end
 	end
 	for _,bid in ipairs(app.bundles()) do

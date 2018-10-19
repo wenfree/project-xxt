@@ -56,10 +56,10 @@ bid.淘集集刷单 = {
 bid.淘集集刷单.url = {}
 bid.淘集集刷单.url.AAAAAAAA='http://uri6.com/tkio/3eUVjqa'
 bid.淘集集刷单.url['xxt-5s']='http://uri6.com/tkio/vuaYB3a'
-bid.淘集集刷单.url['张德shuai']='http://uri6.com/tkio/3eUVjqa'
-bid.淘集集刷单.url['iPhone16']='http://uri6.com/tkio/3eUVjqa'
-bid.淘集集刷单.url['iPhone11']='http://uri6.com/tkio/3eUVjqa'
-bid.淘集集刷单.url['iPhone12']='http://uri6.com/tkio/3eUVjqa'
+bid.淘集集刷单.url['张德shuai']='http://uri6.com/tkio/vuaYB3a'
+bid.淘集集刷单.url['iPhone16']='http://uri6.com/tkio/vuaYB3a'
+bid.淘集集刷单.url['iPhone11']='http://uri6.com/tkio/vuaYB3a'
+bid.淘集集刷单.url['iPhone12']='http://uri6.com/tkio/vuaYB3a'
 
 
 
@@ -79,7 +79,7 @@ function up(name,other)
 	idfalist.idfa = idfa or phone
 	idfalist.ip = '192.168.1.1'
 	idfalist.ip = get_ip() or '192.168.1.1'
-	idfalist.account = account
+	idfalist.account = account or bid['淘集集刷单']['url'][device.name()]
 	idfalist.password = password
 	idfalist.phone = phone
 	idfalist.other = other
@@ -132,6 +132,10 @@ apptjj['ios10选择手机号登录'] = {{{ 28, 935, 0x515151},{ 30, 954, 0x75757
 
 apptjj.我的界面 = {{{538, 1084, 0xd8d8d8},{531, 1057, 0xd8d8d8},{323, 1062, 0xd8d8d8},{100, 1073, 0xff6431},}, 85, 70, 1042, 591, 1133}
 apptjj.我的界面_资产十元 = {{{ 39, 238, 0xff8f46},{601, 348, 0xf73716},{ 76, 261, 0xffc9a8},{124, 317, 0xffebe0},}, 85, 26, 229, 619, 363}
+
+apptjj.app主界面={{{103,1075,0xfd5e2d},{318,1064,0xd8d8d8},{532,1084,0xd8d8d8},},85}
+apptjj.要后退={{{47,83,0x333333},{25,124,0xff6632},{131,72,0x333333},}, 85, 4, 37, 241, 189}
+
 function newidfa()
 	取号 = true
 	验证码 = false
@@ -146,7 +150,13 @@ function newidfa()
 		idfa = XXTfakerGetinfo(bid.淘集集刷单.appbid)['IDFA']
 		while os.time() - timeline < outtime do
 			if active(bid.淘集集刷单.appbid) then
-				if 取号 then
+				if d(apptjj.要后退,"apptjj.要后退",true)then
+				elseif success and d(apptjj.app主界面,"apptjj.app主界面")then
+					up("淘集集刷单",'注册完成')	
+					dialog("注册完成")
+					os.exit()
+					
+				elseif 取号 then
 					if d(apptjj.存入账户,"apptjj.存入账户",true) then	
 					elseif d(apptjj.选择其他登录方式,"apptjj.选择其他登录方式",true) then	
 					elseif d(apptjj.选择手机号登录,"apptjj.选择手机号登录",true) or d(apptjj['ios10选择手机号登录'],"apptjj['ios10选择手机号登录']",true) then	
@@ -183,13 +193,10 @@ function newidfa()
 				elseif 提交 then
 					if d(apptjj.点击登陆,"apptjj.点击登陆",true) then
 						up(appname(bid.淘集集刷单.appbid),'淘集集刷单号')
-						提交 = false
 						success = true
-						log(getlocal())
-						sys.alert('上传服务器完成')
-						os.exit()
+						delay(1)
 					end	
-				elseif success then	
+				elseif success then
 					delay(3)
 					if d(apptjj.我的界面,"apptjj.我的界面",true) then
 					elseif d(apptjj.我的界面_资产十元,"apptjj.我的界面_资产十元",true) then
@@ -207,7 +214,8 @@ end
 
 
 
-
+vpnx()
+delay(3)
 
 
 kfy.id = '14294'
