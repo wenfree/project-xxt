@@ -270,7 +270,7 @@ function activeapi(name)
 						delay(rd(15,20))
 						newidfa(name,1)
 						if activeidfa(name)then
-							up(name,"激活成功")
+							up(name,keyword.."-激活成功")
 						end
 					end
 				end
@@ -384,16 +384,25 @@ end
 
 
 bid.银河战舰 = {	["appid"] =  "1415584003", ["appbid"] = "galaxy.empire", ["keyword"]="文明6" }
+bid.DaDa英语 = {	["appid"] =  "1129663942", ["appbid"] = "com.dadaabc.DaDaClass", ["keyword"]="51talk" }
+
+keytable = {}
+keytable.iPhone37 = "三国杀"
+keytable.iPhone38 = "红警ol"
+keytable.iPhone39 = "三国杀"
+keytable.iPhone40 = "红警ol"
 
 
+phonename = device.name()
+--bid.银河战舰.keyword = keytable[phonename]
 
- 
 --[[]]
 while true do
 	log("vpn-key")
 	if  vpn() then
 		if checkip()then
-			activeapi("银河战舰")
+--			activeapi("银河战舰")
+			activeapi("DaDa英语")
 		end
 	end
 	for _,bid in ipairs(app.bundles()) do

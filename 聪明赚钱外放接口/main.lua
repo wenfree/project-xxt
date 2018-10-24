@@ -293,7 +293,7 @@ function onlyactive(name)
 			callbackid = json.decode(dtassss)['data']['id']
 			if callbackid ~= nil then
 				if checkidfa(name)then
-					delay(rd(10,20))
+					delay(rd(3,6))
 					newidfa(name,1)
 					if activeidfa(name)then
 						up(name,bid[name]['keyword'].."-激活成功")
@@ -381,6 +381,7 @@ end
 bid.花上钱贷款 = {	["appid"] =  "1278376336", ["appbid"] = "com.jiucang.huashangqian", ["adid"]= '1032', ["keyword"]="花上钱贷款" }
 bid.拓道财富 = {	["appid"] =  "1428159989", ["appbid"] = "com.tuodao.tdcaifu", ["adid"]= '1036', ["keyword"]="拓道财富" }
 bid.信贷360 = {	["appid"] =  "1399516881", ["appbid"] = "com.block.xd360", ["adid"]= '1019', ["keyword"]="信贷360" }
+bid.壹亿钱包 = {	["appid"] =  "1334529411", ["appbid"] = "com.yiyiqianbao.lishu", ["adid"]= '1021', ["keyword"]="壹亿钱包" }
 
 
 
@@ -389,9 +390,12 @@ while true do
 	log("vpn-key")
 	if false or  vpn() then
 		if checkip()then
---			onlyactive("花上钱贷款")
+			
+			onlyactive("花上钱贷款")
+--			onlyactive("信贷360")
 --			onlyactive("拓道财富")
-			onlyactive("信贷360")
+--			onlyactive("壹亿钱包")
+
 		end
 	end
 	for _,bid in ipairs(app.bundles()) do
@@ -401,7 +405,6 @@ while true do
 	sys.msleep(2000)
 
 end
-
 --]]
 
 
