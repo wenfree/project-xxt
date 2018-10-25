@@ -347,7 +347,7 @@ function newidfa(name,times)
 	for i= 1,times do
 
 		local TIMEline = os.time()
-		local OUTtime = rd(30,35)
+		local OUTtime = rd(28,30)
 		while os.time()- TIMEline < OUTtime do
 			if active(bid[name]['appbid'],4)then
 				if d(apparr.right,"apparr.right",true)then
@@ -382,6 +382,7 @@ bid.花上钱贷款 = {	["appid"] =  "1278376336", ["appbid"] = "com.jiucang.hua
 bid.拓道财富 = {	["appid"] =  "1428159989", ["appbid"] = "com.tuodao.tdcaifu", ["adid"]= '1036', ["keyword"]="拓道财富" }
 bid.信贷360 = {	["appid"] =  "1399516881", ["appbid"] = "com.block.xd360", ["adid"]= '1019', ["keyword"]="信贷360" }
 bid.壹亿钱包 = {	["appid"] =  "1334529411", ["appbid"] = "com.yiyiqianbao.lishu", ["adid"]= '1021', ["keyword"]="壹亿钱包" }
+bid.铜掌柜 = {	["appid"] =  "988621288", ["appbid"] = "cn.tzg.TZG", ["adid"]= '1044', ["keyword"]="铜掌柜" }
 
 
 
@@ -390,7 +391,8 @@ while true do
 	log("vpn-key")
 	if false or  vpn() then
 		if checkip()then
-			
+		
+--			onlyactive("铜掌柜")
 			onlyactive("花上钱贷款")
 --			onlyactive("信贷360")
 --			onlyactive("拓道财富")
