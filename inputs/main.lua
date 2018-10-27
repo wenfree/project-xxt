@@ -42,20 +42,62 @@ address ={
 
 t={}
 t.搜索界面={{{44,84,0x4c4c4c},{568,82,0x5f5f5f},{563,70,0xfefefe},{137,80,0xeeeeee},},85}
+t.提交订单界面={{{531,1074,0xffd34f},{537,1069,0x464235},{336,1062,0x333333},{346,1069,0xf6f6f6},}, 85, 227, 1005, 633, 1130}
+	t.提交订单界面_请填写收件地址={{{200,166,0xff5c35},{200,153,0xff5e38},{200,178,0xff5e38},}, 85, 10, 138, 241, 198}
+t.提交订单界面_新增地址按钮={{{392,1099,0xffda4b},{34,1093,0xffda4b},{289,1052,0xffda4b},{315,1100,0x4c4c4c},}, 85, 16, 1033, 623, 1133}
+	t.提交订单界面_新增地址按钮_已经有地址={{{38,349,0x4c4c4c},{38,358,0xffdb4c},{39,334,0xffdb4c},}, 85, 16, 146, 83, 595}
+t.提交订单界面_新增地址界面={{{564,87,0x616161},{562,83,0xfbfbfb},{353,84,0x4c4c4c},{351,84,0xfefefe},{352,97,0x4c4c4c},},85}
+	
 
+
+
+
+function add_address()
+	input_key = true
+	while true do
+		if d(t.提交订单界面,"t.提交订单界面")then
+			if d(t.提交订单界面_请填写收件地址,"t.提交订单界面_请填写收件地址",true)then
+			elseif d(t.提交订单界面,"t.提交订单界面",true)then
+			end
+		elseif d(t.提交订单界面_新增地址按钮,"t.提交订单界面_新增地址按钮")then
+			delay(3)
+			if d(t.提交订单界面_新增地址按钮_已经有地址,"t.提交订单界面_新增地址按钮_已经有地址")then
+				sys.alert("地址完成",1)
+				os.exit()
+			elseif d(t.提交订单界面_新增地址按钮,"t.提交订单界面_新增地址按钮",true)then
+			end
+			
+			
+		elseif d(t.提交订单界面_新增地址界面,"t.提交订单界面_新增地址界面")then
+			if input_key then
+				click(599,163)
+				input(address[key][2])
+				click(614, 243)
+				input(address[key][4])
+				
+				click(495,321)
+				click(357, 477)
+				input(address[key][3])
+				delay(10)
+				input_key = false
+			end
+		end
+		delay(1)
+	end
+end
+
+-- XXTfakerNewPhone(app.front_bid())
+--[[]]
 key = 1
 
 if d(t.搜索界面,"t.搜索界面")then
+	click(187,80)
 	input(address[key][1])
 else
-	input(address[key][2])
-	click(614, 243)
-	input(address[key][4])
-	click(357, 477)
-	input(address[key][3])
+	add_address()
 end
 
-
+--]]
 
 
 

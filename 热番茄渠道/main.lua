@@ -383,7 +383,7 @@ function onlycheckidfa(name)
 end
 
 
-bid.银河战舰 = {	["appid"] =  "1415584003", ["appbid"] = "galaxy.empire", ["keyword"]="战争游戏" }
+bid.银河战舰 = {	["appid"] =  "1415584003", ["appbid"] = "galaxy.empire", ["keyword"]="左轮手枪" }
 bid.DaDa英语 = {	["appid"] =  "1129663942", ["appbid"] = "com.dadaabc.DaDaClass", ["keyword"]="51talk" }
 
 keytable = {}
