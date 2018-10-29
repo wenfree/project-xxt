@@ -94,7 +94,7 @@ end
 function checkidfa(name)
 	local url = "http://api.qingsongzhuan666.com/qszCheckIdfa"
 	local postArr = {}
-	postArr.appId=bid[name]['appid']
+	postArr.appId=bid[name]['adid']
 	postArr.idfa=idfa
 	postArr.clientIp=ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
 	postArr.chSource = var.chSource
@@ -118,7 +118,7 @@ function checkidfa(name)
 	if getdata ~= nil then
 		local data = json.decode(getdata)
 		log(data or "nil")
-		if data['errCode'] == 0 then
+		if data['code'] == 0 then
 			log("idfa: OK.",true)
 			return true
 		else
@@ -130,7 +130,7 @@ end
 function clickidfa(name)
 	local url = "http://api.qingsongzhuan666.com/qszNoticeIdfa"
 	local postArr = {}
-	postArr.appId=bid[name]['appid']
+	postArr.appId=bid[name]['adid']
 	postArr.idfa=idfa
 	postArr.clientIp=ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
 	postArr.chSource = var.chSource
@@ -140,7 +140,7 @@ function clickidfa(name)
 	----------------------
 
 	if callbackid then
-		postArr.callbackurl  = "http://idfa888.com/Public/idfa/?service=idfa.callback&id="..callbackid
+		postArr.callbackurl  = "http://hlj.51-gx.com/Public/idfa/?service=idfa.callback&id="..callbackid
 	end
 	
 	index = 0
@@ -161,7 +161,7 @@ function clickidfa(name)
 	if getdata ~= nil then
 		local data = json.decode(getdata)
 		log(data or "nil")
-		if data['errCode'] == 0 then
+		if data['code'] == 0 then
 			log("点击成功: OK.",true)
 			return true
 		else
@@ -174,7 +174,7 @@ end
 function activeidfa(name)
 	local url = "http://api.qingsongzhuan666.com/qszReportIdfa"
 	local postArr = {}
-	postArr.appId=bid[name]['appid']
+	postArr.appId=bid[name]['adid']
 	postArr.idfa=idfa
 	postArr.clientIp=ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
 	postArr.chSource = var.chSource
@@ -184,7 +184,7 @@ function activeidfa(name)
 	----------------------
 
 	if callbackid then
-		--postArr.callbackurl  = "http://idfa888.com/Public/idfa/?service=idfa.callback&id="..callbackid
+		--postArr.callbackurl  = "http://hlj.51-gx.com/Public/idfa/?service=idfa.callback&id="..callbackid
 	end
 	
 	index = 0
@@ -205,7 +205,7 @@ function activeidfa(name)
 	if getdata ~= nil then
 		local data = json.decode(getdata)
 		log(data or "nil")
-		if data['errCode'] == 0 then
+		if data['code'] == 0 then
 			log("激活成功: OK.",true)
 			return true
 		else
