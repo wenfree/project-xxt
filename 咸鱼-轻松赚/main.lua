@@ -64,7 +64,7 @@ bid.期货掌中宝 = { 1324945454,"com.qihuozhangzhongbao"}
 screen.init(0)
 var = {}
 
-var.chSource = "3015c946986a29"
+var.chSource = "tangcong"
 
 
 function sign(adid,timestamp)
@@ -135,12 +135,12 @@ function clickidfa(name)
 	postArr.clientIp=ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
 	postArr.chSource = var.chSource
 	postArr.osVersion = sys.version()
-	postArr.keyword = bid[name]['keyword']
+--	postArr.keyword = bid[name]['keyword']
 	
 	----------------------
 
 	if callbackid then
-		postArr.callbackurl  = "http://hlj.51-gx.com/Public/idfa/?service=idfa.callback&id="..callbackid
+		postArr.callBackAddr  = "http://hlj.51-gx.com/Public/idfa/?service=idfa.callback&id="..callbackid
 	end
 	
 	index = 0
@@ -258,6 +258,7 @@ function activeapi(name)
 			callbackid = json.decode(dtassss)['data']['id']
 	
 			if callbackid ~= nil then
+				callbackid = false
 				if checkidfa(name)then
 					if clickidfa(name)then
 						delay(rd(10,20))
@@ -282,6 +283,8 @@ function onlyactive(name)
 		if dtassss ~= nil then
 			callbackid = json.decode(dtassss)['data']['id']
 			if callbackid ~= nil then
+				callbackid = false
+				
 				if checkidfa(name)then
 					delay(rd(10,20))
 					newidfa(name,1)
@@ -337,7 +340,7 @@ function newidfa(name,times)
 	for i= 1,times do
 
 		local TIMEline = os.time()
-		local OUTtime = rd(30,35)
+		local OUTtime = rd(180,200)
 		while os.time()- TIMEline < OUTtime do
 			if active(bid[name]['appbid'],4)then
 				if d(apparr.right,"apparr.right",true)then
@@ -376,6 +379,7 @@ function onlycheckidfa(name)
 end
 
 bid.迷你世界 = {	["appid"] =  "1170455562", ["appbid"] = "com.minitech.miniworld", ["adid"]= "3015c946986a29", ["keyword"]="迷你世界" }
+bid.Q房网 = {	["appid"] =  "1225814601", ["appbid"] = "com.qfangwang.qfangwangapp", ["adid"]= "29766d9d7df77a", ["keyword"]="Q房网" }
 
 
 
@@ -385,7 +389,8 @@ while true do
 	log("vpn-key")
 	if  vpn() then
 		if checkip()then
-			onlyactive("迷你世界")
+			
+			callbackapi("Q房网")
 
 		end
 	end

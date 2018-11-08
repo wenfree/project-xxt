@@ -75,6 +75,8 @@ function GET_Phone()
 		if phone_list[1] == '1' then
 			phone = phone_list[2]
 			return phone
+		else
+			log(res)
 		end
 	end
 end
