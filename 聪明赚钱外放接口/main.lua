@@ -395,7 +395,7 @@ while true do
 --			onlyactive("花上钱贷款")
 --			onlyactive("信贷360")
 --			onlyactive("拓道财富")
-			onlyactive("铜掌柜")
+--			onlyactive("铜掌柜")
 --			onlyactive("壹亿钱包")
 --			onlyactive("快猫")
 
