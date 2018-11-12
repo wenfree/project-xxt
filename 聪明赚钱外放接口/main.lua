@@ -382,7 +382,7 @@ bid.拓道财富 = {	["appid"] =  "1428159989", ["appbid"] = "com.tuodao.tdcaifu
 bid.信贷360 = {	["appid"] =  "1399516881", ["appbid"] = "com.block.xd360", ["adid"]= '1019', ["keyword"]="信贷360" }
 bid.壹亿钱包 = {	["appid"] =  "1334529411", ["appbid"] = "com.yiyiqianbao.lishu", ["adid"]= '1021', ["keyword"]="壹亿钱包" }
 bid.铜掌柜 = {	["appid"] =  "988621288", ["appbid"] = "cn.tzg.TZG", ["adid"]= '1044', ["keyword"]="铜掌柜" }
-bid.夜聊 = {	["appid"] =  "1438487261", ["appbid"] = "com.junpeng.yeliao", ["adid"]= '1045', ["keyword"]="夜聊" }
+bid.快猫 = {	["appid"] =  "1438487261", ["appbid"] = "com.junpeng.yeliao", ["adid"]= '1045', ["keyword"]="夜聊" }
 
 
 
@@ -392,12 +392,12 @@ while true do
 	if false or  vpn() then
 		if checkip()then
 			
-			onlyactive("花上钱贷款")
+--			onlyactive("花上钱贷款")
 --			onlyactive("信贷360")
 --			onlyactive("拓道财富")
---------			onlyactive("铜掌柜")
+			onlyactive("铜掌柜")
 --			onlyactive("壹亿钱包")
---			onlyactive("夜聊")
+--			onlyactive("快猫")
 
 		end
 	end

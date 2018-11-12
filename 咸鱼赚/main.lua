@@ -92,7 +92,7 @@ function up(name,other)
 end
 
 function checkidfa(name)
-	local url = "http://118.190.152.171/channel/distinct.html"
+	local url = "http://wenfree.cn/api/Public/idfa_xianyu/?service=idfa.checkidfa"
 	local postArr = {}
 	postArr.appid=bid[name]['appid']
 	postArr.uid=bid[name]['uid']
@@ -100,7 +100,7 @@ function checkidfa(name)
 	postArr.clientIp=ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
 	postArr.source = var.source
 	postArr.osVersion = sys.version()
---	postArr.keyword = bid[name]['keyword']
+
 	index = 0
 	post_data = ''
 	
@@ -112,14 +112,14 @@ function checkidfa(name)
 			post_data = post_data..k..'='..v..'&'
 		end
 	end
-	url = url..'?'..post_data
+	url = url..'&'..post_data
 	log(url)
 	log(postArr)
 	local getdata = get(url)
 	if getdata ~= nil then
 		local data = json.decode(getdata)
 		log(data or "nil")
-		if data['code'] == 0 then
+		if data['data'][idfa] == 0 then
 			log("idfa: OK.",true)
 			return true
 		else
@@ -129,14 +129,14 @@ function checkidfa(name)
 end
 
 function clickidfa(name)
-	local url = "http://118.190.152.171/channel/click.html"
+	local url = "http://wenfree.cn/api/Public/idfa_xianyu/?service=idfa.clickidfa"
 	local postArr = {}
-	postArr.appId=bid[name]['adid']
+	postArr.appid=bid[name]['appid']
+	postArr.uid=bid[name]['uid']
 	postArr.idfa=idfa
-	postArr.clientIp=ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
-	postArr.chSource = var.chSource
+	postArr.ip=ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
+	postArr.source = var.source
 	postArr.osVersion = sys.version()
---	postArr.keyword = bid[name]['keyword']
 	
 	----------------------
 
@@ -155,14 +155,14 @@ function clickidfa(name)
 			post_data = post_data..k..'='..v..'&'
 		end
 	end
-	url = url..'?'..post_data
+	url = url..'&'..post_data
 	log(url)
 	log(postArr)
 	local getdata = get(url)
 	if getdata ~= nil then
 		local data = json.decode(getdata)
 		log(data or "nil")
-		if data['code'] == 0 then
+		if data['data']['msg'] == "success" then
 			log("点击成功: OK.",true)
 			return true
 		else
@@ -173,14 +173,14 @@ end
 
 
 function activeidfa(name)
-	local url = "http://118.190.152.171/channel/report.html"
+	local url = "http://wenfree.cn/api/Public/idfa_xianyu/?service=idfa.activeidfa"
 	local postArr = {}
-	postArr.appId=bid[name]['adid']
+	postArr.appid=bid[name]['appid']
+	postArr.uid=bid[name]['uid']
 	postArr.idfa=idfa
-	postArr.clientIp=ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
-	postArr.chSource = var.chSource
+	postArr.ip=ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
+	postArr.source = var.source
 	postArr.osVersion = sys.version()
-	postArr.keyword = bid[name]['keyword']
 	
 	----------------------
 
@@ -199,14 +199,14 @@ function activeidfa(name)
 			post_data = post_data..k..'='..v..'&'
 		end
 	end
-	url = url..'?'..post_data
+	url = url..'&'..post_data
 	log(url)
 	log(postArr)
 	local getdata = get(url)
 	if getdata ~= nil then
 		local data = json.decode(getdata)
 		log(data or "nil")
-		if data['code'] == 0 then
+		if data['data']['msg'] == "success" then
 			log("激活成功: OK.",true)
 			return true
 		else
@@ -341,7 +341,7 @@ function newidfa(name,times)
 	for i= 1,times do
 
 		local TIMEline = os.time()
-		local OUTtime = rd(180,200)
+		local OUTtime = rd(45,60)
 		while os.time()- TIMEline < OUTtime do
 			if active(bid[name]['appbid'],4)then
 				if d(apparr.right,"apparr.right",true)then
