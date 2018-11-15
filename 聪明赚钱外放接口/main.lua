@@ -383,6 +383,7 @@ bid.信贷360 = {	["appid"] =  "1399516881", ["appbid"] = "com.block.xd360", ["a
 bid.壹亿钱包 = {	["appid"] =  "1334529411", ["appbid"] = "com.yiyiqianbao.lishu", ["adid"]= '1021', ["keyword"]="壹亿钱包" }
 bid.铜掌柜 = {	["appid"] =  "988621288", ["appbid"] = "cn.tzg.TZG", ["adid"]= '1044', ["keyword"]="铜掌柜" }
 bid.快猫 = {	["appid"] =  "1438487261", ["appbid"] = "com.junpeng.yeliao", ["adid"]= '1045', ["keyword"]="夜聊" }
+bid.仙侠物语 = {	["appid"] =  "1354411312", ["appbid"] = "com.zhou.xxwyios", ["adid"]= '1048', ["keyword"]="仙侠物语" }
 
 
 
@@ -395,9 +396,10 @@ while true do
 --			onlyactive("花上钱贷款")
 --			onlyactive("信贷360")
 --			onlyactive("拓道财富")
-			onlyactive("铜掌柜")
+--			onlyactive("铜掌柜")
 --			onlyactive("壹亿钱包")
---			onlyactive("快猫")
+			onlyactive("快猫")
+--			onlyactive("仙侠物语")
 
 		end
 	end
