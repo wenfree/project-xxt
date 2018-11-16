@@ -93,7 +93,7 @@ function IDFA(bids)
 				elseif d(apparr.正常界面,'apparr.正常界面')then
 					if d(apparr.触发更新,'apparr.触发更新')then
 						up(appname(bids),'触发更新')
-						delay(rd(50,60))
+						delay(rd(60,65))
 						return true
 					end
 				end
@@ -120,7 +120,8 @@ function checkip()
 end
 
 
-while true do
+for i= 1, 50 do
+--while true do
 	if vpn() then
 		delay(1)
 		ip = get_ip()
@@ -132,8 +133,8 @@ while true do
 	end
 	vpnx()
 	delay(2)
+--end
 end
-
 
 
 
