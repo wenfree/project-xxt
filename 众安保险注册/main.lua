@@ -205,39 +205,7 @@ function reg()
 				
 				
 				
-				
-				
-	--					elseif 验证码 then
-	--						if d(apptjj.点击获取验证码,"apptjj.点击获取验证码",true) then
-	--							验证码 = false
-	--							取短信 = true
-	--						end
-	--					elseif 取短信 then
-	--						if GET_message(phone) then
-	--							delay(1)
-	--							click(157,359)
-	--							input(sms)
-	--							取短信 = false
-	--							提交 = true
-									
-	--						elseif d(apptjj.点击获取验证码,"apptjj.点击获取验证码",true) then
-	--						else
-	--							取短信次数 = 取短信次数 + 1
-	--							if 取短信次数 > 25 then
-	--								return false
-	--							end
-	--							delay(2)
-	--						end
-	--					elseif 提交 then
-	--						if d(apptjj.点击登陆,"apptjj.点击登陆",true) then
-	--							up(appname(bid.淘集集注册.appbid),'淘集集注册')
-	--							success = true
-	--							delay(1)
-	--						end	
-	--					end
-	--				elseif success and d(apptjj.要后退,"apptjj.要后退",true) then
-						
-	--				end
+		
 				
 			end
 			delay(1)

@@ -1,7 +1,118 @@
 nLog = require('nLog')()
 require('faker')
 require('xxtsp')
-require("alz")
+kfy={}
+kfy.id = '10952'
+kfy.action = 'loginIn'
+kfy.name = 's-gozqerp3'
+kfy.password = 'a135246'
+kfy.url = 'http://api.ndd001.com/do.php'
+token = 'f8629ece-0246-4eda-935a-224fb45746a1'
+
+
+
+
+function GET_message(phone)
+	local get ={}
+	get.sid = kfy.id
+	get.action = 'getMessage'
+	get.phone = phone
+	get.token = token
+	local res = post(kfy.url,get)
+	if res ~= nil then
+		smslist = string.split(res,'|')
+		if smslist[1] == '1' then
+			sms = smslist[2]
+			local i,j = string.find(sms,"%d+")
+			sms = string.sub(sms,i,j)
+			nLog(sms)
+			return true
+		else
+			sys.toast(res)
+		end
+	end
+end
+
+function GET_message_a(phone)
+	local get ={}
+	get.sid = kfy.id
+	get.action = 'getMessage'
+	get.phone = phone
+	get.token = token
+	local res = post(kfy.url,get)
+	if res ~= nil then
+		smslist = string.split(res,'|')
+		if smslist[1] == '1' then
+			sms = smslist[2]
+			local i,j = string.find(sms,"验证码：%d+")
+			sms = string.sub(sms,i,j)
+			local i,j = string.find(sms,"%d+")
+			sms = string.sub(sms,i,j)
+			nLog(sms)
+			return true
+		end
+	end
+end
+
+
+function GET_Phone()
+	local get ={}
+	get.sid = kfy.id
+	get.action = 'getPhone'
+	get.token = token
+--	get.vno = '0'
+	--get.locationMatching='include&locationLevel=c&location=江苏'
+	local res = post(kfy.url,get)
+	if res ~= nil then
+		phone_list = string.split(res,'|')
+		if phone_list[1] == '1' then
+			phone = phone_list[2]
+			phoneheader = string.sub(phone,1,3)
+			if phoneheader == '171' or phoneheader == '170' then
+				return false
+			end
+			return phone
+		else
+			log(phone_list[2],true)
+		end
+	end
+end
+
+function GET_Phone_a(phone)
+	local get ={}
+	get.sid = kfy.id
+	get.action = 'getPhone'
+	get.token = token
+	get.phone = phone
+	get.vno = '0'
+	--get.locationMatching='include&locationLevel=c&location=江苏'
+	local res = post(kfy.url,get)
+	if res ~= nil then
+		phone_list = string.split(res,'|')
+		if phone_list[1] == '1' then
+			phone = phone_list[2]
+			return phone
+		end
+	end
+end
+
+--高德 地址转换api------
+function GET_local(lo,lt)
+	local gaode = {}
+	gaode.location = lo..','..lt
+	gaode.key = 'aebbbe9fbc1ab12bdfb4bca79621f494'
+	gaode.poitype = '%E5%B0%8F%E5%8C%BA'
+	gaode.radius = 1000
+	gaode.extensions = base
+	gaode.batch = 'false'
+	gaode.roadlevel = 0
+	local gaodeurl = 'http://restapi.amap.com/v3/geocode/regeo'
+	local res = json.decode(post(gaodeurl,gaode))
+	if res.regeocode.formatted_address then
+		return res.regeocode.formatted_address
+	end
+end
+
 require("name")
 --require("LuaDemo")
 
@@ -36,7 +147,7 @@ atexit(function()
 		vpnx()
 		local appbids = app.front_bid()
 		if appbids ~= "com.apple.springboard" then
---			app.quit(appbids)
+			app.quit(appbids)
 --			closeX(appbids)
 		end
 		sys.msleep(500)
@@ -52,13 +163,14 @@ for i=1,40 do
 	phonenamelist[key]="nj"..i
 end
 
-
+--[[]]
 local appbids = app.front_bid()
 if appbids ~= "com.apple.springboard" then
---			app.quit(appbids)
+	app.quit(appbids)
 	vpnx()
 --	closeX(appbids)
 end
+--]]
 
 --[[
 
@@ -299,6 +411,18 @@ page.照片_地址_确定={{{602,661,0xfd6e27},{581,667,0xfd6e27},}, 85, 535, 62
 page.完善信息_完成注册={{{314,1033,0xffffff},{319,1033,0xff635b},{319,1009,0xff635c},{319,1067,0xff625b},}, 85, 224, 986, 411, 1094}
 page.上传头像={{{441,756,0xfd6e27},{356,860,0xfd6e27},{335,345,0xff8000},{568,154,0xffffff},},85}
 
+page.弹出选择确定={{{571,663,0xff5e00},{564,659,0xff5e00},}, 85, 507, 561, 637, 725}
+
+function sjclick(min,max,x,y)
+	local sjkey = rd(min,max)
+	if sjkey == 0 then
+		return true
+	end
+	for i=1,sjkey do
+		click(x,y,0.5)
+	end
+end
+
 function fix()
 	local TimeLine = os.time()
 	local OutTime = 60*3
@@ -314,13 +438,22 @@ function fix()
 		sexk = "男"
 	end
 	local other____ = 0
+	local makebrithday = true
 	
 	log("sex-> ".. sex)
 
 	while os.time()-TimeLine < OutTime do
 		if active(bid.app,5)then
 			if d(page.完善信息,"page.完善信息") then
-				if sex > sex_key and d(page.基本资料界面_性别女,"page.基本资料界面_性别女",true)then
+				if makebrithday then
+					click(544, 255,3)
+					sjclick(0,5,158 , 857+ rd(0,1)*130)
+					sjclick(0,5,314 , 857+ rd(0,1)*130)
+					sjclick(0,5,459 , 857+ rd(0,1)*130)
+					d(page.弹出选择确定,'page.弹出选择确定',true)
+					makebrithday = false
+					
+				elseif sex > sex_key and d(page.基本资料界面_性别女,"page.基本资料界面_性别女",true)then
 				elseif makeinfo__ then
 					rd_click(2,6,208,554)
 					rd_click(0,1,210+ rd(0,4)*95 ,644)
@@ -331,10 +464,12 @@ function fix()
 					delay(3)
 				else
 					if d(page.我知道了,"page.我知道了",true) then
+					elseif d(page.弹出选择确定,'page.弹出选择确定',true) then
 					else
 						other____ = other____ + 1
 						if other____ > 20 then
 							click(592, 459)
+							sjclick(0,5,165 , 989+ rd(0,1)*55)
 							click(576, 666)
 							other____ = 0
 						end
@@ -360,10 +495,10 @@ end
 function rd_click(min,max,x,y)
 	local key = rd(min,max)
 	if key == 0 then
-		return 
+		return false
 	else
 		for i=1,key do
-			click(x,y)
+			click(x,y,0.5)
 		end
 	end
 end
@@ -501,6 +636,7 @@ function get_local()
         end
     end
 end
+
 
 --fix()
 --os.exit()
