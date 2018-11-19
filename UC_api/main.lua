@@ -1,13 +1,15 @@
 
 --[[
-local cloud_cc = require("cloud_cc")(
-	"2BA695C9633E1E712764746FFD90649C",
-	{
-		"/lua/scripts/faker.lua",
-		"/lua/scripts/xxtsp.lua",
-		"/lua/scripts/nLog.xxt",
-	}
-)
+
+排重上报点击上报激活任务
+排重接口
+http://59.110.27.159/api/query?appid=XX&chanid=XX&idfa={idfa}&ip={ip}
+
+点击接口
+http://59.110.27.159/api/click?appid=XX&chanid=XX&idfa={idfa}&ip={ip}
+
+激活
+http://59.110.27.159/api/active?appid=XX&chanid=XX&idfa={idfa}&ip={ip}&keywords={keywords}
 
 ]]
 
@@ -64,14 +66,8 @@ bid.花上钱贷款 = {	["appid"] =  "1278376336", ["appbid"] = "com.jiucang.hua
 
 screen.init(0)
 var = {}
-var.source = "lixuanjishua"
+var.chanid = "30052"
 
-
-function sign(adid,timestamp)
-	local str = var.source.."|"..adid.."|"..idfa.."|"..var.key.."|"..timestamp
-	log(str)
-	return string.md5(str)
-end
 
 --全局变量
 
@@ -92,15 +88,15 @@ function up(name,other)
 end
 
 function checkidfa(name)
-	local url = "http://m.cmzqian.com/API/common/repeat"
+	local url = "http://59.110.27.159/api/query"
 	local postArr = {}
-	postArr.adid=bid[name]['adid']
+	postArr.appid=bid[name]['adid']
 	postArr.idfa=idfa
 	postArr.ip=ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
-	postArr.source=var.source
-	postArr.os_version = sys.version()
-	postArr.device = model
-	postArr.keyword = keyword or bid[name]['keyword']
+	postArr.chanid=var.chanid
+--	postArr.os_version = sys.version()
+--	postArr.device = model
+--	postArr.keyword = keyword or bid[name]['keyword']
 
 	index = 0
 	post_data = ''
@@ -133,20 +129,20 @@ end
 
 
 function clickidfa(name)
-	local url = "http://m.cmzqian.com/API/common/checkClick"
+	local url = "http://59.110.27.159/api/click"
 	local postArr = {}
-	postArr.adid=bid[name]['adid']
+	postArr.appid=bid[name]['adid']
 	postArr.idfa=idfa
 	postArr.ip=ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
-	postArr.source=var.source
-	postArr.os_version = sys.version()
-	postArr.device = model
-	postArr.keyword = keyword or bid[name]['keyword']
+	postArr.chanid=var.chanid
+--	postArr.os_version = sys.version()
+--	postArr.device = model
+--	postArr.keyword = keyword or bid[name]['keyword']
 	
 	----------------------
 --	postArr.keyword = e:escape(bid[name]['keyword'])
 	if callbackid then
-		postArr.callback  = "http://idfa888.com/Public/idfa/?service=idfa.callback&id="..callbackid
+--		postArr.callback  = "http://idfa888.com/Public/idfa/?service=idfa.callback&id="..callbackid
 	end
 	
 	index = 0
@@ -167,7 +163,7 @@ function clickidfa(name)
 	if getdata ~= nil then
 		local data = json.decode(getdata)
 		log(data or "nil")
-		if tonumber(data.status) == 1 then
+		if data.message == "success" then
 			log("点击成功: OK.",true)
 			return true
 		else
@@ -178,17 +174,17 @@ end
 
 
 function activeidfa(name)
-	local url = "http://m.cmzqian.com/API/common/activate"
+	local url = "http://59.110.27.159/api/active"
 	local postArr = {}
-	postArr.adid=bid[name]['adid']
+	postArr.appid=bid[name]['adid']
 	postArr.idfa=idfa
 	postArr.ip=ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
-	postArr.source=var.source
-	postArr.os_version = sys.version()
-	postArr.device = model
-	postArr.keyword = keyword or bid[name]['keyword']
+	postArr.chanid=var.chanid
+	postArr.keywords = keyword or bid[name]['keyword']
 	
 	----------------------
+--	postArr.os_version = sys.version()
+--	postArr.device = model
 --	postArr.keyword = e:escape(bid[name]['keyword'])
 --	postArr.keyword = bid[name]['keyword']
 	if callbackid then
@@ -213,7 +209,7 @@ function activeidfa(name)
 	if getdata ~= nil then
 		local data = json.decode(getdata)
 		log(data or "nil")
-		if tonumber(data.status) == 1 then
+		if data.message == "success" then
 			log("激活成功: OK.",true)
 			return true
 		else
@@ -341,23 +337,28 @@ end
 
 apparr={}
 apparr.right={{{462,666,0x007aff},{225,666,0x007aff},}, 85, 54, 394, 590, 809}
+apparr.skip ={{{566,78,0x9d9ea1},{576,82,0xf9f9fc},{591,82,0x9d9ea1},}, 85, 507, 45, 624, 123}
+apparr.agree ={{{432,853,0x2696ff},{198,849,0x333333},{283,846,0xf5f4f4},}, 85, 54, 779, 604, 909}
 
 function newidfa(name,times)
 	for i= 1,times do
 
 		local TIMEline = os.time()
-		local OUTtime = rd(28,30)
+		local OUTtime = rd(180,200)
 		while os.time()- TIMEline < OUTtime do
 			if active(bid[name]['appbid'],4)then
-				if d(apparr.right,"apparr.right",true)then
-
+				if d(apparr.skip,"apparr.skip",true)then
+				elseif d(apparr.agree,"apparr.agree",true)then
 				else
-					moveTo(600,300,100,100,30,50)
-					delay(1)
-					click(321, 978)
-					delay(1)
-					click(462, 666)
-					delay(1)
+					if d(apparr.right,"apparr.right",true)then
+					else
+						moveTo(600,300,100,100,30,50)
+						delay(1)
+						click(321, 978)
+						delay(1)
+						click(462, 666)
+						delay(1)
+					end
 				end
 			else
 				log("启动一次")
@@ -376,32 +377,16 @@ function beewallidfa(name)
 	delay(1)
 end
 
-
-bid.花上钱贷款 = {	["appid"] =  "1278376336", ["appbid"] = "com.jiucang.huashangqian", ["adid"]= '1032', ["keyword"]="花上钱贷款" }
-bid.拓道财富 = {	["appid"] =  "1428159989", ["appbid"] = "com.tuodao.tdcaifu", ["adid"]= '1036', ["keyword"]="拓道财富" }
-bid.信贷360 = {	["appid"] =  "1399516881", ["appbid"] = "com.block.xd360", ["adid"]= '1019', ["keyword"]="信贷360" }
-bid.壹亿钱包 = {	["appid"] =  "1334529411", ["appbid"] = "com.yiyiqianbao.lishu", ["adid"]= '1021', ["keyword"]="壹亿钱包" }
-bid.铜掌柜 = {	["appid"] =  "988621288", ["appbid"] = "cn.tzg.TZG", ["adid"]= '1044', ["keyword"]="铜掌柜" }
-bid.快猫 = {	["appid"] =  "1438487261", ["appbid"] = "com.junpeng.yeliao", ["adid"]= '1045', ["keyword"]="夜聊" }
-bid.仙侠物语 = {	["appid"] =  "1354411312", ["appbid"] = "com.zhou.xxwyios", ["adid"]= '1048', ["keyword"]="仙侠物语" }
-bid.信融投资 = {	["appid"] =  "1014865736", ["appbid"] = "com.jinding.xinrongtouzi", ["adid"]= '1047', ["keyword"]="信融投资" }
-
+bid.UC浏览器 = {	["appid"] =  "586871187", ["appbid"] = "com.ucweb.iphone.lowversion", ["adid"]= '10870', ["keyword"]="阿里巴巴" }
 
 
 --[[]]
-while true do
+for i=1,15 do
 	log("vpn-key")
 	if false or  vpn() then
 		if checkip()then
 			
---			onlyactive("花上钱贷款")
---			onlyactive("信贷360")
---			onlyactive("拓道财富")
---			onlyactive("铜掌柜")
---			onlyactive("壹亿钱包")
-			onlyactive("快猫")
---			onlyactive("仙侠物语")
---			onlyactive("信融投资")
+			callbackapi("UC浏览器")
 
 		end
 	end
