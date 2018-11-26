@@ -127,7 +127,8 @@ function checkidfa(name)
 	end
 end
 
-function clickidfa(name)
+function clickidfa(name,callback_key)
+	log('idfa 点击准备')
 	local url = "http://api.qingsongzhuan666.com/qszNoticeIdfa"
 	local postArr = {}
 	postArr.appId=bid[name]['adid']
@@ -139,7 +140,7 @@ function clickidfa(name)
 	
 	----------------------
 
-	if callbackid then
+	if callback_key and callbackid then
 		postArr.callBackAddr  = "http://hlj.51-gx.com/Public/idfa/?service=idfa.callback&id="..callbackid
 	end
 	
@@ -239,7 +240,7 @@ function callbackapi(name)
 			callbackid = json.decode(dtassss)['data']['id']
 			if callbackid ~= nil then
 				if checkidfa(name)then
-					if clickidfa(name)then
+					if clickidfa(name,true)then
 						delay(rd(10,20))
 						newidfa(name,1)
 					end
@@ -297,7 +298,6 @@ function onlyactive(name)
 		end
 	end
 end
-
 
 function idfaisok(name)
 	if XXTfakerNewPhone(bid[name]['appbid'])then
@@ -379,7 +379,8 @@ function onlycheckidfa(name)
 end
 
 bid.迷你世界 = {	["appid"] =  "1170455562", ["appbid"] = "com.minitech.miniworld", ["adid"]= "3015c946986a29", ["keyword"]="迷你世界" }
-bid.Q房网 = {	["appid"] =  "1225814601", ["appbid"] = "com.qfangwang.qfangwangapp", ["adid"]= "29766d9d7df77a", ["keyword"]="Q房网" }
+bid.期货策略通 = {	["appid"] =  "1358614531", ["appbid"] = "com.xs.qhclt", ["adid"]= "314979e4ba2e47", ["keyword"]="期货模拟" }
+bid.PP体育 = {	["appid"] =  "627781309", ["appbid"] = "com.pp.sports", ["adid"]= "31197cc2dc819b", ["keyword"]="央视影音客户端" }
 
 
 
@@ -390,7 +391,9 @@ while true do
 	if  vpn() then
 		if checkip()then
 			
-			callbackapi("Q房网")
+			callbackapi("PP体育")			-----这是排重	-	点击	回调	的模型
+--			onlyactive("期货策略通")			-----这是排重	-	激活 			的模型
+--			activeapi("期货策略通")				-----这是排重	-	点击			模型
 
 		end
 	end
