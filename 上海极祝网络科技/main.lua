@@ -398,6 +398,7 @@ bid.便捷生成助手 = {	["appid"] =  "1205269443", ["appbid"] = "cn.6ag.AppSc
 bid.贵金属期货 = {	["appid"] =  "1386652458", ["appbid"] = "com.QQapp.RXGuiJinShuqh", ["adid"]= '1032', ["keyword"]="贵金属期货" }
 bid.外汇软件 = {	["appid"] =  "1371579306", ["appbid"] = "com.PL.WHRJ", ["adid"]= '1032', ["keyword"]="外汇软件" }
 bid.原油投资 = {	["appid"] =  "1399420481", ["appbid"] = "com.yuanyoutouzi.cn", ["adid"]= '1032', ["keyword"]="原油投资" }
+bid.电网棋牌 = {	["appid"] =  "1267747194", ["appbid"] = "com.shijiandingji", ["adid"]= '1032', ["keyword"]="电网棋牌" }
 
 
 function One(work)
