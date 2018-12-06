@@ -303,7 +303,9 @@ function onlyactive(name)
 					delay(rd(3,6))
 					newidfa(name,1)
 					if activeidfa(name)then
-						back_pass(task_id,"ok")
+						if task_id ~= nil then
+							back_pass(task_id,"ok")
+						end
 						up(name,bid[name]['keyword'].."-激活成功")
 					end
 
@@ -437,12 +439,16 @@ while true do
 	if vpn() then
 		if checkip()then
 		--------------------------------------------------	
+			TaskDate = {
+				{1},
+				}
 			local TaskDate = ( get_task() )
+
 			if TaskDate then
 				for i,v in ipairs(TaskDate) do
 					work = v.work
 					task_id = v.task_id
-					log(work)
+--					log(work)
 					onlyactive(work)
 				end
 			end

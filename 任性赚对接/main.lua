@@ -64,7 +64,7 @@ bid.花上钱贷款 = {	["appid"] =  "1278376336", ["appbid"] = "com.jiucang.hua
 
 screen.init(0)
 var = {}
-var.source = "32"
+var.source = "CHN8HUSUAH787J1123"
 
 
 function sign(adid,timestamp)
@@ -100,12 +100,12 @@ function back_pass(task_id,success)
 end
 
 function checkidfa(name)
-	local url = "http://api.jizhukeji.com/union/checkidfa"
+	local url = "http://api.xiaoniaozhuanqian.xyz/pub/app/new/isAvailable"
 	local postArr = {}
 	postArr.appid=bid[name]['appid']
 	postArr.idfa=idfa
 	postArr.ip=ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
-	postArr.source=var.source
+	postArr.scode=var.source
 
 	index = 0
 	post_data = ''
@@ -113,21 +113,19 @@ function checkidfa(name)
 	for k,v in pairs(postArr)do
 		index = index + 1
 		if v ~= nil then
-			if index == 8 then
-				post_data = post_data..k..'='..v
-			else
-				post_data = post_data..k..'='..v..'&'
-			end
+			post_data = post_data..k..'='..v..'&'
 		end
 	end
+	
 	url = url..'?'..post_data
 	log(url)
 	log(postArr)
+	
 	local getdata = get(url)
 	if getdata ~= nil then
 		local data = json.decode(getdata)
 		log(data or "nil")
-		if tonumber(data[idfa]) == 0 then
+		if tonumber(data["data"][idfa]) == 1 then
 			log("idfa: OK.",true)
 			return true
 		else
@@ -138,12 +136,12 @@ end
 
 
 function clickidfa(name,callbackkey)
-	local url = "http://api.jizhukeji.com/union/clickidfa"
+	local url = "http://api.xiaoniaozhuanqian.xyz/pub/app/new/click"
 	local postArr = {}
 	postArr.appid=bid[name]['appid']
 	postArr.idfa=idfa
 	postArr.ip=ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
-	postArr.source=var.source
+	postArr.scode=var.source
 	
 	----------------------
 --	postArr.keyword = e:escape(bid[name]['keyword'])
@@ -180,13 +178,16 @@ end
 
 
 function activeidfa(name)
-	local url = "http://api.jizhukeji.com/union/directactiveidfa"
+	local url = "http://api.xiaoniaozhuanqian.xyz/pub/app/new/reported"
 	local postArr = {}
 	postArr.appid=bid[name]['appid']
 	postArr.idfa=idfa
 	postArr.ip=ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
-	postArr.source=var.source
+	postArr.scode=var.source
 	
+	
+	postArr.keyword =  bid[name]['keyword']
+	postArr.isComp = 1
 	
 	index = 0
 	post_data = ''
@@ -393,14 +394,9 @@ end
 
 
 
-bid.吐槽 = {	["appid"] =  "1030314779", ["appbid"] = "com.xiaoge.tucao", ["adid"]= '1032', ["keyword"]="吐槽" }
-bid.便捷生成助手 = {	["appid"] =  "1205269443", ["appbid"] = "cn.6ag.AppScreenshots", ["adid"]= '1032', ["keyword"]="便捷生成助手" }
-bid.贵金属期货 = {	["appid"] =  "1386652458", ["appbid"] = "com.QQapp.RXGuiJinShuqh", ["adid"]= '1032', ["keyword"]="贵金属期货" }
-bid.外汇软件 = {	["appid"] =  "1371579306", ["appbid"] = "com.PL.WHRJ", ["adid"]= '1032', ["keyword"]="外汇软件" }
-bid.原油投资 = {	["appid"] =  "1399420481", ["appbid"] = "com.yuanyoutouzi.cn", ["adid"]= '1032', ["keyword"]="原油投资" }
-bid.电网棋牌 = {	["appid"] =  "1267747194", ["appbid"] = "com.shijiandingji", ["adid"]= '1032', ["keyword"]="电网棋牌" }
-bid.掌上玩久久 = {	["appid"] =  "1442909213", ["appbid"] = "com.liang.zhengkao", ["adid"]= '1032', ["keyword"]="掌上玩久久" }
-bid.期货投资 = {	["appid"] =  "1272193616", ["appbid"] = "com.app.QHRJ", ["adid"]= '1032', ["keyword"]="期货投资" }
+
+bid.超杀西游记 = {	["appid"] =  "1417027874", ["appbid"] = "com.csxyj.ds2", ["adid"]= 'CHN8HUSUAH787J1123', ["keyword"]="梦幻西游" }
+bid.酒仙剑 = {	["appid"] =  "1441931109", ["appbid"] = "com.jxj.mhxyu", ["adid"]= 'CHN8HUSUAH787J1123', ["keyword"]="回合手游" }
 
 
 function ends()
