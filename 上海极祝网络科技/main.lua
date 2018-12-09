@@ -218,7 +218,7 @@ end
 
 function checkip()
 	ip = get_ip() or "192.168.1.1"
-	local url = 'http://hlj.51-gx.com/Public/idfa/?service=idfa.checkip&ip='..ip
+	local url = 'http://idfa888.com/Public/idfa/?service=idfa.checkip&ip='..ip
 	local getdata = get(url)
 	if getdata ~= nil then
 		local data = json.decode(getdata)
@@ -401,6 +401,7 @@ bid.原油投资 = {	["appid"] =  "1399420481", ["appbid"] = "com.yuanyoutouzi.c
 bid.电网棋牌 = {	["appid"] =  "1267747194", ["appbid"] = "com.shijiandingji", ["adid"]= '1032', ["keyword"]="电网棋牌" }
 bid.掌上玩久久 = {	["appid"] =  "1442909213", ["appbid"] = "com.liang.zhengkao", ["adid"]= '1032', ["keyword"]="掌上玩久久" }
 bid.期货投资 = {	["appid"] =  "1272193616", ["appbid"] = "com.app.QHRJ", ["adid"]= '1032', ["keyword"]="期货投资" }
+bid.yc平台 = {	["appid"] =  "1442074623", ["appbid"] = "com.Equipment.LY.www", ["adid"]= '1032', ["keyword"]="yc平台" }
 
 
 function ends()
@@ -424,6 +425,7 @@ while true do
 				for i,v in ipairs(TaskDate) do
 					work = v.work
 					task_id = v.task_id
+					log(work)
 					if bid[work]['appbid'] ~= nil then
 						onlyactive(work)
 					end

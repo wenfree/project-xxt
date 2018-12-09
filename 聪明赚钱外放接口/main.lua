@@ -232,7 +232,7 @@ end
 
 function checkip()
 	ip = get_ip() or "192.168.1.1"
-	local url = 'http://hlj.51-gx.com/Public/idfa/?service=idfa.checkip&ip='..ip
+	local url = 'http://idfa888.com/Public/idfa/?service=idfa.checkip&ip='..ip
 	local getdata = get(url)
 	if getdata ~= nil then
 		local data = json.decode(getdata)
@@ -396,6 +396,7 @@ bid.铜掌柜 = {	["appid"] =  "988621288", ["appbid"] = "cn.tzg.TZG", ["adid"]=
 bid.快猫 = {	["appid"] =  "1438487261", ["appbid"] = "com.junpeng.yeliao", ["adid"]= '1045', ["keyword"]="夜聊" }
 bid.仙侠物语 = {	["appid"] =  "1354411312", ["appbid"] = "com.zhou.xxwyios", ["adid"]= '1048', ["keyword"]="仙侠物语" }
 bid.信融投资 = {	["appid"] =  "1014865736", ["appbid"] = "com.jinding.xinrongtouzi", ["adid"]= '1047', ["keyword"]="信融投资" }
+bid.大麦理财 = {	["appid"] =  "950911786", ["appbid"] = "com.damai", ["adid"]= '1050', ["keyword"]="大麦理财" }
 
 
 

@@ -1,118 +1,7 @@
 nLog = require('nLog')()
 require('faker')
 require('xxtsp')
-kfy={}
-kfy.id = '10952'
-kfy.action = 'loginIn'
-kfy.name = 's-gozqerp3'
-kfy.password = 'a135246'
-kfy.url = 'http://api.ndd001.com/do.php'
-token = 'f8629ece-0246-4eda-935a-224fb45746a1'
-
-
-
-
-function GET_message(phone)
-	local get ={}
-	get.sid = kfy.id
-	get.action = 'getMessage'
-	get.phone = phone
-	get.token = token
-	local res = post(kfy.url,get)
-	if res ~= nil then
-		smslist = string.split(res,'|')
-		if smslist[1] == '1' then
-			sms = smslist[2]
-			local i,j = string.find(sms,"%d+")
-			sms = string.sub(sms,i,j)
-			nLog(sms)
-			return true
-		else
-			sys.toast(res)
-		end
-	end
-end
-
-function GET_message_a(phone)
-	local get ={}
-	get.sid = kfy.id
-	get.action = 'getMessage'
-	get.phone = phone
-	get.token = token
-	local res = post(kfy.url,get)
-	if res ~= nil then
-		smslist = string.split(res,'|')
-		if smslist[1] == '1' then
-			sms = smslist[2]
-			local i,j = string.find(sms,"验证码：%d+")
-			sms = string.sub(sms,i,j)
-			local i,j = string.find(sms,"%d+")
-			sms = string.sub(sms,i,j)
-			nLog(sms)
-			return true
-		end
-	end
-end
-
-
-function GET_Phone()
-	local get ={}
-	get.sid = kfy.id
-	get.action = 'getPhone'
-	get.token = token
---	get.vno = '0'
-	--get.locationMatching='include&locationLevel=c&location=江苏'
-	local res = post(kfy.url,get)
-	if res ~= nil then
-		phone_list = string.split(res,'|')
-		if phone_list[1] == '1' then
-			phone = phone_list[2]
-			phoneheader = string.sub(phone,1,3)
-			if phoneheader == '171' or phoneheader == '170' then
-				return false
-			end
-			return phone
-		else
-			log(phone_list[2],true)
-		end
-	end
-end
-
-function GET_Phone_a(phone)
-	local get ={}
-	get.sid = kfy.id
-	get.action = 'getPhone'
-	get.token = token
-	get.phone = phone
-	get.vno = '0'
-	--get.locationMatching='include&locationLevel=c&location=江苏'
-	local res = post(kfy.url,get)
-	if res ~= nil then
-		phone_list = string.split(res,'|')
-		if phone_list[1] == '1' then
-			phone = phone_list[2]
-			return phone
-		end
-	end
-end
-
---高德 地址转换api------
-function GET_local(lo,lt)
-	local gaode = {}
-	gaode.location = lo..','..lt
-	gaode.key = 'aebbbe9fbc1ab12bdfb4bca79621f494'
-	gaode.poitype = '%E5%B0%8F%E5%8C%BA'
-	gaode.radius = 1000
-	gaode.extensions = base
-	gaode.batch = 'false'
-	gaode.roadlevel = 0
-	local gaodeurl = 'http://restapi.amap.com/v3/geocode/regeo'
-	local res = json.decode(post(gaodeurl,gaode))
-	if res.regeocode.formatted_address then
-		return res.regeocode.formatted_address
-	end
-end
-
+--require("yumi")
 require("name")
 --require("LuaDemo")
 
@@ -147,7 +36,7 @@ atexit(function()
 		vpnx()
 		local appbids = app.front_bid()
 		if appbids ~= "com.apple.springboard" then
-			app.quit(appbids)
+--			app.quit(appbids)
 --			closeX(appbids)
 		end
 		sys.msleep(500)
@@ -163,14 +52,13 @@ for i=1,40 do
 	phonenamelist[key]="nj"..i
 end
 
---[[]]
+
 local appbids = app.front_bid()
 if appbids ~= "com.apple.springboard" then
-	app.quit(appbids)
+--			app.quit(appbids)
 	vpnx()
 --	closeX(appbids)
 end
---]]
 
 --[[
 
@@ -198,9 +86,49 @@ screen.init(0)
 var = {}
 var.lun = 0
 
-
-kfy.id = '10482'
+--[[
+--kfy.id = '10482'
+if not(YUMI())then
+	log("--")
+	os.exit()
+else
+	log(yumi.token)
+end
 --全局变量
+--]]
+
+function getId()
+	local url = 'http://idfa888.com/Public/dyid/?service=dyid.getfix'
+	local idfalist ={}
+	return post(url,idfalist)
+end
+function backfix(id)
+	local url = 'http://idfa888.com/Public/dyid/?service=dyid.backfix&id='..id
+	local idfalist ={}
+	return post(url,idfalist)
+end
+--[[
+testdata ={
+	["ret"] = 200,
+	["data"]= {
+		["id"]= "2",
+		["phonename"]= "xxt-5s",
+		["phoneimei"]= "F18MK243FF9V",
+		["phoneos"]= "11.0.3",
+		["name"]= "百合网",
+		["idfa"]= "5E5AD232-C80F-4AEE-FE0C-246C675450C0",
+		["ip"]= "114.217.4.242",
+		["account"]= "所在地理位置：<code>江苏省苏州市 电信</code>",
+		["password"]= "Km26229753",
+		["phone"]= "15143244630",
+		["other"]= "女",
+		["todo"]= "no",
+		["time"]= "1536296222",
+		["addtime"]= "1536296164"
+	},
+
+}
+--]]
 
 function up(name,other)
 	local url = 'http://idfa888.com/Public/idfa/?service=idfa.idfa'
@@ -269,6 +197,68 @@ imgUrl = "http://image.baidu.com/channel/listjson?pn=15000&rn=1&tag1=%E7%BE%8E%E
 
 
 page={}
+page.切换登录按钮 ={{{422, 119, 0xa7a7a7},{448, 104, 0x555555},{214, 119, 0xff9300},}, 85, 101, 79, 528, 170}
+page.登录界面 ={{{419, 117, 0xff9300},{405, 117, 0xff9300},{429, 150, 0xff6759},{215, 118, 0x5b5b5b},{216, 119, 0xffffff},}, 85, 165, 90, 519, 162}
+	page.登录按钮 ={{{310, 460, 0xffffff},{362, 460, 0xff5d5f},{115, 472, 0xff7b48},}, 85, 52, 271, 577, 858}
+	page.手机号 ={{{128,397,0xc7c7cd},{161,391,0xc7c7cd},{190,383,0xc7c7cd},}, 85, 27, 353, 589, 427}
+page.封号={{{163,646,0x1282fd},{397,647,0x007aff},{321,534,0x000000},{446,453,0xf9f9f9},},85}
+page.封号不存在={{{254, 575, 0xffffff},{325, 587, 0x4c3736},{437, 573, 0xf5f2f2},}, 85}
+
+function loginbh()
+	local TimeLine = os.time()
+	local OutTime = 60*3
+	local logintimes = 0
+	
+	while os.time()-TimeLine < OutTime do
+		if active(bid.app,5)then	
+			if d(page.切换登录按钮,"page.切换登录按钮",true)then
+			elseif d(page.登录界面 ,"page.登录界面")then
+--				if d(page.手机号,'page.手机号',true)then
+					click(117, 232)
+					input(bhdata.data.phone)
+					click(101, 211)
+					input(bhdata.data.password)
+					d(page.登录按钮,"page.登录按钮",true)
+--				end
+				if d(page.封号不存在,"page.封号不存在")then
+					return false
+				elseif d(page.登录按钮,"page.登录按钮",true)then
+					logintimes = logintimes + 1
+					if logintimes > 20 then
+						return false
+					end
+				end
+				
+			elseif d(page.本地相册,"page.本地相册",true,3)then
+				delay(rd(2,4))
+				return true
+			else
+				if d(page.封号,'page.封号',true,1) then
+					return false
+				else
+					click(40, 84)
+				end
+			end
+		end
+	end
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 page.主菜单={{{578,1096,0x929292},{300,1079,0x9d9d9d},{179,1078,0x929292},{49,1086,0xff425a},}, 85, 22, 1050, 623, 1132}
 page.主菜单_我的_资料={{{567,192,0xaaaaaa},{590,83,0x979797},{578,1096,0xff2983},{300,1080,0x9d9d9d},{43,1074,0x929292},}, 85, 0, 0, 0, 0}
@@ -306,7 +296,6 @@ function makeinfo()
 	local OutTime = 60*3
 	local sexhight = false
 	local makeinfo_ = false
-
 	
 	
 	while os.time()-TimeLine < OutTime do
@@ -314,7 +303,7 @@ function makeinfo()
 			if d(page.主菜单,"page.主菜单",true)then
 			elseif d(page.主菜单_我的_资料,"page.主菜单_我的_资料",true)then
 			elseif makeinfo_ and (d(page.编辑_编辑_我喜欢谁,"page.编辑_编辑_我喜欢谁",false)or d(page.编辑_编辑_我喜欢谁ios10,"page.编辑_编辑_我喜欢谁ios10",false))then
-				up("婚恋网",sexk.."修改资料")
+				up("百合网",sexk.."修改资料")
 				sys.alert("注册完成,即将退出",3)
 				closeX(appbids)
 				return true
@@ -393,7 +382,7 @@ end
 
 page.基本资料界面={{{380,76,0x000000},{370,72,0xffffff},{368,72,0x000000},{42,83,0x888888},},85}
 	page.基本资料界面_请输入={{{444,285,0xc7c7cd},{457,285,0xc7c7cd},{495,285,0xff8432},{501,285,0xffffff},}, 85, 367, 255, 519, 319}
-	page.基本资料界面_性别女={ {{541,361,0xe2e2e2},{540,351,0xfbfbfb},{537,343,0xe2e2e2},{536,382,0xe2e2e2},}, 85, 496, 322, 581, 407}
+	page.基本资料界面_性别女={{{538,372,0xe2e2e2},{406,376,0x9bc1fd},{386,379,0x9bc1fd},}, 85, 365, 349, 590, 417}
 		page.基本资料界面_性别女_选框={{{586,664,0xffffff},{585,644,0xebebeb},{564,665,0xe6e6e6},{607,665,0xe6e6e6},}, 85, 554, 634, 622, 969}
 	page.基本资料界面_完成={{{306,1042,0xffffff},{309,1022,0xff645a},{86,1041,0xff7948},{530,1043,0xff4e6b},}, 85, 17, 968, 621, 1125}
 page.昵称={{{46,77,0xfd6e27},{306,77,0x525252},{308,72,0xffffff},},85}
@@ -408,28 +397,12 @@ page.照片_注册成功={{{569,1097,0x43fe85},{62,1086,0xe83c2d},},85}
 page.照片_地址未显示={{{596,404,0xc7c7cc},{568,407,0xd9d9d9},{523,404,0xffffff},{530,404,0xd9d9d9},}, 85, 450, 341, 625, 465}
 page.照片_地址_确定={{{602,661,0xfd6e27},{581,667,0xfd6e27},}, 85, 535, 626, 628, 697}
 
-page.完善信息_完成注册={{{314,1033,0xffffff},{319,1033,0xff635b},{319,1009,0xff635c},{319,1067,0xff625b},}, 85, 224, 986, 411, 1094}
-page.上传头像={{{441,756,0xfd6e27},{356,860,0xfd6e27},{335,345,0xff8000},{568,154,0xffffff},},85}
-
-page.弹出选择确定={{{571,663,0xff5e00},{564,659,0xff5e00},}, 85, 507, 561, 637, 725}
-
-function sjclick(min,max,x,y)
-	local sjkey = rd(min,max)
-	if sjkey == 0 then
-		return true
-	end
-	for i=1,sjkey do
-		click(x,y,0.5)
-	end
-end
-
 function fix()
 	local TimeLine = os.time()
 	local OutTime = 60*3
 	sex = rd(1,100)
 	sex_key = 60
 	local manfix_key = true
-	local makeinfo__ = true
 	--设置这个sex_key的值越大 女的就越少
 	if sex > sex_key then
 		sexk = "女"
@@ -437,50 +410,74 @@ function fix()
 	else
 		sexk = "男"
 	end
-	local other____ = 0
-	local makebrithday = true
 	
 	log("sex-> ".. sex)
 
 	while os.time()-TimeLine < OutTime do
 		if active(bid.app,5)then
-			if d(page.完善信息,"page.完善信息") then
-				if makebrithday then
-					click(544, 255,3)
-					sjclick(0,5,158 , 857+ rd(0,1)*130)
-					sjclick(0,5,314 , 857+ rd(0,1)*130)
-					sjclick(0,5,459 , 857+ rd(0,1)*130)
-					d(page.弹出选择确定,'page.弹出选择确定',true)
-					makebrithday = false
-					
+			if d(page.基本资料界面,"page.基本资料界面") then
+				if d(page.基本资料界面_请输入,"page.基本资料界面_请输入",true)then
 				elseif sex > sex_key and d(page.基本资料界面_性别女,"page.基本资料界面_性别女",true)then
-				elseif makeinfo__ then
-					rd_click(2,6,208,554)
-					rd_click(0,1,210+ rd(0,4)*95 ,644)
-					rd_click(0,1,207+ rd(0,4)*95,739)
-					makeinfo__ = false
-				elseif d(page.完善信息_完成注册,"完善信息_完成注册",true)  then
-					up("婚恋网",'完成注册->'..sexk)
-					delay(3)
+					click(597, 663)
+					for i= 1, rd(3,5) do
+						moveTo(312,  634,312, rd(980,1072),10,20)
+					end
+					d(page.基本资料界面_性别女_选框,"page.基本资料界面_性别女_选框",true)
+					click(567, 538)
+				elseif manfix_key then
+					click(597, 663)
+					for i= 1, rd(2,4) do
+						moveTo(312,  634,312, rd(980,1072),10,20)
+					end
+					d(page.基本资料界面_性别女_选框,"page.基本资料界面_性别女_选框",true)
+					click(567, 538)
+					manfix_key = false
+				elseif d(page.我知道了,"page.我知道了",true,1)then
 				else
-					if d(page.我知道了,"page.我知道了",true) then
-					elseif d(page.弹出选择确定,'page.弹出选择确定',true) then
+					if d(page.基本资料界面_完成,"page.基本资料界面_完成",true)then
+						up("婚恋网",sexk)
+						delay(10)
+					elseif d(page.照片_地址未显示,"page.照片_地址未显示",true)then
+						delay(2)
+						d(page.照片_地址_确定,"page.照片_地址_确定",true)
 					else
-						other____ = other____ + 1
-						if other____ > 20 then
-							click(592, 459)
-							sjclick(0,5,165 , 989+ rd(0,1)*55)
-							click(576, 666)
-							other____ = 0
-						end
+						moveTo(316, 733,316, 433)
+						delay(2)
 					end
 				end
-				
-			elseif d(page.上传头像,"page.上传头像",true,4)then
-				up("婚恋网",'填过资料->'..sexk)
-				delay(3)
+			elseif sexk == '男' and d(page.本地相册,"page.本地相册",true,3)then
+				dialog("男不上传头像",1)
 				return true
+			elseif d(page.本地相册,"page.本地相册",false,1)then
+				delay(1)
+				clear.all_photos()
+				delay(1)
+				local c, h, r = http.get(img_url(), 10)
+				if (c == 200) then
+					local img = image.load_data(r)
+					img:save_to_album()
+					delay(1)
+					d(page.本地相册,"page.本地相册",true,1)
+				else
+					sys.alert("下载失败",3)
+				end
+				
+			elseif d(page.照片_注册成功,"page.照片_注册成功",true,1)then
+				up("婚恋网",sexk)
+				delay(10)
+				return true
+			elseif d(page.照片_详情,"page.照片_详情") or d(page.照片_详情ios10,"page.照片_详情ios10")then
+				click(87,280)
+			elseif d(page.照片,"page.照片") or d(page.照片ios10,"page.照片ios10")then
+				click(87,225)
+			elseif d(page.昵称,"page.昵称")then
+				input(random_name()..myRand(4,rd(4,6)))
+				if d(page.昵称完成,"page.昵称完成",true)then
+					delay(1)
+				end
+			
 			else
+				
 				if d(page.tip_bad,"page.tip_bad",true)then
 					return false
 				elseif d(page.allow,"page.allow",true)then
@@ -492,16 +489,8 @@ function fix()
 	end
 end
 
-function rd_click(min,max,x,y)
-	local key = rd(min,max)
-	if key == 0 then
-		return false
-	else
-		for i=1,key do
-			click(x,y,0.5)
-		end
-	end
-end
+
+
 
 
 
@@ -510,13 +499,12 @@ page.allow_local={{{360,594,0x007aff},{347,684,0x007aff},{359,777,0x007aff},}, 8
 
 page.tip_bad={{{154,635,0x007aff},{164,662,0x007aff},{502,646,0x007aff},}, 85, 111, 613, 533, 681}
 
-page.regUI={ {{209,159,0xff635b},{209,149,0xff625c},{132,159,0xff7e45},{282,159,0xff4971},}, 85, 81, 0, 315, 277}
-	page.regUI_up={{{209,35,0xff625c},{283,39,0xff4971},},85}
-	page.regUI_login={{{128,231,0xc7c7cd},{131,243,0xd4d4d9},{113,219,0xc7c7cd},}, 85, 61, 194, 291, 292}
-	page.regUI_send={ {{498,344,0xff5d5f},{413,338,0xff7b46},{558,344,0xff4871},{484,321,0xff635b},}, 85, 391, 197, 577, 387}
-	page.regUI_pwd={ {{323,459,0xd5d5da},{323,449,0xc7c7cd},{318,436,0xc7c7cd},}, 85, 69, 403, 389, 488}
-	page.regUI_reg={ {{255,736,0xff6a55},{318,703,0xff635b},{338,766,0xff615d},}, 85, 178, 698, 497, 774}
-page.完善信息={{{377,73,0xd0d0d0},{377,74,0xffffff},{377,77,0x161616},{362,92,0xffffff},{364,92,0x000000},{42,84,0x888888},},85}
+page.regUI={{{446,264,0xeae3dc},{223,277,0xffffff},{215,271,0xfdfdfe},}, 85, 113, 103, 513, 348}
+	page.regUI_login={{{128,393,0xc7c7cd},{124,380,0xc7c7cd},{113,403,0xc7c7cd},}, 85, 63, 357, 269, 433}
+	page.regUI_send={{{504,500,0xff5b61},{501,500,0xfffafa},{496,515,0xff5e5f},}, 85, 400, 456, 577, 545}
+	page.regUI_pwd={{{355,607,0xc7c7cd},{355,595,0xc7c7cd},{360,619,0xc7c7cd},}, 85, 328, 573, 383, 641}
+	page.regUI_reg={{{321,785,0xff635c},{321,775,0xffffff},{321,759,0xff625b},}, 85, 244, 711, 399, 837}
+page.success={{{551,266,0xff8432},{284,949,0xff7e44},{73,1070,0xff6659},},85}
 
 
 function reg()
@@ -532,18 +520,15 @@ function reg()
 	local 提交过了 = false
 
 	local 取短信次数 = 0
-	
 	password = myRand(4,rd(8,12))
 
 	while os.time()-TimeLine < OutTime do
 		if active(bid.app,10)then
-			if d(page.完善信息,"page.完善信息") then
+			if d(page.success,"page.success") then
 				return true
-			elseif d(page.regUI_up,"page.regUI_up")then
-				click(26, 282)
 			elseif d(page.regUI,"page.regUI") then
-				delay(2)
 				if 取号 then
+					delay(3)
 					if d(page.regUI_login,"page.regUI_login",true)then
 						delay(1)
 						if GET_Phone()then
@@ -551,14 +536,12 @@ function reg()
 							delay(2.8)
 							if type(tonumber(phone)) == "number" then
 								phoneKey(phone)
-								click(26, 282)
+								click(604, 610)
 								取号 = false
 								验证码 = true
 							else
-								click(26, 282)
+								click(604, 610)
 							end
-						else
-							click(26, 282)
 						end
 					end
 				elseif 验证码 then
@@ -569,28 +552,19 @@ function reg()
 				elseif 短信 then
 					if d(page.regUI_pwd,"regUI_pwd",true)then
 						input(password)
-						click(292,434)
-						input(random_name()..myRand(4,rd(2,6)))
-						click(26, 282)			--点击空白
-						
+						click(604, 610)				--点击空白
 					elseif GET_message(phone)then
-						click(127, 340)
+						click(160, 499)
 						input(sms)
 						click(604, 610)				--点击空白
 						短信 = false
 						提交 = true
 					else
-						d(page.regUI_send,"page.regUI_send",true)
-						
-						取短信次数 = 取短信次数 + 1
-						if 取短信次数 > 25 then
-							return false
-						end
 						delay(2.5)
 					end
 				elseif 提交 then
 					if d(page.regUI_reg,"page.regUI_reg",true)then
-						up("婚恋网","提交注册")
+						up("百合网","提交注册")
 						delay(3)
 					end
 				end
@@ -598,7 +572,6 @@ function reg()
 				
 				if d(page.tip_bad,"page.tip_bad",true)then
 					log('注册过的')
---					addBlacklist(phone)
 					return false
 				elseif d(page.allow,"page.allow",true)then
 				elseif d(page.allow_local,"page.allow_local",true)then
@@ -627,21 +600,18 @@ function get_local()
     end)
     while (os.time() - outtime < 30) do
 --		local c, h, b = http.get("http://ip.chinaz.com/getip.aspx?ts="..tostring(sys.rnd()), 30)
-		local c, h, b = http.get("http://pv.sohu.com/cityjson?ie=utf-8", 30)
---        local c, h, b = http.get("https://www.ipip.net/",30)
+		local c, h, b = http.get("http://ip.cn", 30)
+--      local c, h, b = http.get("https://www.ipip.net/",30)
         if (c==200) then
             sys.toast("", -1)
             done = true
---            return b:match('%d+%.%d+%.%d+%.%d+'),b:match('所在地理位置：<code>.*</code>')
-            return b:match('%d+%.%d+%.%d+%.%d+'),b:match('cname.*}')
+--          return b:match('%d+%.%d+%.%d+%.%d+'),b:match('所在地理位置：<code>.*</code>')
+            return b:match('%d+%.%d+%.%d+%.%d+'),b:match('所在地理位置：<code>.*</code>')
         end
     end
 end
 
-
---fix()
---os.exit()
---[[]]
+--[[
 
 while true do
 	if false or vpn() then
@@ -654,7 +624,7 @@ while true do
 					delay(1)
 					if reg()then
 						if fix()then
-						--	makeinfo()
+							makeinfo()
 						end
 					end
 				end
@@ -670,8 +640,27 @@ end
 
 
 --]]
-
-
+while true do
+	bhdata = (getId())
+	if bhdata ~= nil then
+		bhdata = json.decode(bhdata)
+		if bhdata.data == "获取失败" then
+			dialog("全部完成",60)
+			delay(2)
+		else
+			if vpn() then
+				if XXTfakerNewPhone(bid.app)then
+					if loginbh()then
+						backfix(bhdata.data.id)
+					end
+				end
+			end
+			app.quit(bid.app)
+			vpnx()
+			delay(2)
+		end
+	end
+end
 
 --clear.all_photos()
 

@@ -219,7 +219,7 @@ end
 
 function checkip()
 	ip = get_ip() or "192.168.1.1"
-	local url = 'http://hlj.51-gx.com/Public/idfa/?service=idfa.checkip&ip='..ip
+	local url = 'http://idfa888.com/Public/idfa/?service=idfa.checkip&ip='..ip
 	local getdata = get(url)
 	if getdata ~= nil then
 		local data = json.decode(getdata)
@@ -396,7 +396,7 @@ end
 
 
 bid.超杀西游记 = {	["appid"] =  "1417027874", ["appbid"] = "com.csxyj.ds2", ["adid"]= 'CHN8HUSUAH787J1123', ["keyword"]="梦幻西游" }
-bid.酒仙剑 = {	["appid"] =  "1441931109", ["appbid"] = "com.jxj.mhxyu", ["adid"]= 'CHN8HUSUAH787J1123', ["keyword"]="回合手游" }
+bid.酒仙剑 = {	["appid"] =  "1441931109", ["appbid"] = "com.jxj.mhxyu", ["adid"]= 'CHN8HUSUAH787J1123', ["keyword"]="宫廷计" }
 
 
 function ends()
