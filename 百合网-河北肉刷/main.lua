@@ -10,7 +10,21 @@ kfy.url = 'http://api.ndd001.com/do.php'
 token = 'f8629ece-0246-4eda-935a-224fb45746a1'
 
 
-
+function addBlacklist(phone)
+	local get ={}
+	get.sid = kfy.id
+	get.action = 'addBlacklist'
+	get.token = token
+	get.phone = phone
+	--get.locationMatching='include&locationLevel=c&location=江苏'
+	local res = post(kfy.url,get)
+	if res ~= nil then
+		phone_list = string.split(res,'|')
+		if phone_list[1] == '1' then
+			return true
+		end
+	end
+end
 
 function GET_message(phone)
 	local get ={}
@@ -598,7 +612,7 @@ function reg()
 				
 				if d(page.tip_bad,"page.tip_bad",true)then
 					log('注册过的')
---					addBlacklist(phone)
+					addBlacklist(phone)
 					return false
 				elseif d(page.allow,"page.allow",true)then
 				elseif d(page.allow_local,"page.allow_local",true)then
