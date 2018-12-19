@@ -10,21 +10,101 @@ kfy.url = 'http://api.ndd001.com/do.php'
 token = 'f8629ece-0246-4eda-935a-224fb45746a1'
 
 
-function addBlacklist(phone)
-	local get ={}
-	get.sid = kfy.id
-	get.action = 'addBlacklist'
-	get.token = token
-	get.phone = phone
-	--get.locationMatching='include&locationLevel=c&location=江苏'
-	local res = post(kfy.url,get)
-	if res ~= nil then
-		phone_list = string.split(res,'|')
-		if phone_list[1] == '1' then
-			return true
-		end
-	end
+yzm = {}
+yzm.name = "吸码皇"
+yzm.sid = '53'
+yzm.url = 'http://www.ximahuang.com/alz/api'
+yzm.name = 'q511358939'
+yzm.password = '199412'
+yzm.token = 'fd38b23ceb5e6b3f5cdfb1a4b6999501'
+yzm.phone = ''
+yzm.developer = '7f64b7ee41884afba88a606973173f63'
+
+yzm.get = {
+	login = function()
+				local postArr = {}
+				postArr.action = 'loginIn'
+				postArr.name = yzm.name
+				postArr.password = yzm.password
+				postArr.developer = yzm.developer
+				local data = post(yzm.url,postArr)
+				if data ~= '' and data ~= nil then
+					data = string.split(data,"|")
+					if data[1] == "1" then
+						yzm.token = data[2]
+						token = yzm.token
+						log(token)
+						return data[2]
+					end
+				end
+			end,
+	phone = function()
+				local postArr = {}
+				postArr.action = 'getPhone'
+				postArr.sid = yzm.sid
+				postArr.token = yzm.token
+				local data = post(yzm.url,postArr)
+				if data ~= '' and data ~= nil then
+					data = string.split(data,"|")
+					if data[1] == "1" then
+						yzm.phone = data[2]
+						phone = yzm.phone
+						log(yzm.token)
+						return data[2]
+					end
+				end
+			end,	
+	sms = function()
+				local postArr = {}
+				postArr.action = 'getMessage'
+				postArr.sid = yzm.sid
+				postArr.phone = yzm.phone
+				postArr.token = yzm.token
+				local data = post(yzm.url,postArr)
+				if data ~= '' and data ~= nil then
+					data = string.split(data,"|")
+					if data[1] == "1" then
+						yzm.sms = data[2]
+						sms = yzm.sms
+						local i,j = string.find(sms,"%d+")
+						sms = string.sub(sms,i,j)
+						return sms
+					else
+						delay(3)
+					end
+				end
+			end,	
+	addBlacklist = function()
+				local postArr = {}
+				postArr.action = 'addBlacklist'
+				postArr.sid = yzm.sid
+				postArr.phone = yzm.phone
+				postArr.token = yzm.token
+				post(yzm.url,postArr)
+			end,	
+	cancelRecv = function()
+				local postArr = {}
+				postArr.action = 'cancelRecv'
+				postArr.sid = yzm.sid
+				postArr.phone = yzm.phone
+				postArr.token = yzm.token
+				local data = post(yzm.url,postArr)
+			end,	
+	cancelAllRecv = function()
+				local postArr = {}
+				postArr.action = 'cancelAllRecv'
+				postArr.token = yzm.token
+				local data = post(yzm.url,postArr)
+			end,
+}
+
+if yzm.get.login()then
+	log("接码平台链接成功",true)
+else
+	log("接码平台链接失败",true)
+	return false
 end
+
 
 function GET_message(phone)
 	local get ={}
@@ -560,7 +640,8 @@ function reg()
 				if 取号 then
 					if d(page.regUI_login,"page.regUI_login",true)then
 						delay(1)
-						if GET_Phone()then
+						if yzm.get.phone()then
+--						if GET_Phone() then
 							log(phone,true)
 							delay(2.8)
 							if type(tonumber(phone)) == "number" then
@@ -587,7 +668,8 @@ function reg()
 						input(random_name()..myRand(4,rd(2,6)))
 						click(26, 282)			--点击空白
 						
-					elseif GET_message(phone)then
+					elseif yzm.get.sms()then
+--					elseif GET_message()then
 						click(127, 340)
 						input(sms)
 						click(604, 610)				--点击空白
@@ -612,7 +694,8 @@ function reg()
 				
 				if d(page.tip_bad,"page.tip_bad",true)then
 					log('注册过的')
-					addBlacklist(phone)
+--					addBlacklist(phone)
+					yzm.get.addBlacklist()
 					return false
 				elseif d(page.allow,"page.allow",true)then
 				elseif d(page.allow_local,"page.allow_local",true)then
@@ -670,6 +753,8 @@ while true do
 						if fix()then
 						--	makeinfo()
 						end
+					else
+						yzm.get.cancelRecv()
 					end
 				end
 	

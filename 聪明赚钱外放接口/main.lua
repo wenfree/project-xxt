@@ -397,6 +397,7 @@ bid.快猫 = {	["appid"] =  "1438487261", ["appbid"] = "com.junpeng.yeliao", ["a
 bid.仙侠物语 = {	["appid"] =  "1354411312", ["appbid"] = "com.zhou.xxwyios", ["adid"]= '1048', ["keyword"]="仙侠物语" }
 bid.信融投资 = {	["appid"] =  "1014865736", ["appbid"] = "com.jinding.xinrongtouzi", ["adid"]= '1047', ["keyword"]="信融投资" }
 bid.大麦理财 = {	["appid"] =  "950911786", ["appbid"] = "com.damai", ["adid"]= '1050', ["keyword"]="大麦理财" }
+bid.聪明钱包兴辉版 = {	["appid"] =  "1398735552", ["appbid"] = "com.congming.app", ["adid"]= '1051', ["keyword"]="钱包" }
 
 
 

@@ -185,7 +185,6 @@ function activeidfa(name)
 	postArr.ip=ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
 	postArr.scode=var.source
 	
-	
 	postArr.keyword =  bid[name]['keyword']
 	postArr.isComp = 1
 	
@@ -393,10 +392,9 @@ function get_task()
 end
 
 
-
-
 bid.超杀西游记 = {	["appid"] =  "1417027874", ["appbid"] = "com.csxyj.ds2", ["adid"]= 'CHN8HUSUAH787J1123', ["keyword"]="梦幻西游" }
-bid.酒仙剑 = {	["appid"] =  "1441931109", ["appbid"] = "com.jxj.mhxyu", ["adid"]= 'CHN8HUSUAH787J1123', ["keyword"]="宫廷计" }
+bid.酒仙剑 = {	["appid"] =  "1441931109", ["appbid"] = "com.jxj.mhxyu", ["adid"]= 'CHN8HUSUAH787J1123', ["keyword"]="酒仙剑" }
+bid.扫描全能王 = {	["appid"] =  "1445377297", ["appbid"] = "com.kk.FileScanner", ["adid"]= 'CHN8HUSUAH787J1123', ["keyword"]="扫描王" }
 
 
 function ends()
@@ -419,6 +417,7 @@ while true do
 			if TaskDate then
 				for i,v in ipairs(TaskDate) do
 					work = v.work
+					bid[work]['keyword']=v.way
 					task_id = v.task_id
 					if bid[work]['appbid'] ~= nil then
 						onlyactive(work)
@@ -430,12 +429,7 @@ while true do
 	end
 	ends()
 end
-
-
-
-
-
-
+ 
 
 
 

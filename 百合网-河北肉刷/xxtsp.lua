@@ -255,8 +255,7 @@ function post(url,tables)
 			post_data = post_data..k..'='..v..'&'
 		end
 	end
-	
-	safari = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_3)'
+	local safari = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_3)'
 	local code, res_headers, body = http.post(server, 15, {
 		["User-Agent"] = safari, -- 模拟 safari
 	}, post_data)
