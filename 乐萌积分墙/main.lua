@@ -101,12 +101,13 @@ function back_pass(task_id,success)
 end
 
 function checkidfa(name)
-	local url = "http://data.zttx.net/ztuniq/api.php"
+	local url = "https://ksw.loovee.com/open/idfa/ip_exist"
 	local postArr = {}
 	postArr.appid=bid[name]['appid']
 	postArr.mid= var.mid
 	postArr.idfa=idfa
 	postArr.ip=ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
+	postArr.source=
 
 	index = 0
 	post_data = ''

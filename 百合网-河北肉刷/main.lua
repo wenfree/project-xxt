@@ -51,6 +51,9 @@ yzm.get = {
 						phone = yzm.phone
 						log(yzm.token)
 						return data[2]
+					else
+						log(data[2],true)
+						delay(3)
 					end
 				end
 			end,	
@@ -70,6 +73,7 @@ yzm.get = {
 						sms = string.sub(sms,i,j)
 						return sms
 					else
+						log(data[2],true)
 						delay(3)
 					end
 				end
