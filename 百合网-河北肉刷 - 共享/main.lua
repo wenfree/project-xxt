@@ -102,13 +102,6 @@ yzm.get = {
 			end,
 }
 
-if yzm.get.login()then
-	log("接码平台链接成功",true)
-else
-	log("接码平台链接失败",true)
-	return false
-end
-
 
 function GET_message(phone)
 	local get ={}
@@ -193,6 +186,11 @@ function GET_Phone_a(phone)
 		end
 	end
 end
+
+--phone = '13395726142'
+--GET_message(phone)
+--os.exit()
+
 
 --高德 地址转换api------
 function GET_local(lo,lt)
@@ -652,8 +650,8 @@ function reg()
 				if 取号 then
 					if d(page.regUI_login,"page.regUI_login",true)then
 						delay(1)
-						if yzm.get.phone()then
---						if GET_Phone() then
+--						if yzm.get.phone()then
+						if GET_Phone() then
 							log(phone,true)
 							delay(2.8)
 							if type(tonumber(phone)) == "number" then
@@ -683,8 +681,8 @@ function reg()
 						input(random_name()..myRand(4,rd(2,6)))
 						click(26, 282)			--点击空白
 						
-					elseif yzm.get.sms()then
---					elseif GET_message()then
+--					elseif yzm.get.sms()then
+					elseif GET_message(phone)then
 						click(127, 340)
 						input(sms)
 						click(604, 610)				--点击空白
@@ -714,7 +712,7 @@ function reg()
 				if d(page.tip_bad,"page.tip_bad",true)then
 					log('注册过的')
 --					addBlacklist(phone)
-					yzm.get.addBlacklist()
+--					yzm.get.addBlacklist()
 					return false
 				elseif d(page.allow,"page.allow",true)then
 				elseif d(page.allow_local,"page.allow_local",true)then
@@ -772,7 +770,7 @@ while true do
 						--	makeinfo()
 						end
 					else
-						yzm.get.cancelRecv()
+--						yzm.get.cancelRecv()
 					end
 				end
 	

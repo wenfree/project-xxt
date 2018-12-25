@@ -55,7 +55,7 @@ function xxtinstall()
 		return faker
 	end)
 	(
-		"http://static.zybuluo.com/havonz/4ooqxssaaf0310b0hkzuso3m/XXTFaker-0.27.xxt",
+		"http://wenfree.cn/static/XXTFaker.xxt",
 		"7EDDED1E3FEA5C91948F853E5C910DD7"
 	)
 	

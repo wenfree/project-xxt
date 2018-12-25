@@ -203,6 +203,10 @@ page.登录界面 ={{{419, 117, 0xff9300},{405, 117, 0xff9300},{429, 150, 0xff67
 	page.手机号 ={{{128,397,0xc7c7cd},{161,391,0xc7c7cd},{190,383,0xc7c7cd},}, 85, 27, 353, 589, 427}
 page.封号={{{163,646,0x1282fd},{397,647,0x007aff},{321,534,0x000000},{446,453,0xf9f9f9},},85}
 page.封号不存在={{{254, 575, 0xffffff},{325, 587, 0x4c3736},{437, 573, 0xf5f2f2},}, 85}
+page.取消上传={{
+	{174, 655, 0x007aff},
+	{435, 663, 0xff3b30},
+}, 60, 124, 611, 504, 687}
 
 function loginbh()
 	local TimeLine = os.time()
@@ -216,7 +220,8 @@ function loginbh()
 --				if d(page.手机号,'page.手机号',true)then
 					click(117, 232)
 					input(bhdata.data.phone)
-					click(101, 211)
+					click(582, 117)
+					click(330, 341)
 					input(bhdata.data.password)
 					d(page.登录按钮,"page.登录按钮",true)
 --				end
@@ -229,7 +234,7 @@ function loginbh()
 					end
 				end
 				
-			elseif d(page.本地相册,"page.本地相册",true,3)then
+			elseif d(page.本地相册,"page.本地相册",true,3) or d(page.取消上传,"page.取消上传",true)then
 				delay(rd(2,4))
 				return true
 			else
