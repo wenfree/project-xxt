@@ -41,11 +41,7 @@ atexit(function()
 bid={}
 bid.棋金五牛牌 = 'com.qijing.wuniupai'
 
-
-
-
-
-screen.init(1)
+screen.init(0)
 var = {}
 var.lun = 0
 --全局变量

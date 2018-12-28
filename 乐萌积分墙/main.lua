@@ -64,7 +64,7 @@ bid.花上钱贷款 = {	["appid"] =  "1278376336", ["appbid"] = "com.jiucang.hua
 
 screen.init(0)
 var = {}
-var.source = "32"
+var.source = "renjy"
 var.mid = '20102'
 
 
@@ -100,15 +100,52 @@ function back_pass(task_id,success)
 	log( post(url,postArr) )
 end
 
-function checkidfa(name)
+function checkIdfaIp(name)
 	local url = "https://ksw.loovee.com/open/idfa/ip_exist"
 	local postArr = {}
 	postArr.appid=bid[name]['appid']
-	postArr.mid= var.mid
 	postArr.idfa=idfa
-	postArr.ip=ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
-	postArr.source=
+	postArr.ip = ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
+	postArr.source= var.source
+	postArr.time = os.time()
 
+	index = 0
+	post_data = ''
+	
+	for k,v in pairs(postArr)do
+		index = index + 1
+		if v ~= nil then
+			if index == 8 then
+				post_data = post_data..k..'='..v
+			else
+				post_data = post_data..k..'='..v..'&'
+			end
+		end
+	end
+	url = url..'?'..post_data
+	log(url)
+	log(postArr)
+	local getdata = get(url)
+	if getdata ~= nil then
+		local data = json.decode(getdata)
+		log(data or "nil")
+		if tonumber(data[idfa]) == 0 then
+			log("idfa: OK.",true)
+			return true
+		else
+			log("idfa------排重失败",true)
+		end
+	end
+end
+
+function checkidfa(name)
+	local url = "https://ksw.loovee.com/open/idfa/index"
+	local postArr = {}
+	postArr.appid=bid[name]['appid']
+	postArr.idfa=idfa
+	postArr.ip = ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
+	postArr.source= var.source
+	postArr.time = os.time()
 	index = 0
 	post_data = ''
 	
@@ -140,16 +177,13 @@ end
 
 
 function clickidfa(name,callbackkey)
-	local url = "http://data.zttx.net/clk/clk.php"
+	local url = ":https://ksw.loovee.com/open/adclick/ios"
 	local postArr = {}
-	postArr.appid=bid[name]['appid']
-	postArr.mid=var.mid
+	postArr.app=bid[name]['appid']
 	postArr.idfa=idfa
-	postArr.idfamd5= string.md5(idfa) 
-	postArr.clktime= os.time()
-	
-	postArr.clkip=ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
-
+	postArr.ip = ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
+	postArr.source= var.source
+	postArr.time = os.time()
 	
 	----------------------
 --	postArr.keyword = e:escape(bid[name]['keyword'])
@@ -175,7 +209,7 @@ function clickidfa(name,callbackkey)
 	if getdata ~= nil then
 		local data = json.decode(getdata)
 		log(data or "nil")
-		if (data.msg) == "success" then
+		if (data.success) == "true" then
 			log("点击成功: OK.",true)
 			return true
 		else
@@ -244,11 +278,13 @@ function callbackapi(name)
 		if dtassss ~= nil then
 			callbackid = json.decode(dtassss)['data']['id']
 			if callbackid ~= nil then
-				if checkidfa(name)then
-					if clickidfa(name,true)then
-						delay(rd(10,20))
-						newidfa(name,1)
-						back_pass(task_id,"ok")
+				if checkIdfaIp(name)then
+					if checkidfa(name)then
+						if clickidfa(name,true)then
+							delay(rd(10,20))
+							newidfa(name,1)
+							back_pass(task_id,"ok")
+						end
 					end
 				end
 			end
@@ -399,6 +435,7 @@ end
 
 
 bid.触触 = {	["appid"] =  "1441288914", ["appbid"] = "com.xiaoju.chuchu", ["adid"]= '1032', ["keyword"]="触触" }
+bid.乐萌抓娃娃 = {	["appid"] =  "1333399518", ["appbid"] = "com.loovee.fastwawa", ["adid"]= '1032', ["keyword"]="抓娃娃" }
 
 
 function ends()

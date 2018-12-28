@@ -441,9 +441,6 @@ while true do
 	if vpn() then
 		if checkip()then
 		--------------------------------------------------	
-			TaskDate = {
-				{1},
-				}
 			local TaskDate = ( get_task() )
 
 			if TaskDate then
