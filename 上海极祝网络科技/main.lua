@@ -340,7 +340,7 @@ function newidfa(name,times)
 	for i= 1,times do
 
 		local TIMEline = os.time()
-		local OUTtime = rd(30,35)
+		local OUTtime = rd(15,20)
 		while os.time()- TIMEline < OUTtime do
 			if active(bid[name]['appbid'],4)then
 				if d(apparr.right,"apparr.right",true)then
@@ -405,6 +405,7 @@ bid.yc平台 = {	["appid"] =  "1442074623", ["appbid"] = "com.Equipment.LY.www",
 bid.趣平台 = {	["appid"] =  "1441503468", ["appbid"] = "snx.com.quweixingzuo", ["adid"]= '1032', ["keyword"]="趣平台" }
 bid.孝感棋牌 = {	["appid"] =  "1445687270", ["appbid"] = "com.xiaoganwujinjiancaishangcheng.wjjc", ["adid"]= '1032', ["keyword"]="孝感棋牌" }
 bid.KINGDOM = {	["appid"] =  "1438480746", ["appbid"] = "jd.KingDom.com", ["adid"]= '1032', ["keyword"]="KINGDOM" }
+bid.乐悦智能 = {	["appid"] =  "1445376355", ["appbid"] = "com.SafetyMonitor.sjq", ["adid"]= '1032', ["keyword"]="乐悦智能" }
 
 
 function ends()
@@ -417,9 +418,10 @@ function ends()
 	
 end
 --]]
-
+function main()
 while true do
 	log("vpn-key")
+	
 	if false or  vpn() then
 		if checkip()then
 	-----------------------------------
@@ -439,10 +441,16 @@ while true do
 	end
 	ends()
 end
+end
 
-
-
-
+while (true) do
+	local ret,errMessage = pcall(main)
+	if ret then
+	else
+		sys.alert(errMessage, 15)
+		delay(1)
+	end
+end
 
 
 

@@ -168,6 +168,8 @@ bid.车开新二手车 = "com.shyohan.carHappy"
 bid.音遇 = "io.liuliu.music"
 bid.上门帮 = "com.shangmb.client"
 bid.斗鱼直播 = "tv.douyu.live"
+bid.American = "com.jianqijt.afr.Americanfootballrush"
+
 --------------------------------------------------------在后面都加上 该app的 ID---------------------
 --newidfa(bid.玫瑰日记 ,300/8)		--A1组
 --newidfa(bid.佛滔命理大师,500/10)		--A组
@@ -206,7 +208,7 @@ function ends()
 	
 end
 --]]
-
+function main()
 while true do
 	log("vpn-key")
 	if true or  vpn() then
@@ -230,9 +232,17 @@ while true do
 	end
 	ends()
 end
+end
 
 
-
+while (true) do
+	local ret,errMessage = pcall(main)
+	if ret then
+	else
+		sys.alert(errMessage, 15)
+		delay(1)
+	end
+end
 
 
 

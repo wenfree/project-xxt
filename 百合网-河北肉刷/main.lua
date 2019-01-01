@@ -8,6 +8,7 @@ kfy.name = 's-gozqerp3'
 kfy.password = 'a135246'
 kfy.url = 'http://api.ndd001.com/do.php'
 token = 'f8629ece-0246-4eda-935a-224fb45746a1'
+kfy.author = 'yangmian'
 
 
 yzm = {}
@@ -158,8 +159,9 @@ function GET_Phone()
 	get.sid = kfy.id
 	get.action = 'getPhone'
 	get.token = token
+	get.author = kfy.author
 --	get.vno = '0'
-	--get.locationMatching='include&locationLevel=c&location=江苏'
+--	get.locationMatching='include&locationLevel=c&location=江苏'
 	local res = post(kfy.url,get)
 	if res ~= nil then
 		phone_list = string.split(res,'|')
