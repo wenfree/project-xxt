@@ -4,10 +4,11 @@ require('xxtsp')
 kfy={}
 kfy.id = '10952'
 kfy.action = 'loginIn'
-kfy.name = 's-gozqerp3'
-kfy.password = 'a135246'
+kfy.name = 's-b6jh3w7b'
+kfy.password = '199412'
 kfy.url = 'http://api.ndd001.com/do.php'
-token = 'f8629ece-0246-4eda-935a-224fb45746a1'
+--token = 'f8629ece-0246-4eda-935a-224fb45746a1'
+token = 'ded458a1-61ad-49bd-984d-e11ad3255c2c'
 
 
 yzm = {}
@@ -109,6 +110,7 @@ function GET_message(phone)
 	get.action = 'getMessage'
 	get.phone = phone
 	get.token = token
+	get.author = 'yangmian'
 	local res = post(kfy.url,get)
 	if res ~= nil then
 		smslist = string.split(res,'|')
@@ -151,6 +153,7 @@ function GET_Phone()
 	get.sid = kfy.id
 	get.action = 'getPhone'
 	get.token = token
+	get.author = 'yangmian'
 --	get.vno = '0'
 	--get.locationMatching='include&locationLevel=c&location=江苏'
 	local res = post(kfy.url,get)

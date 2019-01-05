@@ -406,6 +406,7 @@ bid.趣平台 = {	["appid"] =  "1441503468", ["appbid"] = "snx.com.quweixingzuo"
 bid.孝感棋牌 = {	["appid"] =  "1445687270", ["appbid"] = "com.xiaoganwujinjiancaishangcheng.wjjc", ["adid"]= '1032', ["keyword"]="孝感棋牌" }
 bid.KINGDOM = {	["appid"] =  "1438480746", ["appbid"] = "jd.KingDom.com", ["adid"]= '1032', ["keyword"]="KINGDOM" }
 bid.乐悦智能 = {	["appid"] =  "1445376355", ["appbid"] = "com.SafetyMonitor.sjq", ["adid"]= '1032', ["keyword"]="乐悦智能" }
+bid['特摩ネットディスクの助手'] = {	["appid"] =  "590402807", ["appbid"] = "com.slavamax.tOpener", ["adid"]= '1032', ["keyword"]="特摩ネットディスクの助手" }
 
 
 function ends()
