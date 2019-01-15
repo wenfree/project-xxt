@@ -1,5 +1,14 @@
 -- 此处为nLog功能实现操作
 nLog = require('nLog')()
 
-key = 'bws8y77734e@icloud.com'
-app.input_text(key)
+key = 'DB7318B2CC8F2EA20A46621DB21FB6E780A46621'
+awzbid = 'AWZ'
+
+
+
+
+
+
+
+
+

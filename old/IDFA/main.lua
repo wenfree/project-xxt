@@ -169,6 +169,7 @@ bid.音遇 = "io.liuliu.music"
 bid.上门帮 = "com.shangmb.client"
 bid.斗鱼直播 = "tv.douyu.live"
 bid.American = "com.jianqijt.afr.Americanfootballrush"
+bid.中科在线 = 'com.yinghexin.Zhongkzx'
 
 --------------------------------------------------------在后面都加上 该app的 ID---------------------
 --newidfa(bid.玫瑰日记 ,300/8)		--A1组
@@ -211,8 +212,8 @@ end
 function main()
 while true do
 	log("vpn-key")
-	if true or  vpn() then
-		if true or checkip()then
+	if false or  vpn() then
+		if false or checkip()then
 	-----------------------------------
 			local TaskDate = ( get_task() )
 			if TaskDate then
