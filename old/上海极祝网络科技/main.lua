@@ -218,7 +218,7 @@ end
 
 function checkip()
 	ip = get_ip() or "192.168.1.1"
-	local url = 'http://idfa888.com/Public/idfa/?service=idfa.checkip&ip='..ip
+	local url = 'http://wenfree.cn/api/Public/tjj/?service=Ip.checkip&ip='..ip
 	local getdata = get(url)
 	if getdata ~= nil then
 		local data = json.decode(getdata)
@@ -408,6 +408,8 @@ bid.KINGDOM = {	["appid"] =  "1438480746", ["appbid"] = "jd.KingDom.com", ["adid
 bid.乐悦智能 = {	["appid"] =  "1445376355", ["appbid"] = "com.SafetyMonitor.sjq", ["adid"]= '1032', ["keyword"]="乐悦智能" }
 bid['特摩ネットディスクの助手'] = {	["appid"] =  "590402807", ["appbid"] = "com.slavamax.tOpener", ["adid"]= '1032', ["keyword"]="特摩ネットディスクの助手" }
 bid['安全守护伴侣'] = {	["appid"] =  "1446730742", ["appbid"] = "com.aqblIos.preject.www", ["adid"]= '1032', ["keyword"]="安全守护伴侣" }
+bid['古龍经典'] = {	["appid"] =  "1442167818", ["appbid"] = "com.yubery.gulongClassic", ["adid"]= '1032', ["keyword"]="古龍经典" }
+bid['轻松学广场舞视频教学'] = {	["appid"] =  "1082180369", ["appbid"] = "com.dupeifu.qsxgcw", ["adid"]= '1032', ["keyword"]="轻松学广场舞视频教学" }
 
 
 function ends()
@@ -432,7 +434,19 @@ while true do
 				for i,v in ipairs(TaskDate) do
 					work = v.work
 					task_id = v.task_id
+					
 					log(work)
+					bid[work]={}
+					bid[work]['keyword']=v.keyword
+					
+					if string.len(v.appbid)>5 then
+						bid[work]['appbid']=v.appbid
+					end
+					if string.len(v.appid)>5 then
+						bid[work]['appid']=v.appid
+					end
+					
+					log(bid[work])
 					if bid[work]['appbid'] ~= nil then
 						onlyactive(work)
 					end
@@ -444,7 +458,6 @@ while true do
 	ends()
 end
 end
-
 
 
 while (true) do
