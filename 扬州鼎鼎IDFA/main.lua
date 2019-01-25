@@ -375,6 +375,8 @@ bid.两湖带金花 = {	["appid"] =  "1439166486", ["appbid"] = "com.lianhudai.j
 bid.万和三张 = {	["appid"] =  "1439535467", ["appbid"] = "come.wanhe.sanzhangpai", ["adid"]= '1032', ["keyword"]="万和三张" }
 bid.创世扑克 = {	["appid"] =  "1437714320", ["appbid"] = "com.chuangshi.pk", ["adid"]= '1032', ["keyword"]="创世扑克" }
 bid.花创互娱 = {	["appid"] =  "1435674853", ["appbid"] = "com.HuaChuang.Game", ["adid"]= '1032', ["keyword"]="花创互娱" }
+bid.同花顺炸金牛 = {	["appid"] =  "1441302187", ["appbid"] = "com.mojun.thszhajinniu", ["adid"]= '1032', ["keyword"]="同花顺炸金牛" }
+bid.斗一次地主 = {	["appid"] =  "1435559586", ["appbid"] = "com.dycdz.game", ["adid"]= '1032', ["keyword"]="斗一次地主" }
 
 
 function ends()
@@ -399,23 +401,11 @@ while true do
 				for i,v in ipairs(TaskDate) do
 					work = v.work
 					task_id = v.task_id
-					
-					--[[
-					if v.appid then
-						bid[work]['appid'] = v.appid
-					end
-					if v.appbid then
-						bid[work]['appbid'] = v.appbid
-					end
-					if v.keyword then
-						bid[work]['keyword'] = v.keyword
-					end
-					--]]
-					
-					log(work)
-					if bid[work]['appbid'] ~= nil then
-						onlyactive(work)
-					end
+					bid[work]={}
+					bid[work]['keyword']=v.keyword
+					if string.len(v.appbid)>5 then	bid[work]['appbid']=v.appbid end
+					if string.len(v.appid)>5 then	bid[work]['appid']=v.appid	end
+					onlyactive(work)
 				end
 			end
 	------------------------------------
