@@ -58,7 +58,7 @@ function up(name,other)
 	idfalist.idfa = idfa
 	idfalist.ip = '192.168.1.1'
 --	idfalist.ip = get_ip() or '192.168.1.1'
-	idfalist.account = account
+	idfalist.account = bid[work]['keyword']
 	idfalist.password = password
 	idfalist.phone = phone
 	idfalist.other = other
@@ -139,7 +139,7 @@ function newidfa(bids)
 					delay(1)
 				end
 			end
-		end	
+		end
 		up(appname(bids),'初次上传')
 		back_pass(task_id,'ok')
 	end
@@ -220,9 +220,13 @@ while true do
 				for i,v in ipairs(TaskDate) do
 					work = v.work
 					task_id = v.task_id
-					log(work)
+					bid={}
+					bid[work]={}
+					bid[work]['keyword']=v.keyword
+					if string.len(v.appbid)>5 then	bid[work]['appbid']=v.appbid end
+					if string.len(v.appid)>5 then	bid[work]['appid']=v.appid	end
 					if bid[work] ~= nil then
-						newidfa(bid[work])
+						newidfa(bid[work]['appbid'])
 					else
 						log('没有设置app')
 					end
