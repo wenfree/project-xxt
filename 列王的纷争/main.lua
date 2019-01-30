@@ -65,12 +65,13 @@ cok['领主改名']={{
 
 function tips()
 	if d(cok['跳过剧情'],'跳过剧情',true)then
+		delay(20)
 	elseif d(cok['左上提示'],'左上提示',true)then
 	elseif d(cok['提示手'],'提示手',true)then
 	elseif d(cok['文明介绍'],'文明介绍',true)then
 	elseif d(cok['文明介绍确定选择'],'文明介绍确定选择',true)then
 		city = 4
-	elseif d(cok['领主改名'],'领主改名',true)then
+	elseif up_times and d(cok['领主改名'],'领主改名',true)then
 		var.nikename = myRand(4,rd(8,12))
 		click(458, 367,2)
 		input(var.nikename)
@@ -157,14 +158,16 @@ function up(name,other)
 end
 
 function GameCok()
-	city = 1
-	up_times = true
-	XXTfakerNewPhone(Appbid)
-	local timeLine = os.time()
-	
-	while os.time()-timeLine < 10*60 do
-		play()
-		delay(1)
+	if vpn()then
+		city = 1
+		up_times = true
+		XXTfakerNewPhone(Appbid)
+		local timeLine = os.time()
+		
+		while os.time()-timeLine < 10*60 + math.random(1,90) do
+			play()
+			delay(1)
+		end
 	end
 end
 
