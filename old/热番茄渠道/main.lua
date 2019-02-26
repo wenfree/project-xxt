@@ -91,6 +91,15 @@ function up(name,other)
 	return post(url,idfalist)
 end
 
+function back_pass(task_id,success)
+	local url = 'http://wenfree.cn/api/Public/tjj/?service=Tjj.backpass'
+	local postArr = {}
+	postArr.task_id = task_id
+	postArr.success = success
+	log( post(url,postArr) )
+end
+
+
 function checkidfa(name)
 	local url = "http://api.refanqie.com/1/hlw-coreapi/channel/checkIdfa.json"
 	local postArr = {}
@@ -138,7 +147,7 @@ function clickidfa(name)
 	
 	----------------------
 	postArr.model=model
-	postArr.version = sys.version()
+	postArr.version = phoneos or sys.version()
 	postArr.keyword = bid[name]['keyword']
 	
 	if callbackid then
@@ -183,7 +192,7 @@ function activeidfa(name)
 	
 	----------------------
 	postArr.model=model
-	postArr.version = sys.version()
+	postArr.version = phoneos or sys.version()
 --	postArr.keyword = e:escape(bid[name]['keyword'])
 	postArr.keyword = bid[name]['keyword']
 	if callbackid then
@@ -221,7 +230,7 @@ end
 
 function checkip()
 	ip = get_ip() or "192.168.1.1"
-	local url = 'http://hlj.51-gx.com/Public/idfa/?service=idfa.checkip&ip='..ip
+	local url = 'http://idfa888.com/Public/idfa/?service=idfa.checkip&ip='..ip
 	local getdata = get(url)
 	if getdata ~= nil then
 		local data = json.decode(getdata)
@@ -258,6 +267,7 @@ function activeapi(name)
 	if XXTfakerNewPhone(bid[name]['appbid'])then
 		idfa = XXTfakerGetinfo(bid[name]['appbid'])['IDFA']
 		model = XXTfakerGetinfo(bid[name]["appbid"])['ProductType']
+		phoneos = XXTfakerGetinfo(bid[name]["appbid"])['ProductVersion']
 		
 		keyword = bid[name]['keyword']
 		local dtassss = up(name,bid[name]['keyword'])
@@ -267,10 +277,11 @@ function activeapi(name)
 			if callbackid ~= nil then
 				if checkidfa(name)then
 					if clickidfa(name)then
-						delay(rd(15,20))
+						delay(rd(2,5))
 						newidfa(name,1)
 						if activeidfa(name)then
 							up(name,keyword.."-激活成功")
+							back_pass(task_id,"ok")
 						end
 					end
 				end
@@ -290,7 +301,7 @@ function onlyactive(name)
 			callbackid = json.decode(dtassss)['data']['id']
 			if callbackid ~= nil then
 				if checkidfa(name)then
-					delay(rd(10,20))
+					delay(rd(2,5))
 					newidfa(name,1)
 					if activeidfa(name)then
 						up(name,keyword .. "-激活成功")
@@ -307,6 +318,7 @@ function idfaisok(name)
 	if XXTfakerNewPhone(bid[name]['appbid'])then
 		idfa = XXTfakerGetinfo(bid[name]['appbid'])['IDFA']
 		model = XXTfakerGetinfo(bid[name]["appbid"])['ProductType']
+		phoneos = XXTfakerGetinfo(bid[name]["appbid"])['ProductVersion']
 		return checkidfa(name)
 	end
 end
@@ -315,6 +327,7 @@ function clickisok(name)
 	if XXTfakerNewPhone(bid[name]['appbid'])then
 		idfa = XXTfakerGetinfo(bid[name]['appbid'])['IDFA']
 		model = XXTfakerGetinfo(bid[name]["appbid"])['ProductType']
+		phoneos = XXTfakerGetinfo(bid[name]["appbid"])['ProductVersion']
 		if checkidfa(name)then
 			return clickidfa(name)
 		end
@@ -340,22 +353,30 @@ end
 apparr={}
 apparr.right={{{462,666,0x007aff},{225,666,0x007aff},}, 85, 54, 394, 590, 809}
 
+apparr.qq_取消={{{ 33,  77, 0xffffff},{184, 888, 0x1ac27b},{193, 990, 0x02a8e5},}, 85, 9, 49, 609, 1121}
+apparr.qq_排行={{{198, 528, 0x31c27c},{ 77, 517, 0x31c27c},{577, 525, 0x31c27c},}, 85, 16, 442, 624, 626}
+
 function newidfa(name,times)
 	for i= 1,times do
-
 		local TIMEline = os.time()
-		local OUTtime = rd(90,95)
+		local OUTtime = rd(180,185)
 		while os.time()- TIMEline < OUTtime do
 			if active(bid[name]['appbid'],4)then
-				if d(apparr.right,"apparr.right",true)then
-
+				if name == "QQ音乐" then
+					if d(apparr.qq_取消,"apparr.qq_取消",true)then
+						
+					elseif d(apparr.qq_排行,"apparr.qq_排行",true)then
+					end
 				else
-					moveTo(600,300,100,100,30,50)
-					delay(1)
-					click(321, 978)
-					delay(1)
-					click(462, 666)
-					delay(1)
+					if d(apparr.right,"apparr.right",true)then
+					else
+						moveTo(600,300,100,100,30,50)
+						delay(1)
+						click(321, 978)
+						delay(1)
+						click(462, 666)
+						delay(1)
+					end
 				end
 			else
 				log("启动一次")
@@ -392,32 +413,82 @@ keytable = {}
 --keytable.iPhone08 = "战舰联盟"
 
 
-
-phonename = device.name()
-if keytable[phonename]	then
-	bid.银河战舰.keyword = keytable[phonename]
-end
-
-
---[[]]
-while true do
-	log("vpn-key")
-	if  vpn() then
-		if checkip()then
-			activeapi("银河战舰")
---			activeapi("DaDa英语")
+function get_task()
+	local url = 'http://wenfree.cn/api/Public/tjj/?service=Tjj.gettask'
+	local postArr = {}
+	postArr.phonename = phonename or device.name()
+	postArr.imei = phoneimei or sys.mgcopyanswer("SerialNumber")
+	local taskData = post(url,postArr)
+	
+	if taskData ~= nil then
+		taskData = json.decode(taskData)
+		log(taskData)
+		
+		if taskData.data == "新增手机" or taskData.data == "暂无任务" then
+			log(taskData.data,true)
+			delay(30)
+			return false
+		else
+			return taskData.data
 		end
 	end
+end
+
+function ends()
 	for _,bid in ipairs(app.bundles()) do
 		app.quit(bid)
 	end
 	vpnx()
 	sys.msleep(2000)
-
 end
 
---]]
 
+--[[获取当前伪装的bid表]]
+
+--log(XXTfakerGetinfo(app.front_bid()))
+
+--os.exit()
+
+
+function main()
+while true do
+	log("vpn-key")
+
+	-----------------------------------
+			local TaskDate = ( get_task() )
+			if TaskDate then
+				for i,v in ipairs(TaskDate) do
+					
+					if false or  vpn() then
+						if checkip()then
+							work = v.work
+							task_id = v.task_id
+							bid[work]={}
+							bid[work]['keyword']=v.keyword
+							if string.len(v.appbid)>5  then	bid[work]['appbid']=v.appbid end
+							if string.len(v.appid)>5  then	bid[work]['appid']=v.appid	end
+							activeapi(work)
+						end
+						vpnx()
+						delay(3)
+					end
+					
+				end
+			end
+	------------------------------------
+
+	ends()
+end
+end
+
+while (true) do
+	local ret,errMessage = pcall(main)
+	if ret then
+	else
+		sys.alert(errMessage, 15)
+		delay(1)
+	end
+end
 
 
 

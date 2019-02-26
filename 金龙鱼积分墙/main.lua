@@ -64,7 +64,8 @@ bid.花上钱贷款 = {	["appid"] =  "1278376336", ["appbid"] = "com.jiucang.hua
 
 screen.init(0)
 var = {}
-var.source = "lixuanjishua"
+var.source = "www"
+var.adid = '215369'
 
 
 function sign(adid,timestamp)
@@ -100,32 +101,26 @@ function back_pass(task_id,success)
 end
 
 function checkidfa(name)
-	local url = "http://m.cmzqian.com/API/common/repeat"
+	log('checkidfa-->'..name)
+	local url = "http://m.moneyli.top/IDFA/repeat"
 	local postArr = {}
-	postArr.adid=bid[name]['adid']
-	postArr.idfa=idfa
+	postArr.adid = bid[name]['appid']
+	postArr.idfa = idfa
 	postArr.ip=ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
-	postArr.source=var.source
+	postArr.source = var.source
+	postArr.keyword = bid[name]['keyword']
 	postArr.os_version = sys.version()
 	postArr.device = model
-	postArr.keyword = keyword or bid[name]['keyword']
 
-	index = 0
 	post_data = ''
-	
 	for k,v in pairs(postArr)do
-		index = index + 1
-		if v ~= nil then
-			if index == 8 then
-				post_data = post_data..k..'='..v
-			else
-				post_data = post_data..k..'='..v..'&'
-			end
-		end
+		post_data = post_data..k..'='..v..'&'
 	end
-	url = url..'?'..post_data
+	
+	local url = url..'?'..post_data
 	log(url)
 	log(postArr)
+
 	local getdata = get(url)
 	if getdata ~= nil then
 		local data = json.decode(getdata)
@@ -134,26 +129,26 @@ function checkidfa(name)
 			log("idfa: OK.",true)
 			return true
 		else
-			log("idfa------排重失败",true)
+			log("idfa----排重失败",true)
 		end
 	end
 end
 
 
-function clickidfa(name)
-	local url = "http://m.cmzqian.com/API/common/checkClick"
+function clickidfa(name,callbackkey)
+	local url = "http://m.moneyli.top/IDFA/checkClick"
 	local postArr = {}
-	postArr.adid=bid[name]['adid']
-	postArr.idfa=idfa
+	postArr.adid = bid[name]['appid']
+	postArr.idfa = idfa
 	postArr.ip=ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
-	postArr.source=var.source
+	postArr.source = var.source
+	postArr.keyword = bid[name]['keyword']
 	postArr.os_version = sys.version()
 	postArr.device = model
-	postArr.keyword = keyword or bid[name]['keyword']
 	
 	----------------------
 --	postArr.keyword = e:escape(bid[name]['keyword'])
-	if callbackid then
+	if callbackkey and callbackid then
 		postArr.callback  = "http://idfa888.com/Public/idfa/?service=idfa.callback&id="..callbackid
 	end
 	
@@ -171,11 +166,12 @@ function clickidfa(name)
 	url = url..'?'..post_data
 	log(url)
 	log(postArr)
+	
 	local getdata = get(url)
 	if getdata ~= nil then
 		local data = json.decode(getdata)
 		log(data or "nil")
-		if tonumber(data.status) == 1 then
+		if tonumber(data.status) == 1 or data.message == 'ok' then
 			log("点击成功: OK.",true)
 			return true
 		else
@@ -186,43 +182,26 @@ end
 
 
 function activeidfa(name)
-	local url = "http://m.cmzqian.com/API/common/activate"
+	log('activeidfa-->'..name)
+	local url = "http://m.moneyli.top/IDFA/activate"
 	local postArr = {}
-	postArr.adid=bid[name]['adid']
-	postArr.idfa=idfa
+	postArr.adid = bid[name]['appid']
+	postArr.idfa = idfa
 	postArr.ip=ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
-	postArr.source=var.source
+	postArr.source = var.source
+	postArr.keyword = bid[name]['keyword']
 	postArr.os_version = sys.version()
 	postArr.device = model
-	postArr.keyword = keyword or bid[name]['keyword']
-	
-	----------------------
---	postArr.keyword = e:escape(bid[name]['keyword'])
---	postArr.keyword = bid[name]['keyword']
-	if callbackid then
-		--postArr.callbackurl  = "http://idfa888.com/Public/idfa/?service=idfa.callback&id="..callbackid
-	end
-	
-	index = 0
-	post_data = ''
-	
-	for k,v in pairs(postArr)do
-		index = index + 1
-		if index == #postArr then
-			post_data = post_data..k..'='..v
-		else
-			post_data = post_data..k..'='..v..'&'
-		end
-	end
-	url = url..'?'..post_data
-	log(url)
-	log(postArr)
-	local getdata = get(url)
+
+	log(url.."?"..table.concat( postArr ))
+
+	local getdata = post(url,postArr)
 	if getdata ~= nil then
 		local data = json.decode(getdata)
 		log(data or "nil")
 		if tonumber(data.status) == 1 then
 			log("激活成功: OK.",true)
+			back_pass(task_id,"ok")
 			return true
 		else
 			log("idfa-激活失败",true)
@@ -255,7 +234,7 @@ function callbackapi(name)
 			callbackid = json.decode(dtassss)['data']['id']
 			if callbackid ~= nil then
 				if checkidfa(name)then
-					if clickidfa(name)then
+					if clickidfa(name,true)then
 						delay(rd(10,20))
 						newidfa(name,1)
 					end
@@ -277,7 +256,7 @@ function activeapi(name)
 			if callbackid ~= nil then
 				if checkidfa(name)then
 					if clickidfa(name)then
-						delay(rd(10,20))
+						delay(rd(2,3))
 						newidfa(name,1)
 						if activeidfa(name)then
 							up(name,bid[name]['keyword'].."-激活成功")
@@ -303,9 +282,6 @@ function onlyactive(name)
 					delay(rd(3,6))
 					newidfa(name,1)
 					if activeidfa(name)then
-						if task_id ~= nil then
-							back_pass(task_id,"ok")
-						end
 						up(name,bid[name]['keyword'].."-激活成功")
 					end
 
@@ -349,7 +325,6 @@ function appname(bid)
 	return app.localized_name(bid) or '未安装'
 end
 
-
 apparr={}
 apparr.right={{{462,666,0x007aff},{225,666,0x007aff},}, 85, 54, 394, 590, 809}
 
@@ -357,7 +332,7 @@ function newidfa(name,times)
 	for i= 1,times do
 
 		local TIMEline = os.time()
-		local OUTtime = rd(28,30)
+		local OUTtime = rd(60,65)
 		while os.time()- TIMEline < OUTtime do
 			if active(bid[name]['appbid'],4)then
 				if d(apparr.right,"apparr.right",true)then
@@ -387,20 +362,6 @@ function beewallidfa(name)
 	delay(1)
 end
 
-
-bid.花上钱贷款 = {	["appid"] =  "1278376336", ["appbid"] = "com.jiucang.huashangqian", ["adid"]= '1032', ["keyword"]="花上钱贷款" }
-bid.拓道财富 = {	["appid"] =  "1428159989", ["appbid"] = "com.tuodao.tdcaifu", ["adid"]= '1036', ["keyword"]="拓道财富" }
-bid.信贷360 = {	["appid"] =  "1399516881", ["appbid"] = "com.block.xd360", ["adid"]= '1019', ["keyword"]="信贷360" }
-bid.壹亿钱包 = {	["appid"] =  "1334529411", ["appbid"] = "com.yiyiqianbao.lishu", ["adid"]= '1021', ["keyword"]="壹亿钱包" }
-bid.铜掌柜 = {	["appid"] =  "988621288", ["appbid"] = "cn.tzg.TZG", ["adid"]= '1044', ["keyword"]="铜掌柜" }
-bid.快猫 = {	["appid"] =  "1438487261", ["appbid"] = "com.junpeng.yeliao", ["adid"]= '1045', ["keyword"]="夜聊" }
-bid.仙侠物语 = {	["appid"] =  "1354411312", ["appbid"] = "com.zhou.xxwyios", ["adid"]= '1048', ["keyword"]="仙侠物语" }
-bid.信融投资 = {	["appid"] =  "1014865736", ["appbid"] = "com.jinding.xinrongtouzi", ["adid"]= '1047', ["keyword"]="信融投资" }
-bid.大麦理财 = {	["appid"] =  "950911786", ["appbid"] = "com.damai", ["adid"]= '1050', ["keyword"]="大麦理财" }
-bid.聪明钱包兴辉版 = {	["appid"] =  "1398735552", ["appbid"] = "com.congming.app", ["adid"]= '1051', ["keyword"]="钱包" }
-
-
-
 function get_task()
 	local url = 'http://wenfree.cn/api/Public/tjj/?service=Tjj.gettask'
 	local postArr = {}
@@ -423,48 +384,56 @@ function get_task()
 end
 
 
---[[]]
+bid.万博娱乐 = {	["appid"] =  "1434066842", ["appbid"] = "com.qq.FindWord", ["adid"]= '1032', ["keyword"]="万博娱乐" }
 
 function ends()
-	
 	for _,bid in ipairs(app.bundles()) do
 		app.quit(bid)
 	end
 	vpnx()
 	sys.msleep(2000)
-	
 end
 --]]
 
+function main()
 while true do
 	log("vpn-key")
-	if vpn() then
-		if checkip()then
-		--------------------------------------------------	
-			local TaskDate = ( get_task() )
 
+	-----------------------------------
+			local TaskDate = ( get_task() )
 			if TaskDate then
 				for i,v in ipairs(TaskDate) do
-					work = v.work
-					task_id = v.task_id
-					bid[work]={}
-					bid[work]['keyword']=v.keyword
-					bid[work]['adid']=v.keyword
 					
-					if string.len(v.appbid)>5 then	bid[work]['appbid']=v.appbid end
-					if string.len(v.appid)>5 then	bid[work]['appid']=v.appid	end
-					onlyactive(work)
+					if false or  vpn() then
+						if checkip()then
+							work = v.work
+							task_id = v.task_id
+							bid[work]={}
+							bid[work]['keyword']=v.keyword
+							if string.len(v.appbid)>5 then	bid[work]['appbid']=v.appbid end
+							if string.len(v.appid)>5 then	bid[work]['appid']=v.appid	end
+							activeapi(work)
+						end
+						vpnx()
+						delay(3)
+					end
+					
 				end
 			end
-		--------------------------------------------------
-		end
-	end
+	------------------------------------
+
 	ends()
 end
+end
 
-
-
-
+while (true) do
+	local ret,errMessage = pcall(main)
+	if ret then
+	else
+		sys.alert(errMessage, 15)
+		delay(1)
+	end
+end
 
 
 
