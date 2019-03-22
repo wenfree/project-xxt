@@ -42,8 +42,6 @@ function arrow()
 end
 
 
-
-
 cok['跳过剧情']={{{562, 117, 0xbb9351},	{570,  96, 0xedbe6a},	{576,  96, 0x150f0c},}}
 cok['金币_游戏正常']={{
 	{605, 42, 0xe3cb58},
@@ -78,7 +76,7 @@ function tips()
 		if d(cok['改名_确定'],'cok.改名_确定',true)then
 			up("cok")
 		end
-		
+		fixkey = false
 	else
 		tips__ = tips__ or 0
 		tips__ = tips__ + 1
@@ -120,16 +118,16 @@ function play()
 				
 				click(46, 169)
 				log('点一下锤子')
-				if d(cok['游戏正常_第二锤免费'],'游戏正常_第二锤免费',true) then
+				
+				if fixkey and os.time()-fixTime >= 60*5 then
+					click(40,40)
+				
+				elseif d(cok['游戏正常_第二锤免费'],'游戏正常_第二锤免费',true) then
 				elseif d(cok['游戏正常_领取奖励'],'游戏正常_领取奖励',true) then
 				elseif d(cok['游戏正常_建造提示'],'游戏正常_建造提示',true)or d(cok['游戏正常_建造提示_'],'建造提示',true)then
 					click(321, 584)
 				end
 			end
-			
-
-
-			
 			
 		elseif arrow() then
 		else
@@ -163,8 +161,11 @@ function GameCok()
 		up_times = true
 		XXTfakerNewPhone(Appbid)
 		local timeLine = os.time()
+		local outTime = math.random(20,50)
+		local fixTime = os.time()
+		local fixkey = true
 		
-		while os.time()-timeLine < 10*60 + math.random(1,90) do
+		while os.time()-timeLine < 7*60 + outTime do
 			play()
 			delay(1)
 		end
