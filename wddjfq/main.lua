@@ -64,7 +64,7 @@ bid.花上钱贷款 = {	["appid"] =  "1278376336", ["appbid"] = "com.jiucang.hua
 
 screen.init(0)
 var = {}
-var.source = "32"
+var.source = "10003"
 
 
 function sign(adid,timestamp)
@@ -100,35 +100,34 @@ function back_pass(task_id,success)
 end
 
 function checkidfa(name)
-	local url = "http://api.jizhukeji.com/union/checkidfa"
+	local url = "http://ad.adstart.cn/channel.php"
 	local postArr = {}
-	postArr.appid=bid[name]['appid']
+	postArr.id="22"
 	postArr.idfa=idfa
 	postArr.ip=ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
-	postArr.source=var.source
-
-	index = 0
-	post_data = ''
 	
+	
+	local index = 1
+	local postdata = ""
 	for k,v in pairs(postArr)do
-		index = index + 1
-		if v ~= nil then
-			if index == 8 then
-				post_data = post_data..k..'='..v
-			else
-				post_data = post_data..k..'='..v..'&'
-			end
+		if index ==  1 then
+			postdata = "?".. k.."=".. v
+		else
+			postdata = postdata .."&" ..k.."="..v
 		end
+		index = index +1
 	end
-	url = url..'?'..post_data
-	log(url)
-	log(postArr)
+	log(url..postdata)
+	url = url..postdata
+	
+
 	local getdata = get(url)
 	if getdata ~= nil then
 		local data = json.decode(getdata)
 		log(data or "nil")
-		if tonumber(data[idfa]) == 0 then
+		if tonumber(data["Content"]["CheckIdfaResults"][1]["IsActive"]) == 1 then
 			log("idfa: OK.",true)
+			Source = data["Content"]["Source"]
 			return true
 		else
 			log("idfa------排重失败",true)
@@ -138,12 +137,14 @@ end
 
 
 function clickidfa(name,callbackkey)
-	local url = "http://api.jizhukeji.com/union/clickidfa"
+	local url = "http://ad.adstart.cn/channel.php"
+--	http://ad.adstart.cn/channel.php?id=30&ip={ip}&idfa={idfa}&callback={callback} 
 	local postArr = {}
-	postArr.appid=bid[name]['appid']
+	postArr.id="30"
+--	postArr.appid = bid[name]["appid"]
 	postArr.idfa=idfa
 	postArr.ip=ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
-	postArr.source=var.source
+--	postArr.source = Source
 	
 	----------------------
 --	postArr.keyword = e:escape(bid[name]['keyword'])
@@ -169,7 +170,7 @@ function clickidfa(name,callbackkey)
 	if getdata ~= nil then
 		local data = json.decode(getdata)
 		log(data or "nil")
-		if tonumber(data.status) == 1 or data.message == 'ok' then
+		if tonumber(data["Content"]["IsActive"]) == 1 or data.message == 'ok' then
 			log("点击成功: OK.",true)
 			return true
 		else
@@ -180,33 +181,18 @@ end
 
 
 function activeidfa(name)
-	local url = "http://api.jizhukeji.com/union/directactiveidfa"
+	local url = "https://idfa.asojb.cn/api/click_notify"
 	local postArr = {}
 	postArr.appid=bid[name]['appid']
 	postArr.idfa=idfa
 	postArr.ip=ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
-	postArr.source=var.source
-	
-	
-	index = 0
-	post_data = ''
-	
-	for k,v in pairs(postArr)do
-		index = index + 1
-		if index == #postArr then
-			post_data = post_data..k..'='..v
-		else
-			post_data = post_data..k..'='..v..'&'
-		end
-	end
-	url = url..'?'..post_data
-	log(url)
-	log(postArr)
-	local getdata = get(url)
+	postArr.service_id=var.source
+
+	local getdata = post(url,postArr)
 	if getdata ~= nil then
 		local data = json.decode(getdata)
 		log(data or "nil")
-		if tonumber(data.status) == 1 or data.message == 'ok' then
+		if data.msg == 'success' then
 			log("激活成功: OK.",true)
 			back_pass(task_id,"ok")
 			return true
@@ -218,7 +204,7 @@ end
 
 function checkip()
 	ip = get_ip() or "192.168.1.1"
-	local url = 'http://wenfree.cn/api/Public/tjj/?service=Ip.checkip&ip='..ip
+	local url = 'http://idfa888.com/Public/idfa/?service=idfa.checkip&ip='..ip
 	local getdata = get(url)
 	if getdata ~= nil then
 		local data = json.decode(getdata)
@@ -242,8 +228,10 @@ function callbackapi(name)
 			if callbackid ~= nil then
 				if checkidfa(name)then
 					if clickidfa(name,true)then
-						delay(rd(10,20))
+						delay(rd(2,3))
 						newidfa(name,1)
+						up(name,bid[name]['keyword'].."-激活成功")
+						back_pass(task_id,"ok")
 					end
 				end
 			end
@@ -340,7 +328,7 @@ function newidfa(name,times)
 	for i= 1,times do
 
 		local TIMEline = os.time()
-		local OUTtime = rd(15,20)
+		local OUTtime = rd(18,22)
 		while os.time()- TIMEline < OUTtime do
 			if active(bid[name]['appbid'],4)then
 				if d(apparr.right,"apparr.right",true)then
@@ -393,23 +381,21 @@ end
 
 
 
-bid.吐槽 = {	["appid"] =  "1030314779", ["appbid"] = "com.xiaoge.tucao", ["adid"]= '1032', ["keyword"]="吐槽" }
-bid.便捷生成助手 = {	["appid"] =  "1205269443", ["appbid"] = "cn.6ag.AppScreenshots", ["adid"]= '1032', ["keyword"]="便捷生成助手" }
-bid.贵金属期货 = {	["appid"] =  "1386652458", ["appbid"] = "com.QQapp.RXGuiJinShuqh", ["adid"]= '1032', ["keyword"]="贵金属期货" }
-bid.外汇软件 = {	["appid"] =  "1371579306", ["appbid"] = "com.PL.WHRJ", ["adid"]= '1032', ["keyword"]="外汇软件" }
-bid.原油投资 = {	["appid"] =  "1399420481", ["appbid"] = "com.yuanyoutouzi.cn", ["adid"]= '1032', ["keyword"]="原油投资" }
-bid.电网棋牌 = {	["appid"] =  "1267747194", ["appbid"] = "com.shijiandingji", ["adid"]= '1032', ["keyword"]="电网棋牌" }
-bid.掌上玩久久 = {	["appid"] =  "1442909213", ["appbid"] = "com.liang.zhengkao", ["adid"]= '1032', ["keyword"]="掌上玩久久" }
-bid.期货投资 = {	["appid"] =  "1272193616", ["appbid"] = "com.app.QHRJ", ["adid"]= '1032', ["keyword"]="期货投资" }
-bid.yc平台 = {	["appid"] =  "1442074623", ["appbid"] = "com.Equipment.LY.www", ["adid"]= '1032', ["keyword"]="yc平台" }
-bid.趣平台 = {	["appid"] =  "1441503468", ["appbid"] = "snx.com.quweixingzuo", ["adid"]= '1032', ["keyword"]="趣平台" }
-bid.孝感棋牌 = {	["appid"] =  "1445687270", ["appbid"] = "com.xiaoganwujinjiancaishangcheng.wjjc", ["adid"]= '1032', ["keyword"]="孝感棋牌" }
-bid.KINGDOM = {	["appid"] =  "1438480746", ["appbid"] = "jd.KingDom.com", ["adid"]= '1032', ["keyword"]="KINGDOM" }
-bid.乐悦智能 = {	["appid"] =  "1445376355", ["appbid"] = "com.SafetyMonitor.sjq", ["adid"]= '1032', ["keyword"]="乐悦智能" }
-bid['特摩ネットディスクの助手'] = {	["appid"] =  "590402807", ["appbid"] = "com.slavamax.tOpener", ["adid"]= '1032', ["keyword"]="特摩ネットディスクの助手" }
-bid['安全守护伴侣'] = {	["appid"] =  "1446730742", ["appbid"] = "com.aqblIos.preject.www", ["adid"]= '1032', ["keyword"]="安全守护伴侣" }
-bid['古龍经典'] = {	["appid"] =  "1442167818", ["appbid"] = "com.yubery.gulongClassic", ["adid"]= '1032', ["keyword"]="古龍经典" }
-bid['轻松学广场舞视频教学'] = {	["appid"] =  "1082180369", ["appbid"] = "com.dupeifu.qsxgcw", ["adid"]= '1032', ["keyword"]="轻松学广场舞视频教学" }
+bid.万博娱乐 = {	["appid"] =  "1434066842", ["appbid"] = "com.qq.FindWord", ["adid"]= '1032', ["keyword"]="万博娱乐" }
+bid.五五花小牛 = {	["appid"] =  "1436168985", ["appbid"] = "come.xiaon.wuwuhua", ["adid"]= '1032', ["keyword"]="五五花小牛" }
+bid.天天炸金牛 = {	["appid"] =  "1441094969", ["appbid"] = "com.tiantianzhahuajin.game", ["adid"]= '1032', ["keyword"]="天天炸金牛" }
+bid.聚星部落 = {	["appid"] =  "1435898511", ["appbid"] = "com.luohui.juxing", ["adid"]= '1032', ["keyword"]="聚星部落" }
+bid.三尖全秒杀 = {	["appid"] =  "1436468308", ["appbid"] = "com.yuliang.sanjianqms", ["adid"]= '1032', ["keyword"]="三尖全秒杀" }
+bid.花五牛来来来 = {	["appid"] =  "1435999358", ["appbid"] = "com.shunzhiniu.tonsha", ["adid"]= '1032', ["keyword"]="花五牛来来来" }
+bid.公花金三真 = {	["appid"] =  "1436709412", ["appbid"] = "com.gonghuajing.sanzheng", ["adid"]= '1032', ["keyword"]="公花金三真" }
+bid.江南小金花 = {	["appid"] =  "1437507242", ["appbid"] = "com.jiangnang.xiaohuajing", ["adid"]= '1032', ["keyword"]="江南小金花" }
+bid.棋金五牛牌 = {	["appid"] =  "1437274287", ["appbid"] = "com.qijing.wuniupai", ["adid"]= '1032', ["keyword"]="棋金五牛牌" }
+bid.两湖带金花 = {	["appid"] =  "1439166486", ["appbid"] = "com.lianhudai.jinhua", ["adid"]= '1032', ["keyword"]="两湖带金花" }
+bid.万和三张 = {	["appid"] =  "1439535467", ["appbid"] = "come.wanhe.sanzhangpai", ["adid"]= '1032', ["keyword"]="万和三张" }
+bid.创世扑克 = {	["appid"] =  "1437714320", ["appbid"] = "com.chuangshi.pk", ["adid"]= '1032', ["keyword"]="创世扑克" }
+bid.花创互娱 = {	["appid"] =  "1435674853", ["appbid"] = "com.HuaChuang.Game", ["adid"]= '1032', ["keyword"]="花创互娱" }
+bid.同花顺炸金牛 = {	["appid"] =  "1441302187", ["appbid"] = "com.mojun.thszhajinniu", ["adid"]= '1032', ["keyword"]="同花顺炸金牛" }
+bid.斗一次地主 = {	["appid"] =  "1435559586", ["appbid"] = "com.dycdz.game", ["adid"]= '1032', ["keyword"]="斗一次地主" }
 
 
 function ends()
@@ -427,29 +413,18 @@ while true do
 	log("vpn-key")
 	
 	if false or  vpn() then
-		if checkip()then
+		if true or checkip()then
 	-----------------------------------
 			local TaskDate = ( get_task() )
 			if TaskDate then
 				for i,v in ipairs(TaskDate) do
 					work = v.work
 					task_id = v.task_id
-					
-					log(work)
 					bid[work]={}
 					bid[work]['keyword']=v.keyword
-					
-					if string.len(v.appbid)>5 then
-						bid[work]['appbid']=v.appbid
-					end
-					if string.len(v.appid)>5 then
-						bid[work]['appid']=v.appid
-					end
-					
-					log(bid[work])
-					if bid[work]['appbid'] ~= nil then
-						onlyactive(work)
-					end
+					if string.len(v.appbid)>5 then	bid[work]['appbid']=v.appbid end
+					if string.len(v.appid)>5 then	bid[work]['appid']=v.appid	end
+					callbackapi(work)
 				end
 			end
 	------------------------------------
@@ -458,7 +433,6 @@ while true do
 	ends()
 end
 end
-
 
 while (true) do
 	local ret,errMessage = pcall(main)

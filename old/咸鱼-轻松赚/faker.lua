@@ -116,8 +116,17 @@ function XXTfakerNewPhone(bid)
 					"iPhone10,5",
 				}
 	
+	osList = {
+				"12.0",
+				"12.0.1",
+				"12.0.2",
+				"12.1",
+				"12.1.1",
+				"12.1.2",
+			}
 	cfg = XXTFaker.random_config()
 	cfg["ProductType"] = phoneList[rd(1,#phoneList)]
+	cfg["ProductVersion"] = osList[rd(1,#osList)]
 	
 	
 	return XXTFaker.set_config(

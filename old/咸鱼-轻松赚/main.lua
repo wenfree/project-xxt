@@ -76,11 +76,11 @@ end
 --全局变量
 
 function up(name,other)
-	local url = 'http://hlj.51-gx.com/Public/idfa/?service=idfa.idfa'
+	local url = 'http://gemehouse.com/Public/idfa/?service=idfa.idfa'
 	local idfalist ={}
 	idfalist.phonename = phonename or device.name()
 	idfalist.phoneimei = phoneimei or sys.mgcopyanswer("SerialNumber")
-	idfalist.phoneos = phoneos or sys.version()
+	idfalist.phoneos = phoneos or osVersion or sys.version()
 	idfalist.name = name
 	idfalist.idfa = idfa
 	idfalist.ip = ip or get_ip() or '192.168.1.1'
@@ -98,11 +98,11 @@ function checkidfa(name)
 	postArr.idfa=idfa
 	postArr.clientIp=ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
 	postArr.chSource = var.chSource
-	postArr.osVersion = sys.version()
+	postArr.osVersion = osVersion or sys.version()
 --	postArr.keyword = bid[name]['keyword']
 	index = 0
 	post_data = ''
-	
+
 	for k,v in pairs(postArr)do
 		index = index + 1
 		if index == #postArr then
@@ -135,18 +135,19 @@ function clickidfa(name,callback_key)
 	postArr.idfa=idfa
 	postArr.clientIp=ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
 	postArr.chSource = var.chSource
-	postArr.osVersion = sys.version()
---	postArr.keyword = bid[name]['keyword']
-	
+	postArr.model = model
+	postArr.osVersion = osVersion or sys.version()
+	postArr.keyword = bid[name]['keyword']
+
 	----------------------
 
 	if callback_key and callbackid then
-		postArr.callBackAddr  = "http://hlj.51-gx.com/Public/idfa/?service=idfa.callback&id="..callbackid
+		postArr.callBackAddr  = "http://gemehouse.com/Public/idfa/?service=idfa.callback&id="..callbackid
 	end
-	
+
 	index = 0
 	post_data = ''
-	
+
 	for k,v in pairs(postArr)do
 		index = index + 1
 		if index == #postArr then
@@ -166,7 +167,7 @@ function clickidfa(name,callback_key)
 			log("点击成功: OK.",true)
 			return true
 		else
-			log("idfa-点击失败",true)
+			log(getdata,true)
 		end
 	end
 end
@@ -179,18 +180,19 @@ function activeidfa(name)
 	postArr.idfa=idfa
 	postArr.clientIp=ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
 	postArr.chSource = var.chSource
-	postArr.osVersion = sys.version()
+	postArr.model = model
+	postArr.osVersion = osVersion or sys.version()
 	postArr.keyword = bid[name]['keyword']
-	
+
 	----------------------
 
 	if callbackid then
-		--postArr.callbackurl  = "http://hlj.51-gx.com/Public/idfa/?service=idfa.callback&id="..callbackid
+		--postArr.callbackurl  = "http://gemehouse.com/Public/idfa/?service=idfa.callback&id="..callbackid
 	end
-	
+
 	index = 0
 	post_data = ''
-	
+
 	for k,v in pairs(postArr)do
 		index = index + 1
 		if index == #postArr then
@@ -210,14 +212,14 @@ function activeidfa(name)
 			log("激活成功: OK.",true)
 			return true
 		else
-			log("idfa-激活失败",true)
+			log(getdata,true)
 		end
 	end
 end
 
 function checkip()
 	ip = get_ip() or "192.168.1.1"
-	local url = 'http://hlj.51-gx.com/Public/idfa/?service=idfa.checkip&ip='..ip
+	local url = 'http://gemehouse.com/Public/idfa/?service=idfa.checkip&ip='..ip
 	local getdata = get(url)
 	if getdata ~= nil then
 		local data = json.decode(getdata)
@@ -235,6 +237,7 @@ function callbackapi(name)
 	if XXTfakerNewPhone(bid[name]['appbid'])then
 		idfa = XXTfakerGetinfo(bid[name]['appbid'])['IDFA']
 		model = XXTfakerGetinfo(bid[name]["appbid"])['ProductType']
+		osVersion = XXTfakerGetinfo(bid[name]["appbid"])['ProductVersion']
 		local dtassss = up(name,bid[name]['keyword'])
 		if dtassss ~= nil then
 			callbackid = json.decode(dtassss)['data']['id']
@@ -254,14 +257,14 @@ function activeapi(name)
 	if XXTfakerNewPhone(bid[name]['appbid'])then
 		idfa = XXTfakerGetinfo(bid[name]['appbid'])['IDFA']
 		model = XXTfakerGetinfo(bid[name]["appbid"])['ProductType']
+		osVersion = XXTfakerGetinfo(bid[name]["appbid"])['ProductVersion']
+
 		local dtassss = up(name,bid[name]['keyword'])
 		if dtassss ~= nil then
 			callbackid = json.decode(dtassss)['data']['id']
-	
 			if callbackid ~= nil then
-				callbackid = false
 				if checkidfa(name)then
-					if clickidfa(name)then
+					if clickidfa(name,true)then
 						delay(rd(10,20))
 						newidfa(name,1)
 						if activeidfa(name)then
@@ -270,7 +273,7 @@ function activeapi(name)
 					end
 				end
 			end
-			
+
 		end
 	end
 end
@@ -279,13 +282,14 @@ function onlyactive(name)
 	if XXTfakerNewPhone(bid[name]['appbid'])then
 		idfa = XXTfakerGetinfo(bid[name]['appbid'])['IDFA']
 		model = XXTfakerGetinfo(bid[name]["appbid"])['ProductType']
-		
+		osVersion = XXTfakerGetinfo(bid[name]["appbid"])['ProductVersion']
+
 		local dtassss = up(name,bid[name]['keyword'])
 		if dtassss ~= nil then
 			callbackid = json.decode(dtassss)['data']['id']
 			if callbackid ~= nil then
 				callbackid = false
-				
+
 				if checkidfa(name)then
 					delay(rd(10,20))
 					newidfa(name,1)
@@ -303,6 +307,7 @@ function idfaisok(name)
 	if XXTfakerNewPhone(bid[name]['appbid'])then
 		idfa = XXTfakerGetinfo(bid[name]['appbid'])['IDFA']
 		model = XXTfakerGetinfo(bid[name]["appbid"])['ProductType']
+		osVersion = XXTfakerGetinfo(bid[name]["appbid"])['ProductVersion']
 		return checkidfa(name)
 	end
 end
@@ -311,6 +316,7 @@ function clickisok(name)
 	if XXTfakerNewPhone(bid[name]['appbid'])then
 		idfa = XXTfakerGetinfo(bid[name]['appbid'])['IDFA']
 		model = XXTfakerGetinfo(bid[name]["appbid"])['ProductType']
+		osVersion = XXTfakerGetinfo(bid[name]["appbid"])['ProductVersion']
 		if checkidfa(name)then
 			return clickidfa(name)
 		end
@@ -340,7 +346,7 @@ function newidfa(name,times)
 	for i= 1,times do
 
 		local TIMEline = os.time()
-		local OUTtime = rd(180,200)
+		local OUTtime = rd(30,40)
 		while os.time()- TIMEline < OUTtime do
 			if active(bid[name]['appbid'],4)then
 				if d(apparr.right,"apparr.right",true)then
@@ -380,20 +386,20 @@ end
 
 bid.迷你世界 = {	["appid"] =  "1170455562", ["appbid"] = "com.minitech.miniworld", ["adid"]= "3015c946986a29", ["keyword"]="迷你世界" }
 bid.期货策略通 = {	["appid"] =  "1358614531", ["appbid"] = "com.xs.qhclt", ["adid"]= "314979e4ba2e47", ["keyword"]="期货模拟" }
-bid.PP体育 = {	["appid"] =  "627781309", ["appbid"] = "com.pp.sports", ["adid"]= "31197cc2dc819b", ["keyword"]="央视影音客户端" }
+bid["秒贷款"] = {	["appid"] =  "1397366231", ["appbid"] = "com.xqhlw.xxd", ["adid"]= "3375d6c35db562", ["keyword"]="贷款软件" }
+bid["斗鱼"] = {	["appid"] =  "863882795", ["appbid"] = "tv.douyu.live", ["adid"]= "344832b76b0b22", ["keyword"]="陌陌直播" }
+bid["咪咕灵犀"] = {	["appid"] =  "615845815", ["appbid"] = "com.cmcc.lingxi", ["adid"]= "3478ec7636b891", ["keyword"]="翻译" }
 
 
-
- 
 --[[]]
 while true do
 	log("vpn-key")
 	if  vpn() then
 		if checkip()then
-			
-			callbackapi("PP体育")			-----这是排重	-	点击	回调	的模型
---			onlyactive("期货策略通")			-----这是排重	-	激活 			的模型
---			activeapi("期货策略通")				-----这是排重	-	点击			模型
+
+--			callbackapi("PP体育")				-----这是排重	-	点击	-	回调	的模型
+			onlyactive("咪咕灵犀")			-----这是排重	-	上报	的模型
+--			activeapi("秒贷款")				-----这是排重	-	点击	-	上报	的模型
 
 		end
 	end
