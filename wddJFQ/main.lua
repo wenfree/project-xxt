@@ -228,7 +228,7 @@ function callbackapi(name)
 			if callbackid ~= nil then
 				if checkidfa(name)then
 					if clickidfa(name,true)then
-						delay(rd(1,2))
+						delay(rd(2,3))
 						newidfa(name,1)
 						up(name,bid[name]['keyword'].."-激活成功")
 						back_pass(task_id,"ok")
@@ -328,7 +328,7 @@ function newidfa(name,times)
 	for i= 1,times do
 
 		local TIMEline = os.time()
-		local OUTtime = rd(15,16)
+		local OUTtime = rd(18,22)
 		while os.time()- TIMEline < OUTtime do
 			if active(bid[name]['appbid'],4)then
 				if d(apparr.right,"apparr.right",true)then
@@ -413,7 +413,7 @@ while true do
 	log("vpn-key")
 	
 	if false or  vpn() then
-		if false or checkip()then
+		if true or checkip()then
 	-----------------------------------
 			local TaskDate = ( get_task() )
 			if TaskDate then
@@ -438,7 +438,7 @@ while (true) do
 	local ret,errMessage = pcall(main)
 	if ret then
 	else
-		sys.alert(errMessage, 3)
+		sys.alert(errMessage, 15)
 		delay(1)
 	end
 end
