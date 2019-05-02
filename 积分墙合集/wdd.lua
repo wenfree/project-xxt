@@ -324,7 +324,7 @@ function newidfa(name,times)
 				log("启动一次")
 			end
 		end
-		up(name,bid[name]['keyword'])
+--		up(name,bid[name]['keyword'])
 	end
 end
 
