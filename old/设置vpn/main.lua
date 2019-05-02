@@ -4,10 +4,10 @@ nLog = require('nLog')()
 --[[]]
 
 local success = vpnconf.create{
-    dispName = 'idfa888',       -- VPN 的显示名
+    dispName = 'wdd',       -- VPN 的显示名
     VPNType = "L2TP",              -- VPN 的类型，支持 PPTP、L2TP、IPSec、IKEv2
     server = 'yhtip.com',    -- 服务器地址
-    authorization = 'idfa888',      -- 账号
+    authorization = 'wdd',      -- 账号
     password = 'Aa112211',           -- 密码
     secret = '1',            -- 密钥，PPTP 可不填
     encrypLevel = 1,               -- 加密级别，选填，默认 1
@@ -20,7 +20,7 @@ else
     sys.alert('创建失败，确定人品没有问题？',1)
 end
 
-local success = vpnconf.select('idfa888')
+local success = vpnconf.select('wdd')
 if success then
     sys.alert('操作成功',1)
 else

@@ -26,9 +26,8 @@ function active(app_bid,t)
 			return true
 		else
 			log('RunApp'..app_bid)
-			if app.run(app_bid) == 0 then
-				sys.msleep(t*1000)
-			end
+			app.run(app_bid)
+			sys.msleep(t*1000)
 		end
 	end
 end

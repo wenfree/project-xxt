@@ -121,22 +121,31 @@ end
 
 apparr={}
 apparr.right={{{462,666,0x007aff},{225,666,0x007aff},}, 85, 54, 394, 590, 809}
+apparr.快乐运动x={{{547,  143, 0x3c3c3c},{ 61, 1008, 0xf7b033},{585, 1011, 0xf7b033},}, 85, 45, 76, 603, 1031}
+apparr.next={{{193, 960, 0xffffff},{236, 915, 0xf15044},}, 85, 39, 896, 625, 1028}
 
 function newidfa(bids)
+	openUrl("http://e.cn.miaozhen.com/r/k=2114350&p=7Mg1m&dx=__IPDX__&rt=2&ns=__IP__&ni=__IESID__&v=__LOC__&xa=__ADPLATFORM__&tr=__REQUESTID__&mo=__OS__&m0=__OPENUDID__&m0a=__DUID__&m1=__ANDROIDID1__&m1a=__ANDROIDID__&m2=__IMEI__&m4=__AAID__&m5=__IDFA__&m6=__MAC1__&m6a=__MAC__&vo=337a1aadb&vr=2&o=https%3A%2F%2Flnk0.com%2Feasylink%2FELBdQJpo")
+--	openUrl("https://gio.ren/reOr0a5")
+--	openUrl("https://itunes.apple.com/cn/app/id1355996975")
+	delay(10)
+	
 	if XXTfakerNewPhone(bids)then
 		idfa = XXTfakerGetinfo(bids)['IDFA']
 		local TIMEline = os.time()
-		local OUTtime = rd(22,25)
+		local OUTtime = rd(60,65)
 		while os.time()- TIMEline < OUTtime do
 			if active(bids,4)then
 				if d(apparr.right,"apparr.right",true)then
+				elseif d(apparr.快乐运动x,"快乐运动x",true)then
+				elseif d(apparr.next,"next",true)then
 				else
-					moveTo(600,300,100,100,30,50)
-					delay(1)
-					click(321, 978)
-					delay(1)
-					click(462, 666)
-					delay(1)
+--					moveTo(600,300,100,300,30,50)
+--					delay(1)
+--					click(321, 978)
+--					delay(1)
+--					click(462, 666)
+--					delay(1)
 				end
 			end
 		end
