@@ -12,8 +12,6 @@ local cloud_cc = require("cloud_cc")(
 ]]
 
 
-
-
 nLog = require('nLog')()
 require('faker')
 require('xxtsp')
@@ -60,12 +58,9 @@ atexit(function()
 bid={}
 bid.花上钱贷款 = {	["appid"] =  "1278376336", ["appbid"] = "com.jiucang.huashangqian", ["adid"]= '1032', ["keyword"]="花上钱贷款" }
 
-
-
 screen.init(0)
 var = {}
 var.source = "10003"
-
 
 function sign(adid,timestamp)
 	local str = var.source.."|"..adid.."|"..idfa.."|"..var.key.."|"..timestamp
@@ -74,7 +69,6 @@ function sign(adid,timestamp)
 end
 
 --全局变量
-
 function up(name,other)
 	local url = 'http://idfa888.com/Public/idfa/?service=idfa.idfa'
 	local idfalist ={}
@@ -106,21 +100,13 @@ function checkidfa(name)
 	postArr.idfa=idfa
 	postArr.ip=ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
 	
-	
-	local index = 1
 	local postdata = ""
 	for k,v in pairs(postArr)do
-		if index ==  1 then
-			postdata = "?".. k.."=".. v
-		else
-			postdata = postdata .."&" ..k.."="..v
-		end
-		index = index +1
+		postdata = postdata .."&" ..k.."="..v
 	end
-	log(url..postdata)
-	url = url..postdata
 	
-
+	url = url.."?"..postdata
+	log(url)
 	local getdata = get(url)
 	if getdata ~= nil then
 		local data = json.decode(getdata)
@@ -135,7 +121,6 @@ function checkidfa(name)
 	end
 end
 
-
 function clickidfa(name,callbackkey)
 	local url = "http://ad.adstart.cn/channel.php"
 --	http://ad.adstart.cn/channel.php?id=30&ip={ip}&idfa={idfa}&callback={callback} 
@@ -145,27 +130,21 @@ function clickidfa(name,callbackkey)
 	postArr.idfa=idfa
 	postArr.ip=ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
 --	postArr.source = Source
-	
 	----------------------
 --	postArr.keyword = e:escape(bid[name]['keyword'])
 	if callbackkey and callbackid then
 		postArr.callback  = "http://idfa888.com/Public/idfa/?service=idfa.callback&id="..callbackid
 	end
 	
-	index = 0
-	post_data = ''
-	
+	local post_data = ''
 	for k,v in pairs(postArr)do
-		index = index + 1
-		if index == 8 then
-			post_data = post_data..k..'='..v
-		else
-			post_data = post_data..k..'='..v..'&'
-		end
+		post_data = post_data..k..'='..v..'&'
 	end
+	
 	url = url..'?'..post_data
-	log(url)
+	log("url----------------\n" .. url)
 	log(postArr)
+
 	local getdata = get(url)
 	if getdata ~= nil then
 		local data = json.decode(getdata)
@@ -178,7 +157,6 @@ function clickidfa(name,callbackkey)
 		end
 	end
 end
-
 
 function activeidfa(name)
 	local url = "https://idfa.asojb.cn/api/click_notify"
@@ -262,6 +240,7 @@ function activeapi(name)
 			
 		end
 	end
+	
 end
 
 function onlyactive(name)
@@ -285,7 +264,6 @@ function onlyactive(name)
 		end
 	end
 end
-
 
 function idfaisok(name)
 	if XXTfakerNewPhone(bid[name]['appbid'])then
@@ -319,7 +297,6 @@ end
 function appname(bid)
 	return app.localized_name(bid) or '未安装'
 end
-
 
 apparr={}
 apparr.right={{{462,666,0x007aff},{225,666,0x007aff},}, 85, 54, 394, 590, 809}
@@ -378,25 +355,6 @@ function get_task()
 		end
 	end
 end
-
-
-
-bid.万博娱乐 = {	["appid"] =  "1434066842", ["appbid"] = "com.qq.FindWord", ["adid"]= '1032', ["keyword"]="万博娱乐" }
-bid.五五花小牛 = {	["appid"] =  "1436168985", ["appbid"] = "come.xiaon.wuwuhua", ["adid"]= '1032', ["keyword"]="五五花小牛" }
-bid.天天炸金牛 = {	["appid"] =  "1441094969", ["appbid"] = "com.tiantianzhahuajin.game", ["adid"]= '1032', ["keyword"]="天天炸金牛" }
-bid.聚星部落 = {	["appid"] =  "1435898511", ["appbid"] = "com.luohui.juxing", ["adid"]= '1032', ["keyword"]="聚星部落" }
-bid.三尖全秒杀 = {	["appid"] =  "1436468308", ["appbid"] = "com.yuliang.sanjianqms", ["adid"]= '1032', ["keyword"]="三尖全秒杀" }
-bid.花五牛来来来 = {	["appid"] =  "1435999358", ["appbid"] = "com.shunzhiniu.tonsha", ["adid"]= '1032', ["keyword"]="花五牛来来来" }
-bid.公花金三真 = {	["appid"] =  "1436709412", ["appbid"] = "com.gonghuajing.sanzheng", ["adid"]= '1032', ["keyword"]="公花金三真" }
-bid.江南小金花 = {	["appid"] =  "1437507242", ["appbid"] = "com.jiangnang.xiaohuajing", ["adid"]= '1032', ["keyword"]="江南小金花" }
-bid.棋金五牛牌 = {	["appid"] =  "1437274287", ["appbid"] = "com.qijing.wuniupai", ["adid"]= '1032', ["keyword"]="棋金五牛牌" }
-bid.两湖带金花 = {	["appid"] =  "1439166486", ["appbid"] = "com.lianhudai.jinhua", ["adid"]= '1032', ["keyword"]="两湖带金花" }
-bid.万和三张 = {	["appid"] =  "1439535467", ["appbid"] = "come.wanhe.sanzhangpai", ["adid"]= '1032', ["keyword"]="万和三张" }
-bid.创世扑克 = {	["appid"] =  "1437714320", ["appbid"] = "com.chuangshi.pk", ["adid"]= '1032', ["keyword"]="创世扑克" }
-bid.花创互娱 = {	["appid"] =  "1435674853", ["appbid"] = "com.HuaChuang.Game", ["adid"]= '1032', ["keyword"]="花创互娱" }
-bid.同花顺炸金牛 = {	["appid"] =  "1441302187", ["appbid"] = "com.mojun.thszhajinniu", ["adid"]= '1032', ["keyword"]="同花顺炸金牛" }
-bid.斗一次地主 = {	["appid"] =  "1435559586", ["appbid"] = "com.dycdz.game", ["adid"]= '1032', ["keyword"]="斗一次地主" }
-
 
 function ends()
 	
