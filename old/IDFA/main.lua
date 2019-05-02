@@ -212,7 +212,7 @@ end
 function main()
 while true do
 	log("vpn-key")
-	if true or  vpn() then
+	if false or  vpn() then
 		if true or checkip()then
 	-----------------------------------
 			local TaskDate = ( get_task() )
