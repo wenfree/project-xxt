@@ -398,7 +398,7 @@ end
 function main(v)
 	----------------------------------
 	if vpn() then
-		if checkip()then
+		if true or checkip()then
 			work = v.work
 			task_id = v.task_id
 			bid[work]={}

@@ -38,8 +38,13 @@ function get_task()
 	end
 end
 
-
-
+function ends()
+	for _,bid in ipairs(app.bundles()) do
+		app.quit(bid)
+	end
+	vpnx()
+	sys.msleep(2000)
+end
 
 function all()
 

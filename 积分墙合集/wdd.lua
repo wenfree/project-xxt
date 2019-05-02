@@ -122,6 +122,7 @@ function checkidfa(name)
 end
 
 function clickidfa(name,callbackkey)
+	log("准备点击")
 	local url = "http://ad.adstart.cn/channel.php"
 --	http://ad.adstart.cn/channel.php?id=30&ip={ip}&idfa={idfa}&callback={callback} 
 	local postArr = {}
@@ -155,6 +156,8 @@ function clickidfa(name,callbackkey)
 		else
 			log("idfa-点击失败",true)
 		end
+	else
+		log("点击返回空")
 	end
 end
 
@@ -200,20 +203,20 @@ function callbackapi(name)
 	if XXTfakerNewPhone(bid[name]['appbid'])then
 		idfa = XXTfakerGetinfo(bid[name]['appbid'])['IDFA']
 		model = XXTfakerGetinfo(bid[name]["appbid"])['ProductType']
-		local dtassss = up(name,bid[name]['keyword'])
-		if dtassss ~= nil then
-			callbackid = json.decode(dtassss)['data']['id']
-			if callbackid ~= nil then
+--		local dtassss = up(name,bid[name]['keyword'])
+--		if dtassss ~= nil then
+--			callbackid = json.decode(dtassss)['data']['id']
+--			if callbackid ~= nil then
 				if checkidfa(name)then
-					if clickidfa(name,true)then
+					if clickidfa(name,false)then
 						delay(rd(2,3))
 						newidfa(name,1)
-						up(name,bid[name]['keyword'].."-激活成功")
+--						up(name,bid[name]['keyword'].."-激活成功")
 						back_pass(task_id,"ok")
 					end
 				end
-			end
-		end
+--			end
+--		end
 	end
 end
 
@@ -222,11 +225,11 @@ function activeapi(name)
 	if XXTfakerNewPhone(bid[name]['appbid'])then
 		idfa = XXTfakerGetinfo(bid[name]['appbid'])['IDFA']
 		model = XXTfakerGetinfo(bid[name]["appbid"])['ProductType']
-		local dtassss = up(name,bid[name]['keyword'])
-		if dtassss ~= nil then
-			callbackid = json.decode(dtassss)['data']['id']
+--		local dtassss = up(name,bid[name]['keyword'])
+--		if dtassss ~= nil then
+--			callbackid = json.decode(dtassss)['data']['id']
 	
-			if callbackid ~= nil then
+--			if callbackid ~= nil then
 				if checkidfa(name)then
 					if clickidfa(name)then
 						delay(rd(10,20))
@@ -236,9 +239,8 @@ function activeapi(name)
 						end
 					end
 				end
-			end
-			
-		end
+--			end
+--		end
 	end
 	
 end
@@ -368,7 +370,7 @@ end
 --]]
 function main(v)
 	if vpn() then
-		if checkip()then
+		if true or checkip()then
 	-----------------------------------
 			work = v.work
 			task_id = v.task_id
