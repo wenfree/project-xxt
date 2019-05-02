@@ -366,40 +366,25 @@ function ends()
 	
 end
 --]]
-function main()
-while true do
-	log("vpn-key")
-	
-	if false or  vpn() then
-		if true or checkip()then
+function main(v)
+	if vpn() then
+		if checkip()then
 	-----------------------------------
-			local TaskDate = ( get_task() )
-			if TaskDate then
-				for i,v in ipairs(TaskDate) do
-					work = v.work
-					task_id = v.task_id
-					bid[work]={}
-					bid[work]['keyword']=v.keyword
-					if string.len(v.appbid)>5 then	bid[work]['appbid']=v.appbid end
-					if string.len(v.appid)>5 then	bid[work]['appid']=v.appid	end
-					callbackapi(work)
-				end
-			end
+			work = v.work
+			task_id = v.task_id
+			bid[work]={}
+			bid[work]['keyword']=v.keyword
+			if string.len(v.appbid)>5	then	bid[work]['appbid']=v.appbid	end
+			if string.len(v.appid)>5	then	bid[work]['appid']=v.appid	end
+			callbackapi(work)
 	------------------------------------
 		end
+		vpnx()
+		delay(2)
 	end
-	ends()
-end
 end
 
-while (true) do
-	local ret,errMessage = pcall(main)
-	if ret then
-	else
-		sys.alert(errMessage, 15)
-		delay(1)
-	end
-end
+
 
 
 
