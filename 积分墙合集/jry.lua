@@ -211,6 +211,7 @@ end
 
 function checkip()
 	ip = get_ip() or "192.168.1.1"
+	log(ip)
 	local url = 'http://idfa888.com/Public/idfa/?service=idfa.checkip&ip='..ip
 	local getdata = get(url)
 	if getdata ~= nil then
@@ -245,26 +246,19 @@ function callbackapi(name)
 end
 
 function activeapi(name)
-
+	log("name->" .. name)
 	if XXTfakerNewPhone(bid[name]['appbid'])then
 		idfa = XXTfakerGetinfo(bid[name]['appbid'])['IDFA']
 		model = XXTfakerGetinfo(bid[name]["appbid"])['ProductType']
-		local dtassss = up(name,bid[name]['keyword'])
-		if dtassss ~= nil then
-			callbackid = json.decode(dtassss)['data']['id']
-	
-			if callbackid ~= nil then
-				if checkidfa(name)then
-					if clickidfa(name)then
-						delay(rd(2,3))
-						newidfa(name,1)
-						if activeidfa(name)then
-							up(name,bid[name]['keyword'].."-激活成功")
-						end
-					end
+
+		if checkidfa(name)then
+			if clickidfa(name)then
+				delay(rd(2,3))
+				newidfa(name,1)
+				if activeidfa(name)then
+					up(name,bid[name]['keyword'].."-激活成功")
 				end
 			end
-			
 		end
 	end
 end
@@ -332,7 +326,7 @@ function newidfa(name,times)
 	for i= 1,times do
 
 		local TIMEline = os.time()
-		local OUTtime = rd(60,65)
+		local OUTtime = rd(30,30)
 		while os.time()- TIMEline < OUTtime do
 			if active(bid[name]['appbid'],4)then
 				if d(apparr.right,"apparr.right",true)then
@@ -348,6 +342,7 @@ function newidfa(name,times)
 			else
 				log("启动一次")
 			end
+			delay(2)
 		end
 		up(name,bid[name]['keyword'])
 	end
@@ -399,12 +394,14 @@ function main(v)
 	----------------------------------
 	if vpn() then
 		if true or checkip()then
+			log(v)
 			work = v.work
 			task_id = v.task_id
 			bid[work]={}
 			bid[work]['keyword']=v.keyword
 			if string.len(v.appbid)>5 then	bid[work]['appbid']=v.appbid end
 			if string.len(v.appid)>5 then	bid[work]['appid']=v.appid	end
+			log("act")
 			activeapi(work)
 		end
 		vpnx()

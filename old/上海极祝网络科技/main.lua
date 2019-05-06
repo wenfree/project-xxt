@@ -356,6 +356,7 @@ function newidfa(name,times)
 			else
 				log("启动一次")
 			end
+			delay(2)
 		end
 		up(name,bid[name]['keyword'])
 	end
