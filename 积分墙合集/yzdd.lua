@@ -250,20 +250,14 @@ function onlyactive(name)
 		idfa = XXTfakerGetinfo(bid[name]['appbid'])['IDFA']
 		model = XXTfakerGetinfo(bid[name]["appbid"])['ProductType']
 		
-		local dtassss = up(name,bid[name]['keyword'])
-		if dtassss ~= nil then
-			callbackid = json.decode(dtassss)['data']['id']
-			if callbackid ~= nil then
-				if checkidfa(name)then
-					delay(rd(3,6))
-					newidfa(name,1)
-					if activeidfa(name)then
-						up(name,bid[name]['keyword'].."-激活成功")
-					end
-
-				end
+		if checkidfa(name)then
+			delay(rd(3,6))
+			newidfa(name,1)
+			if activeidfa(name)then
+				up(name,bid[name]['keyword'].."-激活成功")
 			end
 		end
+		
 	end
 end
 
