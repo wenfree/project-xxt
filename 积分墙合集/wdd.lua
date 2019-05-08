@@ -94,9 +94,11 @@ function back_pass(task_id,success)
 end
 
 function checkidfa(name)
+	log("准备查询")
 	local url = "http://ad.adstart.cn/channel.php"
 	local postArr = {}
-	postArr.id="22"
+	log(bid[name]["appid"])
+	postArr.id= bid[name]["appid"]
 	postArr.idfa=idfa
 	postArr.ip=ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
 	
@@ -111,9 +113,9 @@ function checkidfa(name)
 	if getdata ~= nil then
 		local data = json.decode(getdata)
 		log(data or "nil")
-		if tonumber(data["Content"]["CheckIdfaResults"][1]["IsActive"]) == 1 then
+		if data['msg'] == "ok" or tonumber(data["Content"]["CheckIdfaResults"][1]["IsActive"]) == 1 then
 			log("idfa: OK.",true)
-			Source = data["Content"]["Source"]
+--			Source = data["Content"]["Source"]
 			return true
 		else
 			log("idfa------排重失败",true)
@@ -302,15 +304,20 @@ end
 
 apparr={}
 apparr.right={{{462,666,0x007aff},{225,666,0x007aff},}, 85, 54, 394, 590, 809}
+apparr.right_agree={{
+	{475, 964, 0x49b849},
+	{478, 968, 0xffffff},
+}, 85, 323, 602, 624, 1132}
 
 function newidfa(name,times)
 	for i= 1,times do
 
 		local TIMEline = os.time()
-		local OUTtime = rd(15,16)
+		local OUTtime = rd(30,35)
 		while os.time()- TIMEline < OUTtime do
 			if active(bid[name]['appbid'],4)then
 				if d(apparr.right,"apparr.right",true)then
+				elseif d(apparr.right_agree,"right_agree",true)then
 
 				else
 					moveTo(600,300,100,100,30,50)
@@ -377,7 +384,7 @@ function main(v)
 			bid[work]={}
 			bid[work]['keyword']=v.keyword
 			if string.len(v.appbid)>5	then	bid[work]['appbid']=v.appbid	end
-			if string.len(v.appid)>5	then	bid[work]['appid']=v.appid	end
+			if string.len(v.appid)>0	then	bid[work]['appid']=v.appid	end
 			callbackapi(work)
 	------------------------------------
 		end
