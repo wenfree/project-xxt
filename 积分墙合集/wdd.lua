@@ -110,7 +110,12 @@ function checkidfa(name)
 	url = url.."?"..postdata
 	log(url)
 	local getdata = get(url)
-	if getdata ~= nil then
+	
+	if bid[name]["appid"] == "37" then
+		if (getdata == "0") then
+			return true
+		end
+	elseif getdata ~= nil then
 		local data = json.decode(getdata)
 		log(data or "nil")
 		if data['msg'] == "ok" or tonumber(data["Content"]["CheckIdfaResults"][1]["IsActive"]) == 1 then
@@ -128,7 +133,11 @@ function clickidfa(name,callbackkey)
 	local url = "http://ad.adstart.cn/channel.php"
 --	http://ad.adstart.cn/channel.php?id=30&ip={ip}&idfa={idfa}&callback={callback} 
 	local postArr = {}
-	postArr.id="30"
+	if name == "天天跟我买" then
+		postArr.id="39"
+	else
+		postArr.id="30"
+	end
 --	postArr.appid = bid[name]["appid"]
 	postArr.idfa=idfa
 	postArr.ip=ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
@@ -149,7 +158,11 @@ function clickidfa(name,callbackkey)
 	log(postArr)
 
 	local getdata = get(url)
-	if getdata ~= nil then
+	if name == "天天跟我买" then
+		if getdata == "1" then
+			return true
+		end
+	elseif getdata ~= nil then
 		local data = json.decode(getdata)
 		log(data or "nil")
 		if tonumber(data["Content"]["IsActive"]) == 1 or data.message == 'ok' then
@@ -213,7 +226,7 @@ function callbackapi(name)
 					if clickidfa(name,false)then
 						delay(rd(2,3))
 						newidfa(name,1)
---						up(name,bid[name]['keyword'].."-激活成功")
+						up(name,bid[name]['keyword'].."-激活成功")
 						back_pass(task_id,"ok")
 					end
 				end
@@ -313,7 +326,7 @@ function newidfa(name,times)
 	for i= 1,times do
 
 		local TIMEline = os.time()
-		local OUTtime = rd(30,35)
+		local OUTtime = rd(15,20)
 		while os.time()- TIMEline < OUTtime do
 			if active(bid[name]['appbid'],4)then
 				if d(apparr.right,"apparr.right",true)then
