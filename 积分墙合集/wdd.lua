@@ -99,6 +99,9 @@ function checkidfa(name)
 	local postArr = {}
 	log(bid[name]["appid"])
 	postArr.id= bid[name]["appid"]
+	if bid[name]["appid"] == "983488107" then
+		postArr.id = "20"
+	end
 	postArr.idfa=idfa
 	postArr.ip=ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
 	
