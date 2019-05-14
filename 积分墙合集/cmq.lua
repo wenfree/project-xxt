@@ -109,6 +109,7 @@ function checkidfa(name)
 	postArr.os_version = sys.version()
 	postArr.device = model
 	postArr.keyword = keyword or bid[name]['keyword']
+	
 	local  post_data = ''
 	for k,v in pairs(postArr)do
 		post_data = post_data..k..'='..v..'&'
@@ -130,9 +131,9 @@ end
 
 
 function clickidfa(name)
-	local url = "http://m.cmzqian.com/API/common/checkClick"
+	local url = "http://www.hfher.cn/API/common/checkClick"
 	local postArr = {}
-	postArr.adid=bid[name]['adid']
+	postArr.adid=bid[name]['appid']
 	postArr.idfa=idfa
 	postArr.ip=ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
 	postArr.source=var.source
@@ -140,26 +141,13 @@ function clickidfa(name)
 	postArr.device = model
 	postArr.keyword = keyword or bid[name]['keyword']
 	
-	----------------------
---	postArr.keyword = e:escape(bid[name]['keyword'])
-	if callbackid then
-		postArr.callback  = "http://idfa888.com/Public/idfa/?service=idfa.callback&id="..callbackid
-	end
-	
-	index = 0
-	post_data = ''
-	
+	local post_data = ''
 	for k,v in pairs(postArr)do
-		index = index + 1
-		if index == 8 then
-			post_data = post_data..k..'='..v
-		else
-			post_data = post_data..k..'='..v..'&'
-		end
+		post_data = post_data..k..'='..v..'&'
 	end
 	url = url..'?'..post_data
 	log(url)
-	log(postArr)
+
 	local getdata = get(url)
 	if getdata ~= nil then
 		local data = json.decode(getdata)
@@ -175,9 +163,9 @@ end
 
 
 function activeidfa(name)
-	local url = "http://m.cmzqian.com/API/common/activate"
+	local url = "http://www.hfher.cn/API/common/activate"
 	local postArr = {}
-	postArr.adid=bid[name]['adid']
+	postArr.adid=bid[name]['appid']
 	postArr.idfa=idfa
 	postArr.ip=ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
 	postArr.source=var.source
@@ -192,20 +180,12 @@ function activeidfa(name)
 		--postArr.callbackurl  = "http://idfa888.com/Public/idfa/?service=idfa.callback&id="..callbackid
 	end
 	
-	index = 0
-	post_data = ''
-	
+	local post_data = ''
 	for k,v in pairs(postArr)do
-		index = index + 1
-		if index == #postArr then
-			post_data = post_data..k..'='..v
-		else
-			post_data = post_data..k..'='..v..'&'
-		end
+		post_data = post_data..k..'='..v..'&'
 	end
 	url = url..'?'..post_data
 	log(url)
-	log(postArr)
 	local getdata = get(url)
 	if getdata ~= nil then
 		local data = json.decode(getdata)
@@ -284,21 +264,12 @@ function onlyactive(name)
 		idfa = XXTfakerGetinfo(bid[name]['appbid'])['IDFA']
 		model = XXTfakerGetinfo(bid[name]["appbid"])['ProductType']
 		
-		local dtassss = up(name,bid[name]['keyword'])
-		if dtassss ~= nil then
-			callbackid = json.decode(dtassss)['data']['id']
-			if callbackid ~= nil then
-				if checkidfa(name)then
-					delay(rd(3,6))
-					newidfa(name,1)
-					if activeidfa(name)then
-						if task_id ~= nil then
-							back_pass(task_id,"ok")
-						end
-						up(name,bid[name]['keyword'].."-激活成功")
-					end
-
-				end
+		if checkidfa(name)then
+			delay(rd(2,5))
+			newidfa(name)
+			if activeidfa(name)then
+				back_pass(task_id,"ok")
+				up(name,bid[name]['keyword'].."-激活成功")
 			end
 		end
 	end
@@ -342,29 +313,26 @@ end
 apparr={}
 apparr.right={{{462,666,0x007aff},{225,666,0x007aff},}, 85, 54, 394, 590, 809}
 
-function newidfa(name,times)
-	for i= 1,times do
+function newidfa(name)
+	local TIMEline = os.time()
+	local OUTtime = rd(45,50)
+	while os.time()- TIMEline < OUTtime do
+		if active(bid[name]['appbid'],4)then
+			if d(apparr.right,"apparr.right",true)then
 
-		local TIMEline = os.time()
-		local OUTtime = rd(28,30)
-		while os.time()- TIMEline < OUTtime do
-			if active(bid[name]['appbid'],4)then
-				if d(apparr.right,"apparr.right",true)then
-
-				else
-					moveTo(600,300,100,100,30,50)
-					delay(1)
-					click(321, 978)
-					delay(1)
-					click(462, 666)
-					delay(1)
-				end
 			else
-				log("启动一次")
+				moveTo(600,300,100,100,30,50)
+				delay(1)
+				click(321, 978)
+				delay(1)
+				click(462, 666)
+				delay(1)
 			end
+		else
+			log("启动一次")
 		end
-		up(name,bid[name]['keyword'])
 	end
+	up(name,bid[name]['keyword'])
 end
 
 --期货掌中宝
@@ -376,79 +344,18 @@ function beewallidfa(name)
 	delay(1)
 end
 
-
-bid.花上钱贷款 = {	["appid"] =  "1278376336", ["appbid"] = "com.jiucang.huashangqian", ["adid"]= '1032', ["keyword"]="花上钱贷款" }
-bid.拓道财富 = {	["appid"] =  "1428159989", ["appbid"] = "com.tuodao.tdcaifu", ["adid"]= '1036', ["keyword"]="拓道财富" }
-bid.信贷360 = {	["appid"] =  "1399516881", ["appbid"] = "com.block.xd360", ["adid"]= '1019', ["keyword"]="信贷360" }
-bid.壹亿钱包 = {	["appid"] =  "1334529411", ["appbid"] = "com.yiyiqianbao.lishu", ["adid"]= '1021', ["keyword"]="壹亿钱包" }
-bid.铜掌柜 = {	["appid"] =  "988621288", ["appbid"] = "cn.tzg.TZG", ["adid"]= '1044', ["keyword"]="铜掌柜" }
-bid.快猫 = {	["appid"] =  "1438487261", ["appbid"] = "com.junpeng.yeliao", ["adid"]= '1045', ["keyword"]="夜聊" }
-bid.仙侠物语 = {	["appid"] =  "1354411312", ["appbid"] = "com.zhou.xxwyios", ["adid"]= '1048', ["keyword"]="仙侠物语" }
-bid.信融投资 = {	["appid"] =  "1014865736", ["appbid"] = "com.jinding.xinrongtouzi", ["adid"]= '1047', ["keyword"]="信融投资" }
-bid.大麦理财 = {	["appid"] =  "950911786", ["appbid"] = "com.damai", ["adid"]= '1050', ["keyword"]="大麦理财" }
-bid.聪明钱包兴辉版 = {	["appid"] =  "1398735552", ["appbid"] = "com.congming.app", ["adid"]= '1051', ["keyword"]="钱包" }
-
-
-
-function get_task()
-	local url = 'http://wenfree.cn/api/Public/tjj/?service=Tjj.gettask'
-	local postArr = {}
-	postArr.phonename = phonename or device.name()
-	postArr.imei = phoneimei or sys.mgcopyanswer("SerialNumber")
-	local taskData = post(url,postArr)
-	
-	if taskData ~= nil then
-		taskData = json.decode(taskData)
-		log(taskData)
-		
-		if taskData.data == "新增手机" or taskData.data == "暂无任务" then
-			log(taskData.data,true)
-			delay(30)
-			return false
-		else
-			return taskData.data
-		end
-	end
-end
-
-
---[[]]
-
-function ends()
-	
-	for _,bid in ipairs(app.bundles()) do
-		app.quit(bid)
-	end
-	vpnx()
-	sys.msleep(2000)
-	
-end
---]]
-
-while true do
-	log("vpn-key")
+function main(v)
 	if vpn() then
 		if checkip()then
-		--------------------------------------------------	
-			local TaskDate = ( get_task() )
-
-			if TaskDate then
-				for i,v in ipairs(TaskDate) do
-					work = v.work
-					task_id = v.task_id
-					bid[work]={}
-					bid[work]['keyword']=v.keyword
-					bid[work]['adid']=v.keyword
-					
-					if string.len(v.appbid)>5 then	bid[work]['appbid']=v.appbid end
-					if string.len(v.appid)>5 then	bid[work]['appid']=v.appid	end
-					onlyactive(work)
-				end
-			end
-		--------------------------------------------------
+			work = v.work
+			task_id = v.task_id
+			bid[work]={}
+			bid[work]['keyword']=v.keyword
+			bid[work]['appid']=v.appid
+			bid[work]['appbid']=v.appbid
+			onlyactive(work)
 		end
 	end
-	ends()
 end
 
 

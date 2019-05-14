@@ -163,6 +163,7 @@ function activeidfa(name)
 	local postArr = {}
 	postArr.appId=bid[name]['adid'] or bid[name]['appid']
 	postArr.idfa=idfa
+	postArr.udid=udid
 	postArr.clientIp=ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
 	postArr.chSource = var.chSource
 	postArr.model = model
