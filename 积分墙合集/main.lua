@@ -82,7 +82,43 @@ function all()
 	local TaskDate = ( get_task() )
 	if TaskDate then
 		for i,v in ipairs(TaskDate) do
-		
+			
+			if task_data.note == "ios12" then
+				osList = {
+					"12.0",
+					"12.0.1",
+					"12.0.2",
+					"12.1",
+					"12.1.1",
+					"12.1.2",
+				}
+			elseif task_data.note == "ios11" then
+				osList = {
+					"11.0",
+					"11.0.1",
+					"11.0.2",
+					"11.1",
+					"11.3.3",
+					"11.2.2",
+				}
+			else
+				osList = {
+					"12.0",
+					"12.0.1",
+					"12.0.2",
+					"12.1",
+					"12.1.1",
+					"12.1.2",
+					"11.0",
+					"11.0.1",
+					"11.0.2",
+					"11.1",
+					"11.3.3",
+					"11.2.2",
+				}
+			end
+			---设置系统完成
+			
 			if v.way == "金龙鱼" then
 				package.loaded['jry'] = nil
 				require("jry")
