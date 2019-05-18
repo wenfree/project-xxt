@@ -129,7 +129,7 @@ function XXTfakerNewPhone(bid)
 					return zm_ .. zm(n-1)
 				end
 			end
-			return zm(8).."-"..zm(4).."-4"..zm(3).."-"..zm(12)
+			return zm(8).."-"..zm(4).."-4"..zm(3).."-"..zm(4).."-"..zm(12)
 		end
 		--实际需求量
 		if n == 1 then
