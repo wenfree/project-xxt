@@ -101,8 +101,10 @@ function clickidfa(name,callbackkey)
 	postArr.ip=ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
 	postArr.source = var.source
 	postArr.keyword = bid[name]['keyword']
-	postArr.os_version = sys.version()
+	postArr.os_version = os_version or sys.version()
+	postArr.os = os_version or sys.version()
 	postArr.device = model
+	postArr.product = model
 	
 	----------------------
 --	postArr.keyword = e:escape(bid[name]['keyword'])
@@ -110,17 +112,11 @@ function clickidfa(name,callbackkey)
 		postArr.callback  = "http://idfa888.com/Public/idfa/?service=idfa.callback&id="..callbackid
 	end
 	
-	index = 0
-	post_data = ''
-	
+	local post_data = ''
 	for k,v in pairs(postArr)do
-		index = index + 1
-		if index == 8 then
-			post_data = post_data..k..'='..v
-		else
-			post_data = post_data..k..'='..v..'&'
-		end
+		post_data = post_data..k..'='..v..'&'
 	end
+	
 	url = url..'?'..post_data
 	log(url)
 	log(postArr)
@@ -188,6 +184,8 @@ function callbackapi(name)
 	if XXTfakerNewPhone(bid[name]['appbid'])then
 		idfa = XXTfakerGetinfo(bid[name]['appbid'])['IDFA']
 		model = XXTfakerGetinfo(bid[name]["appbid"])['ProductType']
+		os_version = XXTfakerGetinfo(bid[name]["appbid"])['ProductVersion']
+		
 		local dtassss = up(name,bid[name]['keyword'])
 		if dtassss ~= nil then
 			callbackid = json.decode(dtassss)['data']['id']
@@ -208,6 +206,7 @@ function activeapi(name)
 	if XXTfakerNewPhone(bid[name]['appbid'])then
 		idfa = XXTfakerGetinfo(bid[name]['appbid'])['IDFA']
 		model = XXTfakerGetinfo(bid[name]["appbid"])['ProductType']
+		os_version = XXTfakerGetinfo(bid[name]["appbid"])['ProductVersion']
 
 		if checkidfa(name)then
 			if clickidfa(name)then
@@ -225,6 +224,7 @@ function onlyactive(name)
 	if XXTfakerNewPhone(bid[name]['appbid'])then
 		idfa = XXTfakerGetinfo(bid[name]['appbid'])['IDFA']
 		model = XXTfakerGetinfo(bid[name]["appbid"])['ProductType']
+		os_version = XXTfakerGetinfo(bid[name]["appbid"])['ProductVersion']
 		
 		local dtassss = up(name,bid[name]['keyword'])
 		if dtassss ~= nil then
@@ -248,6 +248,7 @@ function idfaisok(name)
 	if XXTfakerNewPhone(bid[name]['appbid'])then
 		idfa = XXTfakerGetinfo(bid[name]['appbid'])['IDFA']
 		model = XXTfakerGetinfo(bid[name]["appbid"])['ProductType']
+		os_version = XXTfakerGetinfo(bid[name]["appbid"])['ProductVersion']
 		return checkidfa(name)
 	end
 end
@@ -256,6 +257,7 @@ function clickisok(name)
 	if XXTfakerNewPhone(bid[name]['appbid'])then
 		idfa = XXTfakerGetinfo(bid[name]['appbid'])['IDFA']
 		model = XXTfakerGetinfo(bid[name]["appbid"])['ProductType']
+		os_version = XXTfakerGetinfo(bid[name]["appbid"])['ProductVersion']
 		if checkidfa(name)then
 			return clickidfa(name)
 		end

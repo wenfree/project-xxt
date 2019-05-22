@@ -83,7 +83,7 @@ function all()
 	if TaskDate then
 		for i,v in ipairs(TaskDate) do
 			
-			if task_data.note == "ios12" then
+			if v.note == "ios12" then
 				osList = {
 					"12.0",
 					"12.0.1",
@@ -92,7 +92,7 @@ function all()
 					"12.1.1",
 					"12.1.2",
 				}
-			elseif task_data.note == "ios11" then
+			elseif v.note == "ios11" then
 				osList = {
 					"11.0",
 					"11.0.1",
@@ -130,15 +130,15 @@ function all()
 			elseif v.way == "杨州" then
 				package.loaded['yzdd'] = nil
 				require("yzdd")
-				main(v)		
+				main(v)
 			elseif v.way == "深圳鱼-热云" then
 				package.loaded['szry'] = nil
 				require("szry")
-				main(v)			
+				main(v)
 			elseif v.way == "安徽-聪明钱" then
 				package.loaded['cmq'] = nil
 				require("cmq")
-				main(v)			
+				main(v)
 			elseif v.way == "深圳鱼-爱钱进" then
 				package.loaded['aqj'] = nil
 				require("aqj")

@@ -399,8 +399,8 @@ function main(v)
 			task_id = v.task_id
 			bid[work]={}
 			bid[work]['keyword']=v.keyword
-			if string.len(v.appbid)>5	then	bid[work]['appbid']=v.appbid	end
-			if string.len(v.appid)>0	then	bid[work]['appid']=v.appid	end
+			bid[work]['appbid']=v.appbid
+			bid[work]['appid']=v.appid
 			callbackapi(work)
 	------------------------------------
 		end
