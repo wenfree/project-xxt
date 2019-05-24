@@ -55,12 +55,6 @@ atexit(function()
 		sys.msleep(500)
 	end)
 
-bid={}
-bid.花上钱贷款 = {	["appid"] =  "1278376336", ["appbid"] = "com.jiucang.huashangqian", ["adid"]= '1032', ["keyword"]="花上钱贷款" }
-
-screen.init(0)
-var = {}
-var.source = "10003"
 
 function sign(adid,timestamp)
 	local str = var.source.."|"..adid.."|"..idfa.."|"..var.key.."|"..timestamp
@@ -94,13 +88,16 @@ function back_pass(task_id,success)
 end
 
 function checkidfa(name)
-	log("准备查询")
+	log("准备查询->checkidfa")
 	local url = "http://ad.adstart.cn/channel.php"
 	local postArr = {}
-	log(bid[name]["appid"])
-	postArr.id= bid[name]["appid"]
-	if bid[name]["appid"] == "983488107" then
-		postArr.id = "20"
+	if #bid[name]["note"]>1 then
+		postArr.id = bid[name]["note"][1]
+	end
+	if name == "天天跟我买" then
+		postArr.id="39"
+	else
+		postArr.id="30"
 	end
 	postArr.idfa=idfa
 	postArr.ip=ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
@@ -114,7 +111,12 @@ function checkidfa(name)
 	log(url)
 	local getdata = get(url)
 	
-	if bid[name]["appid"] == "37" then
+	if bid[name]["note"][1] == "41" then
+		local data = json.decode(getdata)
+		if tonumber(data[idfa])= 0 then
+			return true
+		end
+	elseif bid[name]["appid"] == "37" then
 		if (getdata == "0") then
 			return true
 		end
@@ -136,6 +138,11 @@ function clickidfa(name,callbackkey)
 	local url = "http://ad.adstart.cn/channel.php"
 --	http://ad.adstart.cn/channel.php?id=30&ip={ip}&idfa={idfa}&callback={callback} 
 	local postArr = {}
+	
+	if #bid[name]["note"]>1 then
+		postArr.id = bid[name]["note"][2]
+	end
+	
 	if name == "天天跟我买" then
 		postArr.id="39"
 	else
@@ -161,7 +168,14 @@ function clickidfa(name,callbackkey)
 	log(postArr)
 
 	local getdata = get(url)
-	if name == "天天跟我买" then
+	
+	
+	if bid[name]["note"][2] == "42" then
+		local data = json.decode(getdata)
+		if(data['error'])= "成功" then
+			return true
+		end
+	elseif name == "天天跟我买" then
 		if getdata == "1" then
 			return true
 		end
@@ -360,36 +374,6 @@ function beewallidfa(name)
 	delay(1)
 end
 
-function get_task()
-	local url = 'http://wenfree.cn/api/Public/tjj/?service=Tjj.gettask'
-	local postArr = {}
-	postArr.phonename = phonename or device.name()
-	postArr.imei = phoneimei or sys.mgcopyanswer("SerialNumber")
-	local taskData = post(url,postArr)
-	
-	if taskData ~= nil then
-		taskData = json.decode(taskData)
-		log(taskData)
-		
-		if taskData.data == "新增手机" or taskData.data == "暂无任务" then
-			log(taskData.data,true)
-			delay(30)
-			return false
-		else
-			return taskData.data
-		end
-	end
-end
-
-function ends()
-	
-	for _,bid in ipairs(app.bundles()) do
-		app.quit(bid)
-	end
-	vpnx()
-	sys.msleep(2000)
-	
-end
 --]]
 function main(v)
 	if vpn() then
@@ -401,6 +385,8 @@ function main(v)
 			bid[work]['keyword']=v.keyword
 			bid[work]['appbid']=v.appbid
 			bid[work]['appid']=v.appid
+			--bid[work]['note']= v.note
+			bid[work]['note']=string.split(v.note,'|')
 			callbackapi(work)
 	------------------------------------
 		end
