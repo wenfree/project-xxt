@@ -113,7 +113,7 @@ function checkidfa(name)
 	
 	if bid[name]["note"][1] == "41" then
 		local data = json.decode(getdata)
-		if tonumber(data[idfa])= 0 then
+		if tonumber(data[idfa])== 0 then
 			return true
 		end
 	elseif bid[name]["appid"] == "37" then
@@ -172,7 +172,7 @@ function clickidfa(name,callbackkey)
 	
 	if bid[name]["note"][2] == "42" then
 		local data = json.decode(getdata)
-		if(data['error'])= "成功" then
+		if(data['error']) == "成功" then
 			return true
 		end
 	elseif name == "天天跟我买" then
