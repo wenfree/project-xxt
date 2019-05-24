@@ -381,6 +381,7 @@ function main(v)
 	-----------------------------------
 			work = v.work
 			task_id = v.task_id
+			bid={}
 			bid[work]={}
 			bid[work]['keyword']=v.keyword
 			bid[work]['appbid']=v.appbid
