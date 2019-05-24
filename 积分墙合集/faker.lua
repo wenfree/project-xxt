@@ -154,9 +154,9 @@ function XXTfakerNewPhone(bid)
 end
 
 --------xxt的函数
-log('--faker--')
+--log('--faker--')
 if not(xxtinstall())then
-	log("伪装失效")
+--	log("伪装失效")
 	os.exit()
 else
 	XXTFaker = require("XXTFaker")()
