@@ -93,8 +93,7 @@ function checkidfa(name)
 	local postArr = {}
 	if #bid[name]["note"]>1 then
 		postArr.id = bid[name]["note"][1]
-	end
-	if name == "天天跟我买" then
+	elseif name == "天天跟我买" then
 		postArr.id="39"
 	else
 		postArr.id="30"
@@ -141,9 +140,7 @@ function clickidfa(name,callbackkey)
 	
 	if #bid[name]["note"]>1 then
 		postArr.id = bid[name]["note"][2]
-	end
-	
-	if name == "天天跟我买" then
+	elseif name == "天天跟我买" then
 		postArr.id="39"
 	else
 		postArr.id="30"
