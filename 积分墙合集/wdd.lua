@@ -135,6 +135,7 @@ end
 function clickidfa(name,callbackkey)
 	log("准备点击")
 	local url = "http://ad.adstart.cn/channel.php"
+	local url2 = "http://ad.adstart.cn/channel.php"
 --	http://ad.adstart.cn/channel.php?id=30&ip={ip}&idfa={idfa}&callback={callback} 
 	local postArr = {}
 	
@@ -152,8 +153,8 @@ function clickidfa(name,callbackkey)
 	----------------------
 --	postArr.keyword = e:escape(bid[name]['keyword'])
 
-	postArr.callback  = e:escape("http://idfa888.com/Public/idfa/?service=idfa.callback&idfa="..idfa)
-
+--	postArr.callback  = e:escape("http://idfa888.com/Public/idfa/?service=idfa.callback&idfa="..idfa)
+	postArr.callback  = "http://idfa888.com/Public/idfa/?service=idfa.callback&idfa="..idfa
 	
 	local post_data = ''
 	for k,v in pairs(postArr)do
@@ -164,7 +165,8 @@ function clickidfa(name,callbackkey)
 	log("url----------------\n" .. url)
 	log(postArr)
 
-	local getdata = get(url)
+--	local getdata = get(url)
+	local getdata = post(url2,postArr)
 	
 	if bid[name]["note"][2] == "42" then
 		local data = json.decode(getdata)
