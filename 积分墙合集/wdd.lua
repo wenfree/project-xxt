@@ -119,7 +119,7 @@ function checkidfa(name)
 		if (getdata == "0") then
 			return true
 		end
-	elseif getdata ~= nil then
+	elseif bid[name]["note"][1] == "22" and getdata ~= nil then
 		local data = json.decode(getdata)
 		log(data or "nil")
 		if data['msg'] == "ok" or tonumber(data["Content"]["CheckIdfaResults"][1]["IsActive"]) == 1 then
