@@ -165,8 +165,8 @@ function clickidfa(name,callbackkey)
 	log("url----------------\n" .. url)
 	log(postArr)
 
---	local getdata = get(url)
-	local getdata = post(url2,postArr)
+	local getdata = get(url)
+--	local getdata = post(url2,postArr)
 	
 	if bid[name]["note"][2] == "42" then
 		local data = json.decode(getdata)
