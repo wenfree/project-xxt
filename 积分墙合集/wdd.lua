@@ -151,9 +151,9 @@ function clickidfa(name,callbackkey)
 --	postArr.source = Source
 	----------------------
 --	postArr.keyword = e:escape(bid[name]['keyword'])
-	if callbackkey and callbackid then
-		postArr.callback  = "http://idfa888.com/Public/idfa/?service=idfa.callback&id="..callbackid
-	end
+
+	postArr.callback  = e:escape("http://idfa888.com/Public/idfa/?service=idfa.callback&idfa="..idfa)
+
 	
 	local post_data = ''
 	for k,v in pairs(postArr)do
@@ -165,7 +165,6 @@ function clickidfa(name,callbackkey)
 	log(postArr)
 
 	local getdata = get(url)
-	
 	
 	if bid[name]["note"][2] == "42" then
 		local data = json.decode(getdata)
