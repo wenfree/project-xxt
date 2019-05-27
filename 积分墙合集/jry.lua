@@ -355,6 +355,7 @@ function main(v)
 			log(v)
 			work = v.work
 			task_id = v.task_id
+			bid={}
 			bid[work]={}
 			bid[work]['keyword']=v.keyword
 			if string.len(v.appbid)>5 then	bid[work]['appbid']=v.appbid end
