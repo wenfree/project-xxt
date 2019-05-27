@@ -83,7 +83,7 @@ end
 function checkidfa(name)
 	local url = "http://agent.quwanzhuanqian.com/open/v1/distinct"
 	local postArr = {}
-	postArr.channel_id = ''
+	postArr.channel_id = '22'
 	postArr.task_id = bid[name]['appid']
 	postArr.idfa = idfa
 	postArr.ip = ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
@@ -117,7 +117,7 @@ end
 function clickidfa(name,callbackkey)
 	local url = "http://agent.quwanzhuanqian.com/open/v1/click"
 	local postArr = {}
-	postArr.channel_id = ''
+	postArr.channel_id = '22'
 	postArr.task_id = bid[name]['appid']
 	postArr.idfa = idfa
 	postArr.ip = ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
@@ -128,7 +128,7 @@ function clickidfa(name,callbackkey)
 	
 	
 	local index = 0
-	post_data = ''
+	local post_data = ''
 	for k,v in pairs(postArr)do
 		post_data = post_data..k..'='..v..'&'
 	end
@@ -153,7 +153,7 @@ end
 function activeidfa(name,callbackkey)
 	local url = "http://agent.quwanzhuanqian.com/open/v1/activate"
 	local postArr = {}
-	postArr.channel_id = ''
+	postArr.channel_id = '22'
 	postArr.task_id = bid[name]['appid']
 	postArr.idfa = idfa
 	postArr.ip = ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
