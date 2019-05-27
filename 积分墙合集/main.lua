@@ -142,6 +142,10 @@ function all()
 			elseif v.way == "深圳鱼-爱钱进" then
 				package.loaded['aqj'] = nil
 				require("aqj")
+				main(v)			
+			elseif v.way == "wdd-趣玩" then
+				package.loaded['quwang'] = nil
+				require("quwang")
 				main(v)
 			end
 			
