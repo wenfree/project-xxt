@@ -81,9 +81,9 @@ function back_pass(task_id,success)
 end
 
 function checkidfa(name)
-	local url = "http://agent.quwanzhuanqian.com/open/v1/distinct"
+	local url = "http://hlj.wenfree.cn/wp-api/Public/idfa/"
 	local postArr = {}
-	postArr.channel_id = '22'
+	postArr.service = "Idfas.Checkidfa"
 	postArr.task_id = bid[name]['appid']
 	postArr.idfa = idfa
 	postArr.ip = ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
@@ -105,7 +105,7 @@ function checkidfa(name)
 	if getdata ~= nil then
 		local data = json.decode(getdata)
 		log(data or "nil")
-		if tonumber(data.data[idfa]) == 0 then
+		if tonumber(data.data.data[idfa]) == 0 then
 			log(" 排重成功: OK.",true)
 			return true
 		else
@@ -115,17 +115,15 @@ function checkidfa(name)
 end
 
 function clickidfa(name,callbackkey)
-	local url = "http://agent.quwanzhuanqian.com/open/v1/click"
+	local url = "http://hlj.wenfree.cn/wp-api/Public/idfa/"
 	local postArr = {}
-	postArr.channel_id = '22'
+	postArr.service = "Idfas.Clickidfa"
 	postArr.task_id = bid[name]['appid']
 	postArr.idfa = idfa
 	postArr.ip = ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
 	postArr.os_version = os_version or sys.version()
 	postArr.device_type = model
 	postArr.keyword = e:escape(bid[name]['keyword'])
-	postArr.keyword = e:escape("http://idfa888.com/Public/idfa/?service=idfa.callback&idfa="..idfa)
-	
 	
 	local index = 0
 	local post_data = ''
@@ -141,7 +139,7 @@ function clickidfa(name,callbackkey)
 	if getdata ~= nil then
 		local data = json.decode(getdata)
 		log(data or "nil")
-		if tonumber(data.data.code) == 0 or data.data.message == 'ok' then
+		if tonumber(data.data.code) == 0 or data.data.message == 'success' then
 			log("点击成功: OK.",true)
 			return true
 		else
@@ -151,9 +149,9 @@ function clickidfa(name,callbackkey)
 end
 
 function activeidfa(name,callbackkey)
-	local url = "http://agent.quwanzhuanqian.com/open/v1/activate"
+	local url = "http://hlj.wenfree.cn/wp-api/Public/idfa/"
 	local postArr = {}
-	postArr.channel_id = '22'
+	postArr.service = "Idfas.Activeidfa"
 	postArr.task_id = bid[name]['appid']
 	postArr.idfa = idfa
 	postArr.ip = ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
@@ -174,11 +172,11 @@ function activeidfa(name,callbackkey)
 	if getdata ~= nil then
 		local data = json.decode(getdata)
 		log(data or "nil")
-		if tonumber(data.data.code) == 0 or data.data.message == 'ok' then
-			log("点击成功: OK.",true)
+		if tonumber(data.data.code) == 0 or data.data.message == 'success' then
+			log("上报成功: OK.",true)
 			return true
 		else
-			log("idfa-点击失败",true)
+			log("idfa-上报失败",true)
 		end
 	end
 end
@@ -270,8 +268,8 @@ function main(v)
 			bid={}
 			bid[work]={}
 			bid[work]['keyword']=v.keyword
-			if string.len(v.appbid)>5 then	bid[work]['appbid']=v.appbid end
-			if string.len(v.appid)>5 then	bid[work]['appid']=v.appid	end
+			bid[work]['appbid']=v.appbid
+			bid[work]['appid']=v.appid
 			callbackapi(work)
 		end
 		vpnx()
