@@ -142,7 +142,7 @@ function activeidfa(name)
 	postArr.ip=ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
 	postArr.source = var.source
 	postArr.keyword = bid[name]['keyword']
-	postArr.os_version = sys.version()
+	postArr.os_version = os_version or sys.version()
 	postArr.device = model
 
 	log(url.."?"..table.concat( postArr ))
