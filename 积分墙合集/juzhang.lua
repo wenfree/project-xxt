@@ -84,14 +84,10 @@ function checkidfa(name)
 	local url = "http://api.plat.adjuz.net/distinct"
 	local postArr = {}
 	postArr.adid = bid[name]['appid']
-	postArr.sourceid = bid[name]['appid']
+	postArr.sourceid = "12740"
 	postArr.idfa = idfa
 	postArr.ip = ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
-	postArr.os_version = os_version or sys.version()
-	postArr.device_type = model
-	postArr.keyword = e:escape(bid[name]['keyword'])
 
-	
 	local post_data = ''
 	for k,v in pairs(postArr)do
 		post_data = post_data..k..'='..v..'&'
@@ -105,7 +101,7 @@ function checkidfa(name)
 	if getdata ~= nil then
 		local data = json.decode(getdata)
 		log(data or "nil")
-		if tonumber(data.data.data[idfa]) == 0 then
+		if tonumber(data[idfa]) == 0 then
 			log(" 排重成功: OK.",true)
 			return true
 		else
@@ -115,17 +111,13 @@ function checkidfa(name)
 end
 
 function clickidfa(name,callbackkey)
-	local url = "http://hlj.wenfree.cn/wp-api/Public/idfa/"
+	local url = "http://api.plat.adjuz.net/click"
 	local postArr = {}
-	postArr.service = "Idfas.Clickidfa"
-	postArr.task_id = bid[name]['appid']
+	postArr.adid = bid[name]['appid']
+	postArr.sourceid = "12740"
 	postArr.idfa = idfa
 	postArr.ip = ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
-	postArr.os_version = os_version or sys.version()
-	postArr.device_type = model
-	postArr.keyword = e:escape(bid[name]['keyword'])
 	
-	local index = 0
 	local post_data = ''
 	for k,v in pairs(postArr)do
 		post_data = post_data..k..'='..v..'&'
@@ -139,7 +131,7 @@ function clickidfa(name,callbackkey)
 	if getdata ~= nil then
 		local data = json.decode(getdata)
 		log(data or "nil")
-		if tonumber(data.data.code) == 0 or data.data.message == 'success' then
+		if tonumber(data.State) == 100 or data.Remark == 'success' then
 			log("点击成功: OK.",true)
 			return true
 		else
@@ -149,16 +141,13 @@ function clickidfa(name,callbackkey)
 end
 
 function activeidfa(name,callbackkey)
-	local url = "http://hlj.wenfree.cn/wp-api/Public/idfa/"
+	local url = "http://api.plat.adjuz.net/activate"
 	local postArr = {}
-	postArr.service = "Idfas.Activeidfa"
-	postArr.task_id = bid[name]['appid']
+	postArr.adid = bid[name]['appid']
+	postArr.sourceid = "12740"
 	postArr.idfa = idfa
 	postArr.ip = ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
-	postArr.os_version = os_version or sys.version()
-	postArr.device_type = model
-	postArr.keyword = e:escape(bid[name]['keyword'])
-
+	
 	local post_data = ''
 	for k,v in pairs(postArr)do
 		post_data = post_data..k..'='..v..'&'
@@ -172,7 +161,7 @@ function activeidfa(name,callbackkey)
 	if getdata ~= nil then
 		local data = json.decode(getdata)
 		log(data or "nil")
-		if tonumber(data.data.code) == 0 or data.data.message == 'success' then
+		if tonumber(data.State) == 100 or data.Remark == 'success' then
 			log("上报成功: OK.",true)
 			return true
 		else
@@ -232,7 +221,7 @@ apparr.right={{{462,666,0x007aff},{225,666,0x007aff},}, 85, 54, 394, 590, 809}
 
 function newidfa(name)
 	local TIMEline = os.time()
-	local OUTtime = rd(40,60)
+	local OUTtime = rd(50,60)
 	while os.time()- TIMEline < OUTtime do
 		if active(bid[name]['appbid'],4)then
 			if d(apparr.right,"apparr.right",true)then
