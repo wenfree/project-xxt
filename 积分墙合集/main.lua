@@ -156,8 +156,9 @@ while (true) do
 	local ret,errMessage = pcall(all)
 	if ret then
 	else
+		log(errMessage)
 		sys.alert(errMessage, 3)
-		delay(1)
+		delay(5)
 	end
 end
 

@@ -94,6 +94,7 @@ end
 
 
 function clickidfa(name)
+	log("clickidfa->"..name)
 	local url = "http://m.moneyli.top/IDFA/checkClick"
 	local postArr = {}
 	postArr.adid = bid[name]['appid']
@@ -103,11 +104,11 @@ function clickidfa(name)
 	postArr.keyword = bid[name]['keyword']
 	postArr.os_version = os_version or sys.version()
 	postArr.device = model
-	
-	----------------------
---	postArr.keyword = e:escape(bid[name]['keyword'])
-	if callback_key  then
-		postArr.callback  = e:escape( "http://idfa888.com/Public/idfa/?service=idfa.callback&id="..callbackid )
+
+	if false and callback_key  then
+		local curl = require('lcurl')
+		local e = curl.easy()
+		postArr.callback  = e:escape( "http://idfa888.com/Public/idfa/?service=idfa.callback&idfa="..idfa )
 	end
 	
 	local post_data = ''

@@ -91,7 +91,6 @@ function checkidfa(name)
 	postArr.device_type = model
 	postArr.keyword = e:escape(bid[name]['keyword'])
 
-	
 	local post_data = ''
 	for k,v in pairs(postArr)do
 		post_data = post_data..k..'='..v..'&'
