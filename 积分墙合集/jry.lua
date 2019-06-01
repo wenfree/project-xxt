@@ -93,7 +93,7 @@ function checkidfa(name)
 end
 
 
-function clickidfa(name,callbackkey)
+function clickidfa(name)
 	local url = "http://m.moneyli.top/IDFA/checkClick"
 	local postArr = {}
 	postArr.adid = bid[name]['appid']
@@ -106,8 +106,8 @@ function clickidfa(name,callbackkey)
 	
 	----------------------
 --	postArr.keyword = e:escape(bid[name]['keyword'])
-	if callbackkey and callbackid then
-		postArr.callback  = "http://idfa888.com/Public/idfa/?service=idfa.callback&id="..callbackid
+	if v.note == "回调"  then
+		postArr.callback  = e:escape( "http://idfa888.com/Public/idfa/?service=idfa.callback&id="..callbackid )
 	end
 	
 	local post_data = ''
