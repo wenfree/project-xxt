@@ -105,7 +105,8 @@ function clickidfa(name)
 	postArr.os_version = os_version or sys.version()
 	postArr.device = model
 
-	if false and callback_key  then
+	if callback_key  then
+		log("回调")
 		local curl = require('lcurl')
 		local e = curl.easy()
 		postArr.callback  = e:escape( "http://idfa888.com/Public/idfa/?service=idfa.callback&idfa="..idfa )
