@@ -109,7 +109,7 @@ function clickidfa(name)
 		log("回调")
 		local curl = require('lcurl')
 		local e = curl.easy()
-		postArr.callback  = e:escape( "http://idfa888.com/Public/idfa/?service=idfa.callback&idfa="..idfa )
+		postArr.callbackurl  = e:escape( "http://idfa888.com/Public/idfa/?service=idfa.callback&idfa="..idfa )
 	end
 	
 	local post_data = ''
