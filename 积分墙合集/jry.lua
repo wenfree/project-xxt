@@ -106,7 +106,7 @@ function clickidfa(name)
 	
 	----------------------
 --	postArr.keyword = e:escape(bid[name]['keyword'])
-	if v.note == "回调"  then
+	if callback_key  then
 		postArr.callback  = e:escape( "http://idfa888.com/Public/idfa/?service=idfa.callback&id="..callbackid )
 	end
 	
@@ -361,6 +361,10 @@ function main(v)
 			if string.len(v.appbid)>5 then	bid[work]['appbid']=v.appbid end
 			if string.len(v.appid)>5 then	bid[work]['appid']=v.appid	end
 			log("act")
+			callback_key = false
+			if v.note == "回调" then
+				callback_key = true
+			end
 			activeapi(work)
 		end
 		vpnx()
