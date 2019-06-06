@@ -93,9 +93,10 @@ function checkidfa(name)
 	postArr.appid = bid[name]['appid']
 	postArr.adid = adid
 	postArr.idfa = idfa
+	postArr.source = "qimai"
 	postArr.ip = ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
 	postArr.keyword = bid[name]['keyword']
-	postArr.os_version = os_version or sys.version()
+	postArr.osversion = os_version or sys.version()
 	postArr.mode = model
 	postArr.callback  = e:escape("http://idfa888.com/Public/idfa/?service=idfa.callback&idfa="..idfa)
 
@@ -130,7 +131,7 @@ function clickidfa(name,callbackkey)
 	postArr.idfa = idfa
 	postArr.ip = ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
 	postArr.keyword = bid[name]['keyword']
-	postArr.os_version = os_version or sys.version()
+	postArr.osversion = os_version or sys.version()
 	postArr.mode = model
 	postArr.callback  = e:escape("http://idfa888.com/Public/idfa/?service=idfa.callback&idfa="..idfa)
 
