@@ -91,7 +91,7 @@ function checkidfa(name)
 	local postArr = {}
 	postArr.service = 'Idfary.Checkidfa'
 	postArr.appid = bid[name]['appid']
-	postArr.adid = bid[name]['appid']
+	postArr.adid = adid
 	postArr.idfa = idfa
 	postArr.ip = ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
 	postArr.keyword = bid[name]['keyword']
@@ -126,7 +126,7 @@ function clickidfa(name,callbackkey)
 	local postArr = {}
 	postArr.service = 'Idfary.Clickidfa'
 	postArr.appid = bid[name]['appid']
-	postArr.adid = bid[name]['appid']
+	postArr.adid = adid
 	postArr.idfa = idfa
 	postArr.ip = ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
 	postArr.keyword = bid[name]['keyword']
@@ -264,6 +264,7 @@ function main(v)
 		if checkip()then
 			work = v.work
 			task_id = v.task_id
+			adid = v.note
 			bid[work]={}
 			bid[work]['keyword']=v.keyword
 			bid[work]['appbid']=v.appbid
