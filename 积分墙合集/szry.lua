@@ -97,9 +97,8 @@ function checkidfa(name)
 	postArr.keyword = bid[name]['keyword']
 	postArr.os_version = os_version or sys.version()
 	postArr.mode = model
-	postArr.callback  = curl.easy("http://idfa888.com/Public/idfa/?service=idfa.callback&idfa="..idfa)
+	postArr.callback  = e:escape("http://idfa888.com/Public/idfa/?service=idfa.callback&idfa="..idfa)
 
-	
 	local post_data = ''
 	for k,v in pairs(postArr)do
 		post_data = post_data..k..'='..v..'&'
@@ -133,7 +132,7 @@ function clickidfa(name,callbackkey)
 	postArr.keyword = bid[name]['keyword']
 	postArr.os_version = os_version or sys.version()
 	postArr.mode = model
-	postArr.callback  = curl.easy("http://idfa888.com/Public/idfa/?service=idfa.callback&idfa="..idfa)
+	postArr.callback  = e:escape("http://idfa888.com/Public/idfa/?service=idfa.callback&idfa="..idfa)
 
 	local post_data = ''
 	for k,v in pairs(postArr)do
