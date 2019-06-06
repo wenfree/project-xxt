@@ -129,6 +129,7 @@ function clickidfa(name,callbackkey)
 	postArr.appid = bid[name]['appid']
 	postArr.adid = adid
 	postArr.idfa = idfa
+	postArr.source = "qimai"
 	postArr.ip = ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
 	postArr.keyword = bid[name]['keyword']
 	postArr.osversion = os_version or sys.version()
