@@ -91,19 +91,14 @@ function checkidfa(name)
 	local postArr = {}
 	postArr.service = 'Idfary.Checkidfa'
 	postArr.appid = bid[name]['appid']
-	postArr.adid = "Vz2eEba"
+	postArr.adid = bid[name]['appid']
 	postArr.idfa = idfa
 	postArr.ip = ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
 	postArr.keyword = bid[name]['keyword']
---	postArr.os_version = sys.version()
---	postArr.mode = model
-	postArr.callback  = "ym"
-	
-	----------------------
---	postArr.keyword = e:escape(bid[name]['keyword'])
-	if callbackkey and callbackid then
---		postArr.callback  = "http://idfa888.com/Public/idfa/?service=idfa.callback&id="..callbackid
-	end
+	postArr.os_version = os_version or sys.version()
+	postArr.mode = model
+	postArr.callback  = curl.easy("http://idfa888.com/Public/idfa/?service=idfa.callback&idfa="..idfa)
+
 	
 	local post_data = ''
 	for k,v in pairs(postArr)do
@@ -132,22 +127,15 @@ function clickidfa(name,callbackkey)
 	local postArr = {}
 	postArr.service = 'Idfary.Clickidfa'
 	postArr.appid = bid[name]['appid']
-	postArr.adid = "Vz2eEba"
+	postArr.adid = bid[name]['appid']
 	postArr.idfa = idfa
 	postArr.ip = ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
 	postArr.keyword = bid[name]['keyword']
---	postArr.os_version = sys.version()
+	postArr.os_version = os_version or sys.version()
 	postArr.mode = model
-	postArr.callback  = "ym"
-	
-	----------------------
---	postArr.keyword = e:escape(bid[name]['keyword'])
-	if callbackkey and callbackid then
---		postArr.callback  = "http://idfa888.com/Public/idfa/?service=idfa.callback&id="..callbackid
-	end
-	
-	local index = 0
-	post_data = ''
+	postArr.callback  = curl.easy("http://idfa888.com/Public/idfa/?service=idfa.callback&idfa="..idfa)
+
+	local post_data = ''
 	for k,v in pairs(postArr)do
 		post_data = post_data..k..'='..v..'&'
 	end
@@ -191,20 +179,15 @@ function callbackapi(name)
 	if XXTfakerNewPhone(bid[name]['appbid'])then
 		idfa = XXTfakerGetinfo(bid[name]['appbid'])['IDFA']
 		model = XXTfakerGetinfo(bid[name]["appbid"])['ProductType']
---		local dtassss = up(name,bid[name]['keyword'])
---		if dtassss ~= nil then
---			callbackid = json.decode(dtassss)['data']['id']
---			if callbackid ~= nil then
-				if checkidfa(name)then
-					if clickidfa(name)then
-						delay(rd(2,3))
-						newidfa(name,1)
-						back_pass(task_id,"ok")
-						up(name,bid[name]['keyword'])
-					end
-				end
---			end
---		end
+		os_version = XXTfakerGetinfo(bid[name]["appbid"])['ProductVersion']
+		if checkidfa(name)then
+			if clickidfa(name)then
+				delay(rd(2,3))
+				newidfa(name,1)
+				back_pass(task_id,"ok")
+				up(name,bid[name]['keyword'])
+			end
+		end
 	end
 end
 
@@ -266,7 +249,6 @@ function get_task()
 		end
 	end
 end
-
 
 --bid.万博娱乐 = {	["appid"] =  "1434066842", ["appbid"] = "com.qq.FindWord", ["adid"]= '1032', ["keyword"]="万博娱乐" }
 
