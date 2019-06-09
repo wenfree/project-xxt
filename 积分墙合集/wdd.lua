@@ -55,13 +55,6 @@ atexit(function()
 		sys.msleep(500)
 	end)
 
-
-function sign(adid,timestamp)
-	local str = var.source.."|"..adid.."|"..idfa.."|"..var.key.."|"..timestamp
-	log(str)
-	return string.md5(str)
-end
-
 --全局变量
 function up(name,other)
 	local url = 'http://idfa888.com/Public/idfa/?service=idfa.idfa'
@@ -72,19 +65,11 @@ function up(name,other)
 	idfalist.name = name
 	idfalist.idfa = idfa
 	idfalist.ip = ip or get_ip() or '192.168.1.1'
-	idfalist.account = bid[name]['keyword'] or account
+	idfalist.account = account
 	idfalist.password = password
 	idfalist.phone = phone
 	idfalist.other = other
 	return post(url,idfalist)
-end
-
-function back_pass(task_id,success)
-	local url = 'http://wenfree.cn/api/Public/tjj/?service=Tjj.backpass'
-	local postArr = {}
-	postArr.task_id = task_id
-	postArr.success = success
-	log( post(url,postArr) )
 end
 
 function checkidfa(name)
@@ -132,10 +117,9 @@ function checkidfa(name)
 	end
 end
 
-function clickidfa(name,callbackkey)
+function clickidfa(name)
 	log("准备点击")
 	local url = "http://ad.adstart.cn/channel.php"
-	local url2 = "http://ad.adstart.cn/channel.php"
 --	http://ad.adstart.cn/channel.php?id=30&ip={ip}&idfa={idfa}&callback={callback} 
 	local postArr = {}
 	
@@ -146,15 +130,10 @@ function clickidfa(name,callbackkey)
 	else
 		postArr.id="30"
 	end
---	postArr.appid = bid[name]["appid"]
+	
 	postArr.idfa=idfa
 	postArr.ip=ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
---	postArr.source = Source
-	----------------------
---	postArr.keyword = e:escape(bid[name]['keyword'])
-
---	postArr.callback  = e:escape("http://idfa888.com/Public/idfa/?service=idfa.callback&idfa="..idfa)
-	postArr.callback  = "http://idfa888.com/Public/idfa/?service=idfa.callback&idfa="..idfa
+	postArr.callback  = e:escape("http://idfa888.com/Public/idfa/?service=idfa.callback&idfa="..idfa)
 	
 	local post_data = ''
 	for k,v in pairs(postArr)do
@@ -166,8 +145,6 @@ function clickidfa(name,callbackkey)
 	log(postArr)
 
 	local getdata = get(url)
---	local getdata = post(url2,postArr)
-	
 	if bid[name]["note"][2] == "42" then
 		local data = json.decode(getdata)
 		if(data['error']) == "成功" then
@@ -191,143 +168,20 @@ function clickidfa(name,callbackkey)
 	end
 end
 
-function activeidfa(name)
-	local url = "https://idfa.asojb.cn/api/click_notify"
-	local postArr = {}
-	postArr.appid=bid[name]['appid']
-	postArr.idfa=idfa
-	postArr.ip=ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
-	postArr.service_id=var.source
-
-	local getdata = post(url,postArr)
-	if getdata ~= nil then
-		local data = json.decode(getdata)
-		log(data or "nil")
-		if data.msg == 'success' then
-			log("激活成功: OK.",true)
-			back_pass(task_id,"ok")
-			return true
-		else
-			log("idfa-激活失败",true)
-		end
-	end
-end
-
-function checkip()
-	ip = get_ip() or "192.168.1.1"
-	local url = 'http://idfa888.com/Public/idfa/?service=idfa.checkip&ip='..ip
-	local getdata = get(url)
-	if getdata ~= nil then
-		local data = json.decode(getdata)
-		log(data or "nil")
-		if data.data.state == "ok" then
-			log("ip可以用:OK.",true)
-			return true
-		else
-			log("ip, 排重失败",true)
-		end
-	end
-end
-
+--排重-点击-end
 function callbackapi(name)
 	if XXTfakerNewPhone(bid[name]['appbid'])then
 		idfa = XXTfakerGetinfo(bid[name]['appbid'])['IDFA']
 		model = XXTfakerGetinfo(bid[name]["appbid"])['ProductType']
---		local dtassss = up(name,bid[name]['keyword'])
---		if dtassss ~= nil then
---			callbackid = json.decode(dtassss)['data']['id']
---			if callbackid ~= nil then
-				if checkidfa(name)then
-					if clickidfa(name,false)then
-						delay(rd(2,3))
-						newidfa(name,1)
-						up(name,bid[name]['keyword'].."-激活成功")
-						back_pass(task_id,"ok")
-					end
-				end
---			end
---		end
-	end
-end
-
-function activeapi(name)
-
-	if XXTfakerNewPhone(bid[name]['appbid'])then
-		idfa = XXTfakerGetinfo(bid[name]['appbid'])['IDFA']
-		model = XXTfakerGetinfo(bid[name]["appbid"])['ProductType']
---		local dtassss = up(name,bid[name]['keyword'])
---		if dtassss ~= nil then
---			callbackid = json.decode(dtassss)['data']['id']
-	
---			if callbackid ~= nil then
-				if checkidfa(name)then
-					if clickidfa(name)then
-						delay(rd(10,20))
-						newidfa(name,1)
-						if activeidfa(name)then
-							up(name,bid[name]['keyword'].."-激活成功")
-						end
-					end
-				end
---			end
---		end
-	end
-	
-end
-
-function onlyactive(name)
-	if XXTfakerNewPhone(bid[name]['appbid'])then
-		idfa = XXTfakerGetinfo(bid[name]['appbid'])['IDFA']
-		model = XXTfakerGetinfo(bid[name]["appbid"])['ProductType']
-		
-		local dtassss = up(name,bid[name]['keyword'])
-		if dtassss ~= nil then
-			callbackid = json.decode(dtassss)['data']['id']
-			if callbackid ~= nil then
-				if checkidfa(name)then
-					delay(rd(3,6))
-					newidfa(name,1)
-					if activeidfa(name)then
-						up(name,bid[name]['keyword'].."-激活成功")
-					end
-
-				end
+		if checkidfa(name)then
+			if clickidfa(name)then
+				delay(rd(2,3))
+				newidfa(name)
+				return true
 			end
 		end
+
 	end
-end
-
-function idfaisok(name)
-	if XXTfakerNewPhone(bid[name]['appbid'])then
-		idfa = XXTfakerGetinfo(bid[name]['appbid'])['IDFA']
-		model = XXTfakerGetinfo(bid[name]["appbid"])['ProductType']
-		return checkidfa(name)
-	end
-end
-
-function clickisok(name)
-	if XXTfakerNewPhone(bid[name]['appbid'])then
-		idfa = XXTfakerGetinfo(bid[name]['appbid'])['IDFA']
-		model = XXTfakerGetinfo(bid[name]["appbid"])['ProductType']
-		if checkidfa(name)then
-			return clickidfa(name)
-		end
-	end
-end
-
-function beesign(appid,idfa)
-	local txt = var.source.."|"..appid.."|"..idfa.."|"..var.key
-	log("md5---"..txt)
-	return string.md5(txt)
-end
-
-
-function rd(n,k)
-	return math.random(n,k)
-end
-
-function appname(bid)
-	return app.localized_name(bid) or '未安装'
 end
 
 apparr={}
@@ -337,45 +191,30 @@ apparr.right_agree={{
 	{478, 968, 0xffffff},
 }, 85, 323, 602, 624, 1132}
 
-function newidfa(name,times)
-	for i= 1,times do
-
-		local TIMEline = os.time()
-		local OUTtime = rd(20,25 )
-		while os.time()- TIMEline < OUTtime do
-			if active(bid[name]['appbid'],4)then
-				if d(apparr.right,"apparr.right",true)then
-				elseif d(apparr.right_agree,"right_agree",true)then
-
-				else
-					moveTo(600,300,100,100,30,50)
-					delay(1)
-					click(321, 978)
-					delay(1)
-					click(462, 666)
-					delay(1)
-				end
+function newidfa(name)
+	local TIMEline = os.time()
+	local OUTtime = rd(20,25 )
+	while os.time()- TIMEline < OUTtime do
+		if active(bid[name]['appbid'],4)then
+			if d(apparr.right,"apparr.right",true)then
+			elseif d(apparr.right_agree,"right_agree",true)then
 			else
-				log("启动一次")
+				moveTo(600,300,100,100,30,50)
+				delay(1)
+				click(321, 978)
+				delay(1)
+				click(462, 666)
+				delay(1)
 			end
+		else
+			log("启动一次")
 		end
---		up(name,bid[name]['keyword'])
 	end
 end
 
---期货掌中宝
-function beewallidfa(name)
-	if clickisok(name)then
-		delay(rd(2,3))
-		newidfa(name,1)
-	end
-	delay(1)
-end
-
---]]
 function main(v)
 	if vpn() then
-		if true or checkip()then
+		if checkip()then
 	-----------------------------------
 			work = v.work
 			task_id = v.task_id
@@ -386,8 +225,13 @@ function main(v)
 			bid[work]['appid']=v.appid
 			--bid[work]['note']= v.note
 			bid[work]['note']=string.split(v.note,'|')
-			callbackapi(work)
+			if callbackapi(work)then
+				task_callback(task_id,"ok")
+				up(name,"点击成功")		--上传到idfa888 备份
+			end
 	------------------------------------
+		else
+			task_callback(task_id,"ip重复")
 		end
 		vpnx()
 		delay(2)

@@ -41,13 +41,15 @@ atexit(function()
 		sys.msleep(500)
 	end)
 
+function rd(n,k)
+	return math.random(n,k)
+end
 
-
-
-
+function appname(bid)
+	return app.localized_name(bid) or '未安装'
+end
 
 -- 总的脚本, 用渠道名来区分脚本
-
 function get_task()
 	local url = 'http://wenfree.cn/api/Public/tjj/?service=Tjj.gettask'
 	local postArr = {}
@@ -66,6 +68,37 @@ function get_task()
 		else
 			return taskData.data
 		end
+	end
+end
+
+function task_callback(task_id,success)
+	local url = 'http://wenfree.cn/api/Public/idfa/?service=Task.Task_callback'
+	local postarr_ = {}
+	postarr_['idfa'] = idfa
+	local postArr = {}
+	postArr.id = task_id
+	postArr.success = success
+	postArr.arr = json.encode(postarr_)
+	log("wenfree")
+	post(url,postArr)
+	log("上传一次")
+end
+
+function checkip()
+	local url = 'http://wenfree.cn/api/Public/idfa/?service=ip.checkip'
+	local getdata = get(url)
+	if getdata ~= nil then
+		local data = json.decode(getdata)
+		log(data or "nil")
+		if data.data.state == "ok" then
+			ip = data.data.ip or get_ip()
+			log("ip可以用:OK.",true)
+			return true
+		else
+			log("ip, 排重失败",true)
+		end
+	else
+		log("ip服务器故障")
 	end
 end
 
