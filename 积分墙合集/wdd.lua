@@ -213,18 +213,18 @@ function newidfa(name)
 end
 
 function main(v)
+	work = v.work
+	task_id = v.task_id
+	bid={}
+	bid[work]={}
+	bid[work]['keyword']=v.keyword
+	bid[work]['appbid']=v.appbid
+	bid[work]['appid']=v.appid
+	bid[work]['note']=string.split(v.note,'|')
+	
 	if vpn() then
 		if checkip()then
 	-----------------------------------
-			work = v.work
-			task_id = v.task_id
-			bid={}
-			bid[work]={}
-			bid[work]['keyword']=v.keyword
-			bid[work]['appbid']=v.appbid
-			bid[work]['appid']=v.appid
-			--bid[work]['note']= v.note
-			bid[work]['note']=string.split(v.note,'|')
 			if callbackapi(work)then
 				task_callback(task_id,"ok")
 				up(name,"点击成功")		--上传到idfa888 备份
@@ -235,6 +235,8 @@ function main(v)
 		end
 		vpnx()
 		delay(2)
+	else
+		task_callback(task_id,"vpn-false")
 	end
 end
 
