@@ -227,7 +227,7 @@ function main(v)
 	-----------------------------------
 			if callbackapi(work)then
 				task_callback(task_id,"ok")
-				up(name,"点击成功")		--上传到idfa888 备份
+				up(work,"点击成功")		--上传到idfa888 备份
 			end
 	------------------------------------
 		else
