@@ -266,7 +266,8 @@ function main(v)
 		if checkip()then
 			work = v.work
 			task_id = v.task_id
-			adid = v.note
+--			adid = v.note
+			adid = v.adid
 			bid[work]={}
 			bid[work]['keyword']=v.keyword
 			bid[work]['appbid']=v.appbid
