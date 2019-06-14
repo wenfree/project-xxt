@@ -62,7 +62,7 @@ function checkidfa(name)
 	log('checkidfa-->'..name)
 	local url = "http://m.moneyli.top/IDFA/repeat"
 	local postArr = {}
-	postArr.adid = bid[name]['appid']
+	postArr.adid = bid[name]['adid']
 	postArr.idfa = idfa
 	postArr.ip=ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
 	postArr.source = var.source
@@ -99,7 +99,7 @@ function clickidfa(name)
 	log("clickidfa->"..name)
 	local url = "http://m.moneyli.top/IDFA/checkClick"
 	local postArr = {}
-	postArr.adid = bid[name]['appid']
+	postArr.adid = bid[name]['adid']
 	postArr.idfa = idfa
 	postArr.ip=ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
 	postArr.source = var.source
@@ -142,7 +142,7 @@ function activeidfa(name)
 	log('activeidfa-->'..name)
 	local url = "http://m.moneyli.top/IDFA/activate"
 	local postArr = {}
-	postArr.adid = bid[name]['appid']
+	postArr.adid = bid[name]['adid']
 	postArr.idfa = idfa
 	postArr.ip=ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
 	postArr.source = var.source
@@ -212,6 +212,7 @@ function activeapi(name)
 		idfa = XXTfakerGetinfo(bid[name]['appbid'])['IDFA']
 		model = XXTfakerGetinfo(bid[name]["appbid"])['ProductType']
 		os_version = XXTfakerGetinfo(bid[name]["appbid"])['ProductVersion']
+		udid = XXTfakerGetinfo(bid[name]["appbid"])['UDID']
 
 		if checkidfa(name)then
 			if clickidfa(name)then
@@ -364,9 +365,10 @@ function main(v)
 			task_id = v.task_id
 			bid={}
 			bid[work]={}
+			bid[work]['adid']=v.adid
 			bid[work]['keyword']=v.keyword
-			if string.len(v.appbid)>5 then	bid[work]['appbid']=v.appbid end
-			if string.len(v.appid)>5 then	bid[work]['appid']=v.appid	end
+			bid[work]['appbid']=v.appbid
+			bid[work]['appid']=v.appid
 			log("act")
 			callback_key = false
 			if v.note == "回调" then
