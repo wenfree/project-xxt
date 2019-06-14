@@ -69,6 +69,8 @@ function checkidfa(name)
 	postArr.keyword = bid[name]['keyword']
 	postArr.os_version = os_version or sys.version()
 	postArr.device = model
+	postArr.udid = udid
+	
 
 	post_data = ''
 	for k,v in pairs(postArr)do
@@ -104,6 +106,7 @@ function clickidfa(name)
 	postArr.keyword = bid[name]['keyword']
 	postArr.os_version = os_version or sys.version()
 	postArr.device = model
+	postArr.udid = udid
 
 	if callback_key  then
 		log("回调")
@@ -146,6 +149,7 @@ function activeidfa(name)
 	postArr.keyword = bid[name]['keyword']
 	postArr.os_version = os_version or sys.version()
 	postArr.device = model
+	postArr.udid = udid
 
 	log(url.."?"..table.concat( postArr ))
 
@@ -185,6 +189,7 @@ function callbackapi(name)
 		idfa = XXTfakerGetinfo(bid[name]['appbid'])['IDFA']
 		model = XXTfakerGetinfo(bid[name]["appbid"])['ProductType']
 		os_version = XXTfakerGetinfo(bid[name]["appbid"])['ProductVersion']
+		udid = XXTfakerGetinfo(bid[name]["appbid"])['UDID']
 		
 		local dtassss = up(name,bid[name]['keyword'])
 		if dtassss ~= nil then
@@ -192,7 +197,7 @@ function callbackapi(name)
 			if callbackid ~= nil then
 				if checkidfa(name)then
 					if clickidfa(name,true)then
-						delay(rd(10,20))
+						delay(rd(50,60))
 						newidfa(name,1)
 					end
 				end
