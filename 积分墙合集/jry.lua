@@ -69,7 +69,7 @@ function checkidfa(name)
 	postArr.keyword = bid[name]['keyword']
 	postArr.os_version = os_version or sys.version()
 	postArr.device = model
---	postArr.udid = udid
+	postArr.udid = udid
 	
 
 	post_data = ''
@@ -106,7 +106,7 @@ function clickidfa(name)
 	postArr.keyword = bid[name]['keyword']
 	postArr.os_version = os_version or sys.version()
 	postArr.device = model
---	postArr.udid = udid
+	postArr.udid = udid
 
 	if callback_key  then
 		log("回调")
@@ -149,7 +149,7 @@ function activeidfa(name)
 	postArr.keyword = bid[name]['keyword']
 	postArr.os_version = os_version or sys.version()
 	postArr.device = model
---	postArr.udid = udid
+	postArr.udid = udid
 
 	log(url.."?"..table.concat( postArr ))
 
