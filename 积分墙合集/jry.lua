@@ -288,30 +288,27 @@ end
 apparr={}
 apparr.right={{{462,666,0x007aff},{225,666,0x007aff},}, 85, 54, 394, 590, 809}
 
-function newidfa(name,times)
-	for i= 1,times do
+function newidfa(name)
+	local TIMEline = os.time()
+	local OUTtime = rd(60,180)
+	while os.time()- TIMEline < OUTtime do
+		if active(bid[name]['appbid'],4)then
+			if d(apparr.right,"apparr.right",true)then
 
-		local TIMEline = os.time()
-		local OUTtime = rd(60,180)
-		while os.time()- TIMEline < OUTtime do
-			if active(bid[name]['appbid'],4)then
-				if d(apparr.right,"apparr.right",true)then
-
-				else
-					moveTo(600,300,100,100,30,50)
-					delay(1)
-					click(321, 978)
-					delay(1)
-					click(462, 666)
-					delay(1)
-				end
 			else
-				log("启动一次")
+				moveTo(600,300,100,100,30,50)
+				delay(1)
+				click(321, 978)
+				delay(1)
+				click(462, 666)
+				delay(1)
 			end
-			delay(2)
+		else
+			log("启动一次")
 		end
-		up(name,bid[name]['keyword'])
+		delay(2)
 	end
+	up(name,bid[name]['keyword'])
 end
 
 --期货掌中宝
@@ -343,18 +340,6 @@ function get_task()
 		end
 	end
 end
-
-
-bid.万博娱乐 = {	["appid"] =  "1434066842", ["appbid"] = "com.qq.FindWord", ["adid"]= '1032', ["keyword"]="万博娱乐" }
-
-function ends()
-	for _,bid in ipairs(app.bundles()) do
-		app.quit(bid)
-	end
-	vpnx()
-	sys.msleep(2000)
-end
---]]
 
 function main(v)
 	----------------------------------
