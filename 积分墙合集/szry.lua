@@ -93,7 +93,7 @@ function checkidfa(name)
 	postArr.appid = bid[name]['appid']
 	postArr.adid = adid
 	postArr.idfa = idfa
-	postArr.source = "qimai"
+	postArr.source = source
 	postArr.ip = ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
 	postArr.keyword = bid[name]['keyword']
 	postArr.osversion = os_version or sys.version()
@@ -129,7 +129,7 @@ function clickidfa(name,callbackkey)
 	postArr.appid = bid[name]['appid']
 	postArr.adid = adid
 	postArr.idfa = idfa
-	postArr.source = "qimai"
+	postArr.source = source
 	postArr.ip = ip or get_ip() or rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)..'.'..rd(1,255)
 	postArr.keyword = bid[name]['keyword']
 	postArr.osversion = os_version or sys.version()
@@ -266,7 +266,7 @@ function main(v)
 		if checkip()then
 			work = v.work
 			task_id = v.task_id
---			adid = v.note
+			source = v.source
 			adid = v.adid
 			bid[work]={}
 			bid[work]['keyword']=v.keyword
