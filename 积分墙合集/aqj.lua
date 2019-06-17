@@ -83,7 +83,7 @@ end
 function clickidfa(name,callbackkey)
 	local url = "http://wenfree.cn/api/Public/idfa_xianyu/"
 	local postArr = {}
-	postArr.utm = 'qimai'
+	postArr.utm = 'ayl'
 	postArr.service = 'Idfa.Receive'
 	postArr.adid = bid[name]['appid']
 	postArr.idfa = idfa
