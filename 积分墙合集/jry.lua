@@ -70,6 +70,7 @@ function checkidfa(name)
 	postArr.os_version = os_version or sys.version()
 	postArr.device = model
 	postArr.udid = udid
+	postArr.product = model
 	
 
 	post_data = ''
@@ -107,6 +108,7 @@ function clickidfa(name)
 	postArr.os_version = os_version or sys.version()
 	postArr.device = model
 	postArr.udid = udid
+	postArr.product = model
 
 	if callback_key  then
 		log("回调")
