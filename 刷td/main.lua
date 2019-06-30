@@ -35,7 +35,7 @@ atexit(function()
 		vpnx()
 		local appbids = app.front_bid()
 		if appbids ~= "com.apple.springboard" then
-			app.quit(appbids)
+--			app.quit(appbids)
 			--closeX(appbids)
 		end
 		sys.msleep(500)
@@ -110,94 +110,107 @@ function ends()
 	sys.msleep(2000)
 end
 
-function all()
 
-	local TaskDate = ( get_task() )
-	if TaskDate then
-		for i,v in ipairs(TaskDate) do
-			
-			if v.note == "ios12" then
+
+function open_url()
+	local url = "https://young.chinaso.com/m/wap/index.html?utm_campaign=%E6%B4%BB%E5%8A%A8%E6%8E%A8%E5%B9%BF&utm_medium=hdtg00001&utm_source=%E5%85%AD%E4%B8%80"
+	app.open_url(url)
+	delay(3)
+end
+	
+t={}
+t["立即下载"]={{
+	{371, 769, 0xffd46c},
+	{206, 780, 0xffd46c},
+	{442, 733, 0xffd46c},
+	{401, 777, 0x705d2f},
+}, 85, 180, 713, 484, 825}
+t["取消"]={{
+	{353, 632, 0x1f8aff},
+	{350, 628, 0x007aff},
+	{290, 634, 0xffffff},
+}, 85, 210, 600, 435, 665}
+--open_url()
 				osList = {
 					"12.4",	"12.4",	"12.4","12.4","12.4","12.4","12.4",
 					"12.3.1","12.3.1","12.3.1",
 					"12.3","12.3",
 					"12.2","12.1.4",
-				}
-			elseif v.note == "ios11" then
-				osList = {
 					"11.4","11.4","11.4","11.4","11.4","11.4","11.4","11.4",
 					"11.4.1","11.4.1","11.4.1","11.4.1","11.4.1","11.4.1","11.4.1",
 					"11.3.1","11.3.1",
 					"11.3",
 				}
+				
+apparr={}
+apparr.right={{{462,666,0x007aff},{225,666,0x007aff},}, 85, 54, 394, 590, 809}
+function newidfa(bid)
+	local TIMEline = os.time()
+	local OUTtime = rd(60,180)
+	if XXTfakerNewPhone(bid)then
+		while os.time()- TIMEline < OUTtime do
+			if active(bid,4)then
+				if d(apparr.right,"apparr.right",true)then
+
+				else
+					moveTo(600,300,100,100,30,50)
+					delay(1)
+					click(321, 978)
+					delay(1)
+					click(462, 666)
+					delay(1)
+				end
 			else
-				osList = {
-					"12.4",	"12.4",	"12.4","12.4","12.4","12.4","12.4",
-					"12.3.1","12.3.1","12.3.1",
-					"12.3","12.3",
-					"12.2","12.1.4",
-					"11.4","11.4","11.4","11.4","11.4","11.4","11.4","11.4",
-					"11.4.1","11.4.1","11.4.1","11.4.1","11.4.1","11.4.1","11.4.1",
-					"11.3.1","11.3.1",
-					"11.3",
-				}
+				log("启动一次")
 			end
-			---设置系统完成
-			
-			if v.way == "金龙鱼" then
-				package.loaded['jry'] = nil
-				require("jry")
-				main(v)
-			elseif v.way == "王丹丹-四叶草" then
-				package.loaded['wdd-syc'] = nil
-				require("wdd-syc")
-				main(v)
-			elseif v.way == "王丹丹" then
-				package.loaded['wdd'] = nil
-				require("wdd")
-				main(v)
-			elseif v.way == "杨州" then
-				package.loaded['yzdd'] = nil
-				require("yzdd")
-				main(v)
-			elseif v.way == "深圳鱼-热云" then
-				package.loaded['szry'] = nil
-				require("szry")
-				main(v)
-			elseif v.way == "安徽-聪明钱" then
-				package.loaded['cmq'] = nil
-				require("cmq")
-				main(v)
-			elseif v.way == "深圳鱼-爱钱进" then
-				package.loaded['aqj'] = nil
-				require("aqj")
-				main(v)			
-			elseif v.way == "wdd-趣玩" then
-				package.loaded['quwang'] = nil
-				require("quwang")
-				main(v)			
-			elseif v.way == "河北-巨掌" then
-				package.loaded['juzhang'] = nil
-				require("juzhang")
-				main(v)
-			end
-			
+			delay(2)
 		end
 	end
-	------------------------------------
-	ends()
-	
 end
 
-while (true) do
-	local ret,errMessage = pcall(all)
-	if ret then
-	else
-		log(errMessage)
---		sys.alert(errMessage, 3)
+local lun = 1
+while true do
+	if vpn()then
+		open_url()
 		delay(5)
+		d(t["取消"],"取消",true)
+		if lun%4 ~= 0 then
+			if d(t["立即下载"],"立即下载",true)then
+				delay(10)
+				if lun%2 == 0 then
+					newidfa("com.chinaso.search")
+				end
+			end
+		end
 	end
+	ends()
+	delay(3)
+	lun=lun + 1
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
