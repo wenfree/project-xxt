@@ -118,7 +118,7 @@ function all()
 			
 			if v.note == "ios12" then
 				osList = {
-					"12.4",	"12.4",	"12.4","12.4","12.4","12.4","12.4",
+					"12.3",	"12.3",	"12.3","12.3","12.3","12.3","12.3",
 					"12.3.1","12.3.1","12.3.1",
 					"12.3","12.3",
 					"12.2","12.1.4",
@@ -132,7 +132,6 @@ function all()
 				}
 			else
 				osList = {
-					"12.4",	"12.4",	"12.4","12.4","12.4","12.4","12.4",
 					"12.3.1","12.3.1","12.3.1",
 					"12.3","12.3",
 					"12.2","12.1.4",
@@ -179,6 +178,10 @@ function all()
 			elseif v.way == "河北-巨掌" then
 				package.loaded['juzhang'] = nil
 				require("juzhang")
+				main(v)
+			else
+				package.loaded[v.way]=nil
+				require(v.way)
 				main(v)
 			end
 			
