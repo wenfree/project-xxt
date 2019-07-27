@@ -273,6 +273,7 @@ function login()
 	local TIMEline = os.time()
 	local OUTtime = rd(150,180)
 	local qqarr = getqq()
+		  滑动key = 1	
 	while os.time()- TIMEline < OUTtime do
 		if app.front_bid() == "com.tencent.qqreaderiphone" then
 			log("阅读")
@@ -302,7 +303,19 @@ function login()
 			log("qq")
 			if d(q.qq_登录,"q.qq_登录",true)then
 			elseif d(q.qq_验证码界面,"q.qq_验证码界面",false) or d(q.qq_验证码界面1,"q.qq_验证码界面1",false) then
-				moveTo(120, 619,489, 622)
+				if 滑动key == 1 then
+					moveTo(120, 619,482, 622)
+					滑动key = 滑动key + 1
+				elseif 滑动key == 2 then
+					moveTo(120, 619,502, 622)
+					滑动key = 滑动key + 1
+				elseif 	滑动key == 3 then
+					moveTo(120, 619,525, 622)	
+					滑动key = 滑动key + 1
+					if 滑动key >= 3 then
+						滑动key = 1
+					end	
+				end
 			elseif d(q.qq_登录界面,"q.qq_登录界面",false)then
 				click(317, 364)
 				click(519, 281)
