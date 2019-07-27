@@ -218,7 +218,7 @@ function activeapi(name)
 
 		if checkidfa(name)then
 			if clickidfa(name)then
-				delay(rd(2,3))
+				delay(rd(20,30))
 				newidfa(name,1)
 				if activeidfa(name)then
 					up(name,bid[name]['keyword'].."-激活成功")

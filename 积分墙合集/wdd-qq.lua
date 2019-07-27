@@ -261,11 +261,17 @@ q.qq_tps_封号={{
 	{575, 304, 0xffffff},
 }, 85, 43, 281, 593, 849}
 
-
-
+q.qq_验证码界面={{{271, 69, 0x747680},{274, 98, 0x5c5f6b},{366, 69, 0x484c59},{367, 97, 0x9b9da4},{363, 99, 0xcecfd2},}, 85, 263, 61, 376, 107}
+q.qq_验证码界面1={{{271, 69, 0x747680},{274, 98, 0x5c5f6b},{335, 97, 0x212636},{366, 69, 0x484c59},{368, 94, 0x9d9fa6},}, 85, 32, 100, 613, 259}
+QQ阅读登录 = {}
+QQ阅读登录.新用户福利tips = {{{319, 934, 0xd8d8d8},{320, 905, 0xd8d8d8},{285, 853, 0x459fff},{217, 779, 0xffcd10},{243, 736, 0x459afe},}, 85, 191, 708, 424, 988}
+QQ阅读登录.选择感兴趣的内容 = {{{ 35, 126, 0xdadbdc},{ 30, 174, 0xe8e9eb},{363, 176, 0x53575a},{510, 126, 0x626568},{526, 177, 0xc0c2c4},}, 85, 15, 109, 552, 192}
+QQ阅读登录.手机号验证 = {{{329, 449, 0xfdc23c},{400, 505, 0x2f91fe},{303, 543, 0xacadb0},{243, 801, 0x00cafc},{447, 812, 0x00cafc},{443, 860, 0x00cafc},}, 85, 209, 352, 482, 903}
+QQ阅读登录.被盗风险较高冻结 = {{{288, 779, 0x9f9f9f},{287, 806, 0x8d8d8d},{314, 808, 0x7c7c7c},{324, 779, 0x6b6b6b},{349, 779, 0x979797},{349, 808, 0x777777},}, 85, 209, 352, 482, 903}
+QQ阅读登录.账号密码错误 = {{{255, 466, 0xdadada},{253, 472, 0xc3c3c3},{252, 496, 0xacacac},{374, 466, 0x515151},{385, 470, 0xd8d8d8},{384, 496, 0x2b2b2b},}, 85, 249, 455, 392, 505}
 function login()
 	local TIMEline = os.time()
-	local OUTtime = rd(180,200)
+	local OUTtime = rd(150,180)
 	local qqarr = getqq()
 	while os.time()- TIMEline < OUTtime do
 		if app.front_bid() == "com.tencent.qqreaderiphone" then
@@ -275,13 +281,28 @@ function login()
 			elseif d(q.qq微信登录,"q.qq微信登录",true)then
 			else
 				if d(q.tips_打开qq,"q.tips_打开qq",true)then
+				elseif d(QQ阅读登录.新用户福利tips,"QQ阅读登录.新用户福利tips",true) then
+				elseif d(QQ阅读登录.选择感兴趣的内容,"QQ阅读登录.选择感兴趣的内容") then
+					内容key = {
+					{539, 340, 0xffffff},
+					{575, 562, 0xffffff},
+					{582, 789, 0xffffff},
+					}
+					click(内容key[math.random(1,3)][1],内容key[math.random(1,3)][2])
 				else
-					click(20,80)
+					moveTo(389,714,430,301,30,50)
+						delay(1)
+						click(576, 622)
+						delay(1)
+						click(576, 811)
+						delay(1)
 				end
 			end
 		elseif app.front_bid() == "com.tencent.mqq" then
 			log("qq")
 			if d(q.qq_登录,"q.qq_登录",true)then
+			elseif d(q.qq_验证码界面,"q.qq_验证码界面",false) or d(q.qq_验证码界面1,"q.qq_验证码界面1",false) then
+				moveTo(120, 619,489, 622)
 			elseif d(q.qq_登录界面,"q.qq_登录界面",false)then
 				click(317, 364)
 				click(519, 281)
@@ -297,7 +318,7 @@ function login()
 				up(work,"登录成功")		--上传到idfa888 备份
 			else
 				if d(q.qq_tps_同意,"q.qq_tps_同意",true)then
-				elseif d(q.qq_tps_封号,"q.qq_tps_封号",true)then
+				elseif d(q.qq_tps_封号,"q.qq_tps_封号",true) or d(QQ阅读登录.手机号验证,"QQ阅读登录.手机号验证",false) or d(QQ阅读登录.被盗风险较高冻结,"QQ阅读登录.被盗风险较高冻结",false) or d(QQ阅读登录.账号密码错误,"QQ阅读登录.账号密码错误",false) then
 					backqq(qqarr.id,"封号")
 					return false
 				else
@@ -328,10 +349,10 @@ function main(v)
 	
 --	if vpn() then
 --		if checkip()then
-			device.turn_off_wifi()
-			delay(30)
-			device.turn_on_wifi()
-			delay(30)
+			device.turn_on_airplane()
+			delay(15)
+			device.turn_off_airplane()
+			delay(15)
 			
 	-----------------------------------
 			if callbackapi(work)then
