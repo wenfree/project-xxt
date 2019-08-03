@@ -179,6 +179,10 @@ function all()
 				package.loaded['juzhang'] = nil
 				require("juzhang")
 				main(v)
+			elseif v.way == "刷td" then
+			package.loaded['std'] = nil
+			require("std")
+			main(v)
 			else
 				package.loaded[v.way]=nil
 				require(v.way)
