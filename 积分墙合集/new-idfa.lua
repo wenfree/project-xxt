@@ -216,15 +216,15 @@ function activeapi(name)
 		os_version = XXTfakerGetinfo(bid[name]["appbid"])['ProductVersion']
 		udid = XXTfakerGetinfo(bid[name]["appbid"])['UDID']
 
-		if checkidfa(name)then
-			if clickidfa(name)then
-				delay(rd(20,30))
+--		if checkidfa(name)then
+--			if clickidfa(name)then
+--				delay(rd(20,30))
 				newidfa(name,1)
-				if activeidfa(name)then
-					up(name,bid[name]['keyword'].."-激活成功")
-				end
-			end
-		end
+--				if activeidfa(name)then
+--					up(name,bid[name]['keyword'].."-激活成功")
+--				end
+--			end
+--		end
 	end
 end
 
@@ -292,7 +292,7 @@ apparr.right={{{462,666,0x007aff},{225,666,0x007aff},}, 85, 54, 394, 590, 809}
 
 function newidfa(name)
 	local TIMEline = os.time()
-	local OUTtime = rd(120,180)
+	local OUTtime = rd(22,25)
 	while os.time()- TIMEline < OUTtime do
 		if active(bid[name]['appbid'],4)then
 			if d(apparr.right,"apparr.right",true)then
