@@ -362,6 +362,7 @@ function main(v)
 				callback_key = true
 			end
 			activeapi(work)
+			back_pass(task_id,"ok")
 		end
 		vpnx()
 		delay(2)
