@@ -358,7 +358,7 @@ function main(v)
 			bid[work]['appid']=v.appid
 			log("act")
 			callback_key = false
-			if v.note == "回调" then
+			if v.json == "回调" then
 				callback_key = true
 			end
 			activeapi(work)

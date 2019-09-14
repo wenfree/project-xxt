@@ -64,9 +64,9 @@ function appname(bid)
 end
 --滑动函数(x1,y1,x2,y2,步长，每步延迟，弹起时间)
 function moveTo(x1,y1,x2,y2,setp,times,wait)
-	local setp = setp or 5
-	local times = times or 2
-	local wait = wait or 0.5
+	local setp = setp or math.random(1,5)
+	local times = times or math.random(2,10)
+	local wait = wait or 2
 	touch.on(x1,y1)
 		:step_len(setp)
 		:step_delay(times)
