@@ -346,7 +346,7 @@ end
 function main(v)
 	----------------------------------
 	if vpn() then
-		if true or checkip()then
+		if false or checkip()then
 			log(v)
 			work = v.work
 			task_id = v.task_id
